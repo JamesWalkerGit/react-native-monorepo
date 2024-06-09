@@ -29,7 +29,6 @@ export default function Web() {
             </h1>
           </div>
 
-
           <Button onClick={() => console.log("Pressed!")} text="Boop" />
           {session ?
             <>
