@@ -9,6 +9,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 export default function Web() {
   const { data: session, status } = useSession();
 
+  console.log('nextauth url: ', process.env.NEXTAUTH_URL);
+  console.log('google client: ', process.env.GOOGLE_CLIENT_ID)
+
+
   const router = useRouter();
   const goTo = (route: string) => {
     router.push('/' + route)
