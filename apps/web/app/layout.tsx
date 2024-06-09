@@ -1,15 +1,15 @@
-import NextAuthProvider from "./providers/next-auth/NextAuthProvider";
+// app/layout.tsx
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import { Providers } from "./providers/Providers";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <NextAuthProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </NextAuthProvider>
+    <html lang="en" className='dark'>
+      <body>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
+    </html>
   );
 }
