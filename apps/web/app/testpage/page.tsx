@@ -11,7 +11,7 @@ export default function TestPage() {
 
 
     const goBack = () => {
-        router.back();
+        router.push('/')
     }
 
     return (
