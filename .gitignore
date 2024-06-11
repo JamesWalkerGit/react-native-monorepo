@@ -35,3 +35,9 @@ yarn-error.log*
 
 # turbo
 .turbo
+.vercel
+
+#custom
+.history/
+.env
+.env*.local
