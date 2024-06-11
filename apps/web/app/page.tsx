@@ -82,14 +82,14 @@ export default function Web() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: '100%'
   },
   partyContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    marginBottom: 100
   },
   authContainer: {
     flex: 1,
