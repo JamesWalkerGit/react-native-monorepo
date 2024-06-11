@@ -15,4 +15,13 @@ module.exports = {
     ];
     return config;
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cultofthepartyparrot.com',
+        port: '',
+      },
+    ],
+  },
 };
