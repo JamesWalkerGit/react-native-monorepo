@@ -30,19 +30,19 @@ export default function Web() {
 
   return (
     <>
-      {
-        confettiStatus ?
-          <Confetti />
-          : null
-      }
-      <div style={styles.container}>
-        {status === 'loading' ?
-          <div style={styles.loadingContainer}>
-            <Spinner size='lg' label="Loading..." />
 
-          </div>
+      {status === 'loading' ?
+        <div style={styles.loadingContainer}>
+          <Spinner size='lg' label="Loading..." />
+        </div>
 
-          :
+        :
+        <div style={styles.container}>
+          {
+            confettiStatus ?
+              <Confetti />
+              : null
+          }
           <>
             <div style={styles.partyContainer}>
               <Image src={"https://cultofthepartyparrot.com/parrots/hd/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
@@ -72,8 +72,9 @@ export default function Web() {
               </div>
             }
           </>
-        }
-      </div >
+
+        </div >
+      }
     </>
 
   );
