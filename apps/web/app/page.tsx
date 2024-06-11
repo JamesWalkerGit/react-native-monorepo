@@ -35,7 +35,6 @@ export default function Web() {
         <div style={styles.loadingContainer}>
           <Spinner size='lg' label="Loading..." />
         </div>
-
         :
         <div style={styles.container}>
           {
@@ -46,13 +45,12 @@ export default function Web() {
           <>
             <div style={styles.partyContainer}>
               <Image src={"https://cultofthepartyparrot.com/parrots/hd/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
-              <Button color="secondary" onPress={toggleConfetti}>
+              <Button color="secondary" onPress={toggleConfetti} style={styles.partyButton}>
                 Party Button 🎉
               </Button>
               {session ? <span style={{ padding: 10 }}>Hello {session?.user?.email}</span>
                 : null}
             </div>
-
             {session ?
               <>
                 <div style={styles.authContainer}>
@@ -83,6 +81,7 @@ export default function Web() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100%'
   },
   partyContainer: {
     justifyContent: 'center',
@@ -98,7 +97,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: 'auto',
     maxWidth: 150,
-    height: '100%',
   },
   loadingContainer: {
     justifyContent: 'center',
@@ -106,5 +104,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     height: '100%'
+  },
+  partyButton: {
+    height: 90,
+    width: 180,
+    fontSize: 22,
   }
 });
