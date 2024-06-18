@@ -1,5 +1,6 @@
 module.exports = {
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),

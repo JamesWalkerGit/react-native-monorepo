@@ -6,13 +6,16 @@ import '../styles/global.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className='dark' style={styles.html}>
-      <body style={styles.body}>
-        <Providers>
-          {children}
-        </Providers>
-      </body>
-    </html>
+    <>
+      <meta name="description" content="Jprojects site collection" />
+      <html lang="en" className='dark' style={styles.html}>
+        <body style={styles.body}>
+          <Providers>
+            {children}
+          </Providers>
+        </body>
+      </html>
+    </>
   );
 }
 
