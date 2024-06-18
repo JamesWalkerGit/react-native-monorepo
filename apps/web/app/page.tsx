@@ -30,6 +30,7 @@ export default function Web() {
 
   return (
     <>
+      <title>Jprojects</title>
 
       {status === 'loading' ?
         <div style={styles.loadingContainer}>
