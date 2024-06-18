@@ -45,7 +45,7 @@ export default function Web() {
           }
           <>
             <div style={styles.partyContainer}>
-              <Image src={"https://cultofthepartyparrot.com/parrots/hd/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
+              <Image src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
               <Button color="secondary" onPress={toggleConfetti} style={styles.partyButton}>
                 Party Button 🎉
               </Button>
