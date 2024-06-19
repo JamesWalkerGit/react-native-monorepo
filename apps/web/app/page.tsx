@@ -1,21 +1,14 @@
 "use client";
 
-// import { Button } from "@repo/ui";
-
 import { useRouter } from "next/navigation";
-import { signIn, signOut, useSession } from "next-auth/react";
 import Confetti from 'react-confetti'
 import { useState } from "react";
 import Image from 'next/image';
 import { StyleSheet } from "../styles/Stylesheet";
-import { Button, Spinner } from "@nextui-org/react";
-
-
-
+import { Button } from "@nextui-org/react";
 
 
 export default function Web() {
-  const { data: session, status } = useSession();
   const [confettiStatus, setConfettiStatus] = useState(false);
 
   const router = useRouter();
@@ -31,51 +24,22 @@ export default function Web() {
   return (
     <>
       <title>Jprojects</title>
-
-      {status === 'loading' ?
-        <div style={styles.loadingContainer}>
-          <Spinner size='lg' label="Loading..." />
-        </div>
-        :
-        <div style={styles.container}>
-          {
-            confettiStatus ?
-              <Confetti />
-              : null
-          }
-          <>
-            <div style={styles.partyContainer}>
-              <Image src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
-              <Button color="secondary" onPress={toggleConfetti} style={styles.partyButton}>
-                Party Button 🎉
-              </Button>
-              {session ? <span style={{ padding: 10 }}>Hello {session?.user?.email}</span>
-                : null}
-            </div>
-            {session ?
-              <>
-                <div style={styles.authContainer}>
-                  <Button color="secondary" onPress={() => goTo('testpage')} style={{ margin: 2 }}>
-                    Go to Test Page 1
-                  </Button>
-                  <Button color="secondary" onPress={() => signOut()} style={{ margin: 2 }}>
-                    Logout
-                  </Button>
-                </div>
-              </>
-              :
-              <div style={styles.authContainer}>
-                <Button color="secondary" onPress={() => signIn()} style={{ margin: 2 }}>
-                  Login
-                </Button>
-              </div>
-            }
-          </>
-
-        </div >
-      }
+      <div style={styles.container}>
+        {
+          confettiStatus ?
+            <Confetti />
+            : null
+        }
+        <>
+          <div style={styles.partyContainer}>
+            <Image src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
+            <Button color="secondary" onPress={toggleConfetti} style={styles.partyButton}>
+              Party Button 🎉
+            </Button>
+          </div>
+        </>
+      </div >
     </>
-
   );
 }
 
