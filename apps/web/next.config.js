@@ -18,11 +18,6 @@ module.exports = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cultofthepartyparrot.com',
-        port: '',
-      },
     ],
   },
 };

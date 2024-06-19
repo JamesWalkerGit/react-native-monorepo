@@ -9,6 +9,10 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testEnvironment: "jsdom",
+  moduleNameMapper: {
+    'next-auth': '<rootDir>/tests/mocks/auth/next-auth.ts',
+  },
+
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
