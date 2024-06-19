@@ -6,7 +6,7 @@ describe('Page', () => {
     it('renders a heading', () => {
         render(<Web />)
 
-        const heading = screen.getByRole('button', { name: 'Party Button 🎉 --BROKEN FAIL' })
+        const heading = screen.getByRole('button', { name: 'Party Button 🎉' })
 
         expect(heading).toBeInTheDocument()
     })
