@@ -14,12 +14,12 @@ export default function Navbar() {
         <div style={styles.navContainer}>
             <div style={styles.navSection}>
                 <div style={styles.themeButtonContainer}>
-                    <ActionIcon style={styles.themeButton} aria-label="Light Theme" size="lg" onClick={() => setColorScheme('light')}>
+                    <ActionIcon aria-label="Light Theme" size="lg" onClick={() => setColorScheme('light')}>
                         <IconSunHigh />
                     </ActionIcon>
                 </div>
                 <div style={styles.themeButtonContainer}>
-                    <ActionIcon style={styles.themeButton} aria-label="Dark Theme" size="lg" onClick={() => setColorScheme('dark')}>
+                    <ActionIcon aria-label="Dark Theme" size="lg" onClick={() => setColorScheme('dark')}>
                         <IconMoonStars />
                     </ActionIcon>
                 </div>
@@ -38,8 +38,6 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'flex',
         justifySelf: 'flex-end'
-    },
-    themeButton: {
     },
     themeButtonContainer: {
         padding: 4

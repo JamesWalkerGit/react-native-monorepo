@@ -8,7 +8,7 @@ import { StyleSheet } from "../styles/Stylesheet";
 import { signIn, signOut, useSession } from "next-auth/react"
 import { IconBrandGithub } from "@tabler/icons-react";
 import { Button, Loader, Modal, } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useViewportSize } from "@mantine/hooks";
 
 
 export default function Homepage() {
@@ -17,6 +17,7 @@ export default function Homepage() {
 
   const router = useRouter();
   const session = useSession();
+  const { height, width } = useViewportSize();
 
   const goTo = (route: string) => {
     router.push('/' + route)
@@ -39,7 +40,7 @@ export default function Homepage() {
         <div style={styles.container}>
           {
             confettiStatus ?
-              <Confetti aria-label="confetti-party" />
+              <Confetti height={height} width={width} aria-label="confetti-party" />
               : null
           }
           <>
@@ -85,8 +86,7 @@ export default function Homepage() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    height: '100%'
+    flex: 1
   },
   partyContainer: {
     justifyContent: 'center',
