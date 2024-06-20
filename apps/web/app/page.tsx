@@ -30,7 +30,7 @@ export default function Homepage() {
   }
 
   return (
-    true ?
+    session.status === 'loading' ?
       <>
         <div style={styles.loadingContainer}>
           <Loader color="blue" size={60} aria-label="loading-spinner" />
