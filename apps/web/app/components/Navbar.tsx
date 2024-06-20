@@ -5,22 +5,14 @@ import { IconMoonStars, IconSunHigh } from "@tabler/icons-react";
 
 
 export default function Navbar() {
-
-    const { setColorScheme } = useMantineColorScheme();
-
-
+    const { colorScheme, toggleColorScheme } = useMantineColorScheme();
 
     return (
         <div style={styles.navContainer}>
             <div style={styles.navSection}>
                 <div style={styles.themeButtonContainer}>
-                    <ActionIcon aria-label="Light Theme" size="lg" onClick={() => setColorScheme('light')}>
-                        <IconSunHigh />
-                    </ActionIcon>
-                </div>
-                <div style={styles.themeButtonContainer}>
-                    <ActionIcon aria-label="Dark Theme" size="lg" onClick={() => setColorScheme('dark')}>
-                        <IconMoonStars />
+                    <ActionIcon aria-label={colorScheme === 'dark' ? 'Light Theme' : 'Dark Theme'} size="lg" onClick={() => toggleColorScheme()}>
+                        {colorScheme === 'dark' ? <IconSunHigh /> : <IconMoonStars />}
                     </ActionIcon>
                 </div>
             </div>
