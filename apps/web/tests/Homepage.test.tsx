@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom'
-import { act, render, screen } from '@testing-library/react'
-import Web from '../app/page'
+import { act, screen } from '@testing-library/react'
+import Homepage from '../app/page'
 import nextAuth from 'next-auth/react'
 import { authenticatedSessionMock, loadingSessionMock, unauthenticatedSessionMock } from './mocks/auth/consts';
+import { render } from './utils/testUtils';
 
 jest.mock("next-auth/react", () => ({
     useSession: jest.fn()
@@ -13,7 +14,7 @@ const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 describe('Page', () => {
     it('renders properly when loading complete - unauthenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
-        render(<Web />);
+        render(<Homepage />);
 
         const partyButton = await screen.findByRole('button', { name: 'Party Button 🎉' });
         const signInButton = await screen.findByRole('button', { name: 'Sign In With GitHub' });
@@ -26,7 +27,7 @@ describe('Page', () => {
 
     it('renders properly when loading complete - authenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(authenticatedSessionMock);
-        render(<Web />);
+        render(<Homepage />);
 
         const partyButton = await screen.findByRole('button', { name: 'Party Button 🎉' });
         const signOutButton = await screen.findByRole('button', { name: 'Sign Out', });
@@ -41,7 +42,7 @@ describe('Page', () => {
 
     it('renders a spinner when loading', async () => {
         mockNextAuth.useSession.mockReturnValue(loadingSessionMock)
-        render(<Web />);
+        render(<Homepage />);
 
         const spinner = await screen.findByLabelText('loading-spinner');
 
@@ -51,7 +52,7 @@ describe('Page', () => {
     it('should display confetti', async () => {
         mockNextAuth.useSession.mockReturnValue(authenticatedSessionMock)
 
-        render(<Web />);
+        render(<Homepage />);
 
         const partyButton = await screen.findByRole('button', { name: 'Party Button 🎉' });
 

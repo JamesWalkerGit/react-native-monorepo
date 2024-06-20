@@ -3,12 +3,17 @@
 import { Providers } from "./providers/Providers";
 import { StyleSheet } from "../styles/Stylesheet";
 import '../styles/global.css';
+import { ColorSchemeScript } from "@mantine/core";
+import '@mantine/core/styles.css';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <meta name="description" content="Jprojects site collection" />
       <html lang="en" className='dark' style={styles.html}>
+        <head>
+          <ColorSchemeScript />
+        </head>
         <body style={styles.body}>
           <Providers>
             {children}

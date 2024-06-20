@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@nextui-org/react";
 
+import { Button } from "@mantine/core";
 import { useRouter } from "next/navigation";
 
 export default function TestPage() {
