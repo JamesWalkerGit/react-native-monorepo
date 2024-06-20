@@ -58,7 +58,7 @@ export default function Homepage() {
             <div style={styles.partyContainer}>
               {session.status === 'unauthenticated' ?
                 <>
-                  <Button onClick={() => signIn()} style={styles.githubButton} leftSection={<IconBrandGithub color="white" />}>
+                  <Button onClick={() => signIn('github')} style={styles.githubButton} leftSection={<IconBrandGithub color="white" />}>
                     Sign In With GitHub
                   </Button>
                 </>

@@ -5,6 +5,7 @@ import { StyleSheet } from "../styles/Stylesheet";
 import '../styles/global.css';
 import { ColorSchemeScript } from "@mantine/core";
 import '@mantine/core/styles.css';
+import Navbar from "./components/Navbar";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </head>
         <body style={styles.body}>
           <Providers>
+            <Navbar />
             {children}
           </Providers>
         </body>
@@ -28,10 +30,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 const styles = StyleSheet.create({
   html: {
     flex: 1,
-    height: '100%'
   },
   body: {
     flex: 1,
-    height: '100%'
   },
 });
