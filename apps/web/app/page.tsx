@@ -5,16 +5,21 @@ import Confetti from 'react-confetti'
 import { useState } from "react";
 import Image from 'next/image';
 import { StyleSheet } from "../styles/Stylesheet";
-import { Button, Spinner } from "@nextui-org/react";
 import { signIn, signOut, useSession } from "next-auth/react"
 import { IconBrandGithub } from "@tabler/icons-react";
+import { Button, Loader, Modal, } from "@mantine/core";
+import { useDisclosure, useViewportSize } from "@mantine/hooks";
 
 
-export default function Web() {
+export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
+  const [opened, { open, close }] = useDisclosure(false);
 
   const router = useRouter();
   const session = useSession();
+  const { height, width } = useViewportSize();
+
+  const styles = createStyles();
 
   const goTo = (route: string) => {
     router.push('/' + route)
@@ -25,11 +30,10 @@ export default function Web() {
   }
 
   return (
-
     session.status === 'loading' ?
       <>
         <div style={styles.loadingContainer}>
-          <Spinner aria-label="loading-spinner" />
+          <Loader color="blue" size={60} aria-label="loading-spinner" />
         </div>
       </>
       :
@@ -38,20 +42,26 @@ export default function Web() {
         <div style={styles.container}>
           {
             confettiStatus ?
-              <Confetti aria-label="confetti-party" />
+              <Confetti height={height} width={width} aria-label="confetti-party" />
               : null
           }
           <>
             <div style={styles.partyContainer}>
               <Image priority={true} src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
-              <Button color="secondary" onPress={toggleConfetti} style={styles.partyButton}>
+              <Button onClick={toggleConfetti} style={styles.partyButton}
+                variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}
+              >
                 Party Button 🎉
               </Button>
+              <Modal opened={opened} onClose={close} title="Congratulations!">
+                You did it! 🥳
+              </Modal>
+              <Button style={styles.modalButton} onClick={open}>Click it? 👀</Button>
             </div>
             <div style={styles.partyContainer}>
               {session.status === 'unauthenticated' ?
                 <>
-                  <Button onPress={() => signIn()} style={styles.githubButton} startContent={<IconBrandGithub color="white" />}>
+                  <Button onClick={() => signIn('github')} style={styles.githubButton} leftSection={<IconBrandGithub color="white" />}>
                     Sign In With GitHub
                   </Button>
                 </>
@@ -63,7 +73,7 @@ export default function Web() {
                       </>
                       : null
                     }
-                    <Button color="secondary" onPress={() => signOut()} style={styles.githubButton}>
+                    <Button color="secondary" onClick={() => signOut()} style={styles.githubButton}>
                       Sign Out
                     </Button>
                   </>
@@ -76,33 +86,36 @@ export default function Web() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: '100%'
-  },
-  partyContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .5,
-    display: 'flex',
-    flexDirection: 'column',
-    height: '50%'
-  },
-  loadingContainer: {
-    justifyContent: 'center',
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%'
-  },
-  partyButton: {
-    fontSize: 22,
-  },
-  githubButton: {
-    backgroundColor: '#161b22'
-  },
-  loggedInContainer: {
-    padding: 20
-  }
-});
+const createStyles: any = () => {
+  return StyleSheet.create({
+    container: {
+      flex: 1
+    },
+    partyContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      flex: .5,
+      display: 'flex',
+      flexDirection: 'column',
+      height: '50%'
+    },
+    loadingContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column'
+    },
+    partyButton: {
+      fontSize: 22,
+    },
+    githubButton: {
+      backgroundColor: '#161b22'
+    },
+    loggedInContainer: {
+      padding: 20
+    },
+    modalButton: {
+      margin: 20
+    },
+  });
+}
