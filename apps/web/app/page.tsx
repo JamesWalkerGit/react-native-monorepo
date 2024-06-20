@@ -19,6 +19,8 @@ export default function Homepage() {
   const session = useSession();
   const { height, width } = useViewportSize();
 
+  const styles = createStyles();
+
   const goTo = (route: string) => {
     router.push('/' + route)
   }
@@ -28,7 +30,7 @@ export default function Homepage() {
   }
 
   return (
-    session.status === 'loading' ?
+    true ?
       <>
         <div style={styles.loadingContainer}>
           <Loader color="blue" size={60} aria-label="loading-spinner" />
@@ -84,36 +86,36 @@ export default function Homepage() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  partyContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: .5,
-    display: 'flex',
-    flexDirection: 'column',
-    height: '50%'
-  },
-  loadingContainer: {
-    flex: 1,
-    display: 'grid',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
-    height: '100%'
-  },
-  partyButton: {
-    fontSize: 22,
-  },
-  githubButton: {
-    backgroundColor: '#161b22'
-  },
-  loggedInContainer: {
-    padding: 20
-  },
-  modalButton: {
-    margin: 20
-  },
-});
+const createStyles: any = () => {
+  return StyleSheet.create({
+    container: {
+      flex: 1
+    },
+    partyContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      flex: .5,
+      display: 'flex',
+      flexDirection: 'column',
+      height: '50%'
+    },
+    loadingContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column'
+    },
+    partyButton: {
+      fontSize: 22,
+    },
+    githubButton: {
+      backgroundColor: '#161b22'
+    },
+    loggedInContainer: {
+      padding: 20
+    },
+    modalButton: {
+      margin: 20
+    },
+  });
+}
