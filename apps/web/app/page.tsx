@@ -6,10 +6,11 @@ import Image from 'next/image';
 import { StyleSheet } from "../styles/Stylesheet";
 import { signIn, signOut, useSession } from "next-auth/react"
 import { IconBrandGithub } from "@tabler/icons-react";
-import { Button, Loader, Modal, } from "@mantine/core";
+import { Button, Loader, Modal, useMantineTheme, } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 
 export default function Homepage() {
+  const theme = useMantineTheme();
   const [confettiStatus, setConfettiStatus] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -40,15 +41,13 @@ export default function Homepage() {
           <>
             <div style={styles.partyContainer}>
               <Image priority={true} src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
-              <Button onClick={toggleConfetti} style={styles.partyButton}
-                variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}
-              >
+              <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
                 Party Button 🎉
               </Button>
               <Modal opened={opened} onClose={close} title="Congratulations!">
                 You did it! 🥳
               </Modal>
-              <Button style={styles.modalButton} onClick={open}>Click it? 👀</Button>
+              <Button color={theme.colors.blue[9]} style={styles.modalButton} onClick={open}>Click it? 👀</Button>
             </div>
             <div style={styles.partyContainer}>
               {session.status === 'unauthenticated' ?

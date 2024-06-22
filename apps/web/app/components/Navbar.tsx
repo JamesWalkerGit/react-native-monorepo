@@ -1,9 +1,9 @@
 "use client";
-import { ActionIcon, Burger, Group, useMantineColorScheme } from "@mantine/core";
+import { ActionIcon, Burger, Group, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
 import { StyleSheet } from "../../styles/Stylesheet";
 import { IconMoon, IconSunHigh } from "@tabler/icons-react";
-import { useDisclosure } from "@mantine/hooks";
-import { useState } from "react";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { useEffect, useState } from "react";
 import classes from './Navbar.module.css';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -16,10 +16,12 @@ const links = [
 ];
 
 export default function Navbar() {
-    const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+    const theme = useMantineTheme();
     const pathName = usePathname();
-
-    const [opened, { toggle }] = useDisclosure(false);
+    const { setColorScheme } = useMantineColorScheme();
+    const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+    const showHideMobile = useMediaQuery('(min-width: ' + theme.breakpoints.xs);
+    const [navMenuOpened, { toggle }] = useDisclosure(false);
     const [activeLink, setActiveLink] = useState(pathName);
 
     const headerLinks = links.map((link) => (
@@ -36,15 +38,21 @@ export default function Navbar() {
         </Link>
     ));
 
+    useEffect(() => {
+        navMenuOpened ? toggle() : null
+        return () => {
+        };
+    }, [showHideMobile, navMenuOpened, toggle]);
+
     return (
         <>
-            <div style={styles.navContainer} className="header mantine-hidden-from-xs">
-                <div style={styles.navSection} className="mantine-hidden-from-xs" >
-                    <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" style={{ alignSelf: 'center' }} onBlur={toggle} />
+            <div style={styles.navContainer} className={classes.header + ' mantine-hidden-from-xs'}>
+                <div style={{ ...styles.navSection, ...styles.burgerSection }} className="mantine-hidden-from-xs" >
+                    <Burger color={theme.colors.dark[3]} opened={navMenuOpened} onClick={toggle} hiddenFrom="xs" size="sm" aria-label="Toggle navbar" />
                 </div>
             </div>
 
-            <div style={styles.navContainer} className="header mantine-visible-from-xs">
+            <div style={styles.navContainer} className={classes.header + ' mantine-visible-from-xs'}>
                 <div style={styles.navSection} className="mantine-visible-from-xs" >
                     <Group visibleFrom="xs">
                         {headerLinks}
@@ -52,10 +60,11 @@ export default function Navbar() {
                 </div>
                 <div style={{ ...styles.navSection, ...styles.toggleThemeSection, }}>
                     <div style={styles.themeButtonContainer}>
-                        <ActionIcon color="dark" variant='transparent' aria-label={colorScheme === 'dark' ? 'Set Light Theme' : 'Set Dark Theme'} size="lg"
-                            onClick={() => toggleColorScheme()}
+                        <ActionIcon color={theme.colors.dark[3]} variant="subtle" aria-label="Toggle color scheme" size="lg"
+                            onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
                         >
-                            {colorScheme === 'dark' ? <IconSunHigh aria-label="Light Theme Icon" /> : <IconMoon aria-label="Dark Theme Icon" />}
+                            <IconSunHigh className={classes.light} aria-label="Light Theme Icon" />
+                            <IconMoon className={classes.dark} aria-label="Dark Theme Icon" />
                         </ActionIcon>
                     </div>
                 </div>
@@ -70,20 +79,22 @@ const styles = StyleSheet.create({
         display: 'flex',
         width: '100%',
         flexDirection: 'row',
-        borderBottomWidth: 1,
-        borderBottomColor: 'grey',
+        minHeight: 56
     },
     navSection: {
         flex: 1,
         display: 'flex',
         justifySelf: 'flex-end',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: 4
     },
     themeButtonContainer: {
-        padding: 8,
     },
     toggleThemeSection: {
         flex: .2,
+        justifyContent: 'flex-end'
+    },
+    burgerSection: {
         justifyContent: 'flex-end'
     }
 });

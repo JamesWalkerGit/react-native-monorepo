@@ -8,19 +8,19 @@ describe('Navbar', () => {
     it('has theme toggleButton with proper icons based on selected theme', async () => {
         render(<Navbar />);
 
-        const toggleThemeDark = await screen.findByLabelText('Set Dark Theme');
+        const toggleThemeBefore = await screen.findByLabelText('Toggle color scheme');
         const darkThemeIcon = await screen.findByLabelText('Dark Theme Icon');
         expect(darkThemeIcon).toBeInTheDocument();
-        expect(toggleThemeDark).toBeInTheDocument();
+        expect(toggleThemeBefore).toBeInTheDocument();
 
         act(() => {
-            toggleThemeDark.click();
+            toggleThemeBefore.click();
         });
 
-        const toggleThemeLight = await screen.findByLabelText('Set Light Theme');
+        const toggleThemeAfter = await screen.findByLabelText('Toggle color scheme');
         const lightThemeIcon = await screen.findByLabelText('Light Theme Icon');
 
         expect(lightThemeIcon).toBeInTheDocument();
-        expect(toggleThemeLight).toBeInTheDocument();
+        expect(toggleThemeAfter).toBeInTheDocument();
     })
 })
