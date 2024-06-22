@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Confetti from 'react-confetti'
 import { useState } from "react";
 import Image from 'next/image';
@@ -10,20 +9,14 @@ import { IconBrandGithub } from "@tabler/icons-react";
 import { Button, Loader, Modal, } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 
-
 export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const router = useRouter();
   const session = useSession();
   const { height, width } = useViewportSize();
 
   const styles = createStyles();
-
-  const goTo = (route: string) => {
-    router.push('/' + route)
-  }
 
   const toggleConfetti = () => {
     setConfettiStatus(!confettiStatus)
@@ -38,7 +31,6 @@ export default function Homepage() {
       </>
       :
       <>
-        <title>Jprojects</title>
         <div style={styles.container}>
           {
             confettiStatus ?
