@@ -3,10 +3,10 @@ import { ActionIcon, Burger, Group, useMantineColorScheme } from "@mantine/core"
 import { StyleSheet } from "../../styles/Stylesheet";
 import { IconMoon, IconSunHigh } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import classes from './Navbar.module.css';
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const links = [
     { link: '/', label: 'Home' },
@@ -20,16 +20,16 @@ export default function Navbar() {
     const pathName = usePathname();
 
     const [opened, { toggle }] = useDisclosure(false);
-    const [active, setActive] = useState(pathName);
+    const [activeLink, setActiveLink] = useState(pathName);
 
-    const items = links.map((link) => (
+    const headerLinks = links.map((link) => (
         <Link
             key={link.label}
             href={link.link}
             className={classes.link}
-            data-active={active === link.link || undefined}
+            data-active={activeLink === link.link || undefined}
             onClick={() => {
-                setActive(link.link);
+                setActiveLink(link.link);
             }}
         >
             {link.label}
@@ -37,25 +37,30 @@ export default function Navbar() {
     ));
 
     return (
-        <div style={styles.navContainer} className="header" >
-            <div style={styles.navSection} className="mantine-visible-from-xs" >
-                <Group visibleFrom="xs">
-                    {items}
-                </Group>
-            </div>
-            <div style={styles.navSection} className="mantine-hidden-from-xs">
-                <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" style={{ alignSelf: 'center' }} onBlur={toggle} />
-            </div>
-            <div style={{ ...styles.navSection, ...styles.toggleThemeSection, }}>
-                <div style={styles.themeButtonContainer}>
-                    <ActionIcon color="dark" variant='transparent' aria-label={colorScheme === 'dark' ? 'Set Light Theme' : 'Set Dark Theme'} size="lg"
-                        onClick={() => toggleColorScheme()}
-                    >
-                        {colorScheme === 'dark' ? <IconSunHigh aria-label="Light Theme Icon" /> : <IconMoon aria-label="Dark Theme Icon" />}
-                    </ActionIcon>
+        <>
+            <div style={styles.navContainer} className="header mantine-hidden-from-xs">
+                <div style={styles.navSection} className="mantine-hidden-from-xs" >
+                    <Burger opened={opened} onClick={toggle} hiddenFrom="xs" size="sm" style={{ alignSelf: 'center' }} onBlur={toggle} />
                 </div>
             </div>
-        </div>
+
+            <div style={styles.navContainer} className="header mantine-visible-from-xs">
+                <div style={styles.navSection} className="mantine-visible-from-xs" >
+                    <Group visibleFrom="xs">
+                        {headerLinks}
+                    </Group>
+                </div>
+                <div style={{ ...styles.navSection, ...styles.toggleThemeSection, }}>
+                    <div style={styles.themeButtonContainer}>
+                        <ActionIcon color="dark" variant='transparent' aria-label={colorScheme === 'dark' ? 'Set Light Theme' : 'Set Dark Theme'} size="lg"
+                            onClick={() => toggleColorScheme()}
+                        >
+                            {colorScheme === 'dark' ? <IconSunHigh aria-label="Light Theme Icon" /> : <IconMoon aria-label="Dark Theme Icon" />}
+                        </ActionIcon>
+                    </div>
+                </div>
+            </div>
+        </>
     );
 }
 
@@ -78,6 +83,7 @@ const styles = StyleSheet.create({
         padding: 8,
     },
     toggleThemeSection: {
+        flex: .2,
         justifyContent: 'flex-end'
     }
 });
