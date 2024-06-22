@@ -42,7 +42,8 @@ export default function Navbar() {
         navMenuOpened ? toggle() : null
         return () => {
         };
-    }, [showHideMobile, navMenuOpened, toggle]);
+    },
+        [showHideMobile]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
