@@ -1,13 +1,15 @@
 "use client";
-import { ActionIcon, Burger, Group, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { ActionIcon, Burger, Drawer, Group, useMantineTheme } from "@mantine/core";
 import { StyleSheet } from "@/styles/Stylesheet";
-import { IconMoon, IconSunHigh } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import classes from './Navbar.module.css';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import GithubButton from "./auth/GithubButton";
+import { useSession } from "next-auth/react";
+import UserMenu from "./Navbar/UserMenu";
 
 const links = [
     { link: '/', label: 'Home' },
@@ -21,13 +23,12 @@ export default function Navbar() {
     const theme = useMantineTheme();
     const pathName = usePathname();
     const styles = createStyles();
-    const { setColorScheme } = useMantineColorScheme();
-    const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+    const session = useSession();
     const showDesktopNavbar = useMediaQuery('(min-width: ' + theme.breakpoints.xs);
-    const [navMenuOpen, { toggle: toggleNavMenu }] = useDisclosure(false);
+    const [sideMenuOpen, { toggle: toggleSideMenu }] = useDisclosure(false);
     const [activeLink, setActiveLink] = useState(pathName);
 
-    const headerLinks = links.map((link) => (
+    const navigationLinks = links.map((link) => (
         <Link
             key={link.label}
             href={link.link}
@@ -35,6 +36,7 @@ export default function Navbar() {
             data-active={activeLink === link.link || undefined}
             onClick={() => {
                 setActiveLink(link.link);
+                sideMenuOpen ? toggleSideMenu() : null
             }}
         >
             {link.label}
@@ -42,7 +44,7 @@ export default function Navbar() {
     ));
 
     useEffect(() => {
-        navMenuOpen ? toggleNavMenu() : null
+        sideMenuOpen ? toggleSideMenu() : null
         return () => {
         };
     },
@@ -50,37 +52,42 @@ export default function Navbar() {
 
     return (
         <>
-            <div style={styles.navContainer} className={classes.header + ' ' + showInMobileView}>
-                <div style={{ ...styles.navSection, ...styles.startSection }} className={showInMobileView}>
-                    <Burger color={theme.colors.dark[3]} opened={navMenuOpen} onClick={toggleNavMenu} hiddenFrom="xs" size="sm" aria-label="Toggle navbar" />
-                </div>
-
-                <div style={{ ...styles.navSection, ...styles.centerSection }} className={showInMobileView} >
-                </div>
-
-                <div style={{ ...styles.navSection, ...styles.endSection }} className={showInMobileView} >
-                    <GithubButton />
-                </div>
-            </div>
-
-            <div style={styles.navContainer} className={classes.header + ' ' + showInDesktopView}>
-                <div style={{ ...styles.navSection, ...styles.startSection }} className={showInDesktopView} >
-                    <ActionIcon color={theme.colors.dark[3]} variant="subtle" aria-label="Toggle color scheme" size="lg"
-                        onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
-                    >
-                        <IconSunHigh className={classes.light} aria-label="Light Theme Icon" />
-                        <IconMoon className={classes.dark} aria-label="Dark Theme Icon" />
+            <Drawer opened={sideMenuOpen} onClose={toggleSideMenu} size={'70vw'} radius={'md'} withCloseButton={false}>
+                <div style={styles.sidebarHeader}>
+                    <ActionIcon onClick={toggleSideMenu} variant="subtle" color={theme.colors.dark[3]} size={'lg'}>
+                        <IconX />
                     </ActionIcon>
                 </div>
+                <div>
+                    {navigationLinks}
+                </div>
+            </Drawer >
 
-                <div style={{ ...styles.navSection, ...styles.centerSection }} className={showInDesktopView} >
-                    <Group visibleFrom="xs">
-                        {headerLinks}
-                    </Group>
+            <div style={styles.navContainer} className={classes.header}>
+                <div style={{ ...styles.navSection, ...styles.startSection }}>
+                    <div className={showInDesktopView}>
+                    </div>
+
+                    <div className={showInMobileView}>
+                        <Burger color={theme.colors.dark[3]} opened={sideMenuOpen} onClick={toggleSideMenu} hiddenFrom="xs" size="sm" aria-label="Toggle navbar" />
+                    </div>
                 </div>
 
-                <div style={{ ...styles.navSection, ...styles.endSection }} >
-                    <GithubButton />
+                <div style={{ ...styles.navSection, ...styles.centerSection }}>
+                    <div className={showInDesktopView}>
+                        <Group visibleFrom="xs">
+                            {navigationLinks}
+                        </Group>
+                    </div>
+                    <div className={showInMobileView}>
+                    </div>
+                </div>
+
+                <div style={{ ...styles.navSection, ...styles.endSection }}>
+                    <div style={{ gap: 8, display: 'flex', flexDirection: 'row' }}>
+                        {session.status === 'unauthenticated' ? <GithubButton /> : null}
+                        <UserMenu />
+                    </div>
                 </div>
             </div>
         </>
@@ -94,7 +101,6 @@ const createStyles = () => {
             display: 'flex',
             width: '100%',
             flexDirection: 'row',
-            minHeight: 56,
             alignItems: 'center',
             justifyContent: 'space-between'
         },
@@ -117,6 +123,13 @@ const createStyles = () => {
             flex: .2,
             justifyContent: 'flex-end',
             padding: 8
+        },
+        sidebarHeader: {
+            justifyContent: 'space-between',
+            flex: 1,
+            flexDirection: 'row',
+            display: 'flex',
+            marginBottom: 12
         }
     });
 }

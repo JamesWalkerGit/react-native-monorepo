@@ -17,37 +17,48 @@ describe('Navbar', () => {
 
         render(<Navbar />);
 
-        const toggleThemeBefore = await screen.findByLabelText('Toggle color scheme');
-        const darkThemeIcon = await screen.findByLabelText('Dark Theme Icon');
-        expect(darkThemeIcon).toBeInTheDocument();
-        expect(toggleThemeBefore).toBeInTheDocument();
+        const userSettingsButton = await screen.findByLabelText('User Settings');
+        expect(userSettingsButton).toBeInTheDocument();
 
         act(() => {
-            toggleThemeBefore.click();
+            userSettingsButton.click();
         });
 
-        const toggleThemeAfter = await screen.findByLabelText('Toggle color scheme');
-        const lightThemeIcon = await screen.findByLabelText('Light Theme Icon');
+        const toggleThemeButton = await screen.findByLabelText('Toggle Theme');
+        expect(toggleThemeButton).toBeInTheDocument();
 
-        expect(lightThemeIcon).toBeInTheDocument();
-        expect(toggleThemeAfter).toBeInTheDocument();
+        const toggleThemeLight = await screen.findByLabelText('Light Theme Icon');
+        expect(toggleThemeLight).toBeInTheDocument();
+
+        act(() => {
+            toggleThemeButton.click();
+        });
+
+        const toggleThemeDark = await screen.findByLabelText('Dark Theme Icon');
+        expect(toggleThemeDark).toBeVisible();
     });
 
     it('has github sign in button - unauthenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
 
         render(<Navbar />);
-        const signInButton = await screen.findAllByRole('button', { name: 'Sign In With GitHub' });
-        expect(signInButton[0]).toBeInTheDocument();
-        expect(signInButton[1]).toBeInTheDocument();
+        const signInButton = await screen.findByRole('button', { name: 'Sign In With GitHub' });
+        expect(signInButton).toBeInTheDocument();
     });
 
     it('has github sign out button - authenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(authenticatedSessionMock)
 
         render(<Navbar />);
-        const signOutButtons = await screen.findAllByRole('button', { name: 'Sign Out', });
-        expect(signOutButtons[0]).toBeInTheDocument();
-        expect(signOutButtons[1]).toBeInTheDocument();
+
+        const userSettingsButton = await screen.findByLabelText('User Settings');
+        expect(userSettingsButton).toBeInTheDocument();
+
+        act(() => {
+            userSettingsButton.click();
+        });
+
+        const signOutButton = await screen.findByLabelText('Sign Out');
+        expect(signOutButton).toBeInTheDocument();
     })
 })
