@@ -3,14 +3,12 @@
 import Confetti from 'react-confetti'
 import { useState } from "react";
 import Image from 'next/image';
-import { StyleSheet } from "../styles/Stylesheet";
-import { signIn, signOut, useSession } from "next-auth/react"
-import { IconBrandGithub } from "@tabler/icons-react";
-import { Button, Loader, Modal, useMantineTheme, } from "@mantine/core";
+import { StyleSheet } from "@/styles/Stylesheet"
+import { useSession } from "next-auth/react"
+import { Button, Loader, Modal, } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 
 export default function Homepage() {
-  const theme = useMantineTheme();
   const [confettiStatus, setConfettiStatus] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
@@ -47,14 +45,11 @@ export default function Homepage() {
               <Modal opened={opened} onClose={close} title="Congratulations!">
                 You did it! 🥳
               </Modal>
-              <Button color={theme.colors.blue[9]} style={styles.modalButton} onClick={open}>Click it? 👀</Button>
+              <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
             </div>
             <div style={styles.partyContainer}>
               {session.status === 'unauthenticated' ?
                 <>
-                  <Button onClick={() => signIn('github')} style={styles.githubButton} leftSection={<IconBrandGithub color="white" />}>
-                    Sign In With GitHub
-                  </Button>
                 </>
                 : session.status === 'authenticated' ?
                   <>
@@ -64,9 +59,6 @@ export default function Homepage() {
                       </>
                       : null
                     }
-                    <Button color="secondary" onClick={() => signOut()} style={styles.githubButton}>
-                      Sign Out
-                    </Button>
                   </>
                   : null
               }
@@ -77,7 +69,7 @@ export default function Homepage() {
   );
 }
 
-const createStyles: any = () => {
+const createStyles = () => {
   return StyleSheet.create({
     container: {
       flex: 1
@@ -98,9 +90,6 @@ const createStyles: any = () => {
     },
     partyButton: {
       fontSize: 22,
-    },
-    githubButton: {
-      backgroundColor: '#161b22'
     },
     loggedInContainer: {
       padding: 20

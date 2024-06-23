@@ -17,11 +17,9 @@ describe('Page', () => {
         render(<Homepage />);
 
         const partyButton = await screen.findByRole('button', { name: 'Party Button 🎉' });
-        const signInButton = await screen.findByRole('button', { name: 'Sign In With GitHub' });
         const spinner = screen.queryByLabelText('loading-spinner');
 
         expect(partyButton).toBeInTheDocument();
-        expect(signInButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
     })
 
@@ -30,12 +28,10 @@ describe('Page', () => {
         render(<Homepage />);
 
         const partyButton = await screen.findByRole('button', { name: 'Party Button 🎉' });
-        const signOutButton = await screen.findByRole('button', { name: 'Sign Out', });
         const spinner = screen.queryByLabelText('loading-spinner');
         const loggedInUser = await screen.findByText('Logged in as testEmail@test.com');
 
         expect(partyButton).toBeInTheDocument();
-        expect(signOutButton).toBeInTheDocument();
         expect(loggedInUser).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
     })

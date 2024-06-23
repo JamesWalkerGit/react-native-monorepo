@@ -1,27 +1,30 @@
 "use client";
 import { ActionIcon, Burger, Group, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
-import { StyleSheet } from "../../styles/Stylesheet";
+import { StyleSheet } from "@/styles/Stylesheet";
 import { IconMoon, IconSunHigh } from "@tabler/icons-react";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import classes from './Navbar.module.css';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import GithubButton from "./auth/GithubButton";
 
 const links = [
     { link: '/', label: 'Home' },
-    { link: '/testpage', label: 'testpage' },
-    { link: '/examples', label: 'Examples' },
-    { link: '/community', label: 'Contact' },
+    { link: '/contact', label: 'Contact' },
 ];
+
+const showInMobileView = 'mantine-hidden-from-xs'
+const showInDesktopView = 'mantine-visible-from-xs'
 
 export default function Navbar() {
     const theme = useMantineTheme();
     const pathName = usePathname();
+    const styles = createStyles();
     const { setColorScheme } = useMantineColorScheme();
     const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
-    const showHideMobile = useMediaQuery('(min-width: ' + theme.breakpoints.xs);
-    const [navMenuOpened, { toggle }] = useDisclosure(false);
+    const showDesktopNavbar = useMediaQuery('(min-width: ' + theme.breakpoints.xs);
+    const [navMenuOpen, { toggle: toggleNavMenu }] = useDisclosure(false);
     const [activeLink, setActiveLink] = useState(pathName);
 
     const headerLinks = links.map((link) => (
@@ -39,63 +42,81 @@ export default function Navbar() {
     ));
 
     useEffect(() => {
-        navMenuOpened ? toggle() : null
+        navMenuOpen ? toggleNavMenu() : null
         return () => {
         };
     },
-        [showHideMobile]); // eslint-disable-line react-hooks/exhaustive-deps
+        [showDesktopNavbar]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
-            <div style={styles.navContainer} className={classes.header + ' mantine-hidden-from-xs'}>
-                <div style={{ ...styles.navSection, ...styles.burgerSection }} className="mantine-hidden-from-xs" >
-                    <Burger color={theme.colors.dark[3]} opened={navMenuOpened} onClick={toggle} hiddenFrom="xs" size="sm" aria-label="Toggle navbar" />
+            <div style={styles.navContainer} className={classes.header + ' ' + showInMobileView}>
+                <div style={{ ...styles.navSection, ...styles.startSection }} className={showInMobileView}>
+                    <Burger color={theme.colors.dark[3]} opened={navMenuOpen} onClick={toggleNavMenu} hiddenFrom="xs" size="sm" aria-label="Toggle navbar" />
+                </div>
+
+                <div style={{ ...styles.navSection, ...styles.centerSection }} className={showInMobileView} >
+                </div>
+
+                <div style={{ ...styles.navSection, ...styles.endSection }} className={showInMobileView} >
+                    <GithubButton />
                 </div>
             </div>
 
-            <div style={styles.navContainer} className={classes.header + ' mantine-visible-from-xs'}>
-                <div style={styles.navSection} className="mantine-visible-from-xs" >
+            <div style={styles.navContainer} className={classes.header + ' ' + showInDesktopView}>
+                <div style={{ ...styles.navSection, ...styles.startSection }} className={showInDesktopView} >
+                    <ActionIcon color={theme.colors.dark[3]} variant="subtle" aria-label="Toggle color scheme" size="lg"
+                        onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
+                    >
+                        <IconSunHigh className={classes.light} aria-label="Light Theme Icon" />
+                        <IconMoon className={classes.dark} aria-label="Dark Theme Icon" />
+                    </ActionIcon>
+                </div>
+
+                <div style={{ ...styles.navSection, ...styles.centerSection }} className={showInDesktopView} >
                     <Group visibleFrom="xs">
                         {headerLinks}
                     </Group>
                 </div>
-                <div style={{ ...styles.navSection, ...styles.toggleThemeSection, }}>
-                    <div style={styles.themeButtonContainer}>
-                        <ActionIcon color={theme.colors.dark[3]} variant="subtle" aria-label="Toggle color scheme" size="lg"
-                            onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')}
-                        >
-                            <IconSunHigh className={classes.light} aria-label="Light Theme Icon" />
-                            <IconMoon className={classes.dark} aria-label="Dark Theme Icon" />
-                        </ActionIcon>
-                    </div>
+
+                <div style={{ ...styles.navSection, ...styles.endSection }} >
+                    <GithubButton />
                 </div>
             </div>
         </>
     );
 }
 
-const styles = StyleSheet.create({
-    navContainer: {
-        flex: 1,
-        display: 'flex',
-        width: '100%',
-        flexDirection: 'row',
-        minHeight: 56
-    },
-    navSection: {
-        flex: 1,
-        display: 'flex',
-        justifySelf: 'flex-end',
-        alignItems: 'center',
-        padding: 4
-    },
-    themeButtonContainer: {
-    },
-    toggleThemeSection: {
-        flex: .2,
-        justifyContent: 'flex-end'
-    },
-    burgerSection: {
-        justifyContent: 'flex-end'
-    }
-});
+const createStyles = () => {
+    return StyleSheet.create({
+        navContainer: {
+            flex: 1,
+            display: 'flex',
+            width: '100%',
+            flexDirection: 'row',
+            minHeight: 56,
+            alignItems: 'center',
+            justifyContent: 'space-between'
+        },
+        navSection: {
+            flex: 1,
+            display: 'flex',
+            justifySelf: 'flex-end',
+            alignItems: 'center',
+        },
+        startSection: {
+            flex: .1,
+            justifyContent: 'flex-start',
+            padding: 8
+        },
+        centerSection: {
+            flex: .7,
+            padding: 8
+        },
+        endSection: {
+            flex: .2,
+            justifyContent: 'flex-end',
+            padding: 8
+        }
+    });
+}
