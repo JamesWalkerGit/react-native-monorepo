@@ -1,29 +1,21 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import Confetti from 'react-confetti'
 import { useState } from "react";
 import Image from 'next/image';
-import { StyleSheet } from "../styles/Stylesheet";
-import { signIn, signOut, useSession } from "next-auth/react"
-import { IconBrandGithub } from "@tabler/icons-react";
+import { StyleSheet } from "@/styles/Stylesheet"
+import { useSession } from "next-auth/react"
 import { Button, Loader, Modal, } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
-
 
 export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
 
-  const router = useRouter();
   const session = useSession();
   const { height, width } = useViewportSize();
 
   const styles = createStyles();
-
-  const goTo = (route: string) => {
-    router.push('/' + route)
-  }
 
   const toggleConfetti = () => {
     setConfettiStatus(!confettiStatus)
@@ -38,7 +30,6 @@ export default function Homepage() {
       </>
       :
       <>
-        <title>Jprojects</title>
         <div style={styles.container}>
           {
             confettiStatus ?
@@ -48,22 +39,17 @@ export default function Homepage() {
           <>
             <div style={styles.partyContainer}>
               <Image priority={true} src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
-              <Button onClick={toggleConfetti} style={styles.partyButton}
-                variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}
-              >
+              <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
                 Party Button 🎉
               </Button>
               <Modal opened={opened} onClose={close} title="Congratulations!">
                 You did it! 🥳
               </Modal>
-              <Button style={styles.modalButton} onClick={open}>Click it? 👀</Button>
+              <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
             </div>
             <div style={styles.partyContainer}>
               {session.status === 'unauthenticated' ?
                 <>
-                  <Button onClick={() => signIn('github')} style={styles.githubButton} leftSection={<IconBrandGithub color="white" />}>
-                    Sign In With GitHub
-                  </Button>
                 </>
                 : session.status === 'authenticated' ?
                   <>
@@ -73,9 +59,6 @@ export default function Homepage() {
                       </>
                       : null
                     }
-                    <Button color="secondary" onClick={() => signOut()} style={styles.githubButton}>
-                      Sign Out
-                    </Button>
                   </>
                   : null
               }
@@ -86,7 +69,7 @@ export default function Homepage() {
   );
 }
 
-const createStyles: any = () => {
+const createStyles = () => {
   return StyleSheet.create({
     container: {
       flex: 1
@@ -107,9 +90,6 @@ const createStyles: any = () => {
     },
     partyButton: {
       fontSize: 22,
-    },
-    githubButton: {
-      backgroundColor: '#161b22'
     },
     loggedInContainer: {
       padding: 20
