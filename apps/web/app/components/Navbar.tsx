@@ -102,7 +102,8 @@ const createStyles = () => {
             width: '100%',
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            padding: 8
         },
         navSection: {
             flex: 1,
