@@ -19,5 +19,5 @@ jobs:
       - name: Deploy Project to Staging
         run: |
           vercel alias --token=${{ secrets.VERCEL_TOKEN }} rm staging.jprojects.dev --yes
-          vercel alias --token=${{ secrets.VERCEL_TOKEN }} url staging.jprojects.dev
+          vercel alias --token=${{ secrets.VERCEL_TOKEN }} $url staging.jprojects.dev
 
