@@ -1,4 +1,4 @@
 {
     "installCommand": "yarn && yarn testCi && yarn prisma generate",
-    "buildCommand": "next build && vercel alias $VERCEL_BRANCH_URL staging.jprojects.dev"
+    "buildCommand": "cd ../.. && npx turbo run build --filter=web && npm install -G vercel && vercel alias $VERCEL_BRANCH_URL staging.jprojects.dev"
 }
