@@ -95,7 +95,7 @@ const createStyles = () => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            height: "7vh",
+            height: "6vh",
             position: 'fixed',
             top: 0,
             zIndex: 11,
