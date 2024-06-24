@@ -1,10 +1,11 @@
 "use client"
 import { StyleSheet } from "@/styles/Stylesheet";
 import { Menu, MenuProps, Text, ThemeIcon, UnstyledButton, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
-import { IconLogout2, IconMoon, IconSunHigh, IconUserCode } from "@tabler/icons-react";
+import { IconLogout2, IconMoon, IconSunHigh, IconUser, IconUserCode } from "@tabler/icons-react";
 import { forwardRef, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import styleConsts from '@/styles/styleConsts.module.css';
+import userMenuClasses from './UserMenu.module.css';
 
 
 export default function UserMenu(props: MenuProps) {
@@ -26,18 +27,21 @@ export default function UserMenu(props: MenuProps) {
                     variant="gradient"
                     size="lg"
                     radius={20}
-                    className={styleConsts.lightMode}
+                    className={userMenuClasses.userMenuIcon}
+                    darkHidden={true}
                 >
-                    <IconUserCode />
+                    {session.status === 'authenticated' ? <IconUserCode /> : <IconUser />}
+
                 </ThemeIcon>
                 <ThemeIcon
                     variant="filled"
                     size="lg"
                     radius={20}
                     color={theme.colors.dark[4]}
-                    className={styleConsts.darkMode}
+                    className={userMenuClasses.userMenuIcon}
+                    lightHidden={true}
                 >
-                    <IconUserCode />
+                    {session.status === 'authenticated' ? <IconUserCode /> : <IconUser />}
                 </ThemeIcon>
             </UnstyledButton>
         )
@@ -54,8 +58,7 @@ export default function UserMenu(props: MenuProps) {
                 <Menu.Dropdown>
                     {session?.data?.user?.email ?
                         <>
-                            <div style={styles.signedInContainer} aria-label="Signed in as"
-                            >
+                            <div style={styles.signedInContainer} aria-label="Signed in as">
                                 <Text size='xs' style={styles.userText} aria-label='User Email'>
                                     {session?.data?.user?.email}
                                 </Text>
