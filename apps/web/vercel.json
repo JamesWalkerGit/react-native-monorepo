@@ -1,3 +1,4 @@
 {
-    "installCommand": "yarn && yarn testCi && yarn prisma generate"
+    "installCommand": "yarn && yarn testCi && yarn prisma generate",
+    "buildCommand": "cd ../.. && npx turbo run build --filter=web..."
 }
