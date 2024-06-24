@@ -1,7 +1,6 @@
 "use client";
-import { ActionIcon, Burger, Drawer, Group, useMantineTheme } from "@mantine/core";
+import { Burger, Drawer, Group, useMantineTheme } from "@mantine/core";
 import { StyleSheet } from "@/styles/Stylesheet";
-import { IconX } from "@tabler/icons-react";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
 import classes from './Navbar.module.css';
@@ -10,14 +9,12 @@ import { usePathname } from "next/navigation";
 import GithubButton from "./auth/GithubButton";
 import { useSession } from "next-auth/react";
 import UserMenu from "./Navbar/UserMenu";
+import { showInDesktopView, showInMobileView } from "@/styles/consts";
 
 const links = [
     { link: '/', label: 'Home' },
     { link: '/contact', label: 'Contact' },
 ];
-
-const showInMobileView = 'mantine-hidden-from-xs'
-const showInDesktopView = 'mantine-visible-from-xs'
 
 export default function Navbar() {
     const theme = useMantineTheme();
@@ -52,18 +49,13 @@ export default function Navbar() {
 
     return (
         <>
-            <Drawer opened={sideMenuOpen} onClose={toggleSideMenu} size={'70vw'} radius={'md'} withCloseButton={false}>
+            <Drawer opened={sideMenuOpen} onClose={toggleSideMenu} size={'70vw'} radius={'md'} withCloseButton={false} lockScroll={false} zIndex={10}>
                 <div style={styles.sidebarHeader}>
-                    <ActionIcon onClick={toggleSideMenu} variant="subtle" color={theme.colors.dark[3]} size={'lg'}>
-                        <IconX />
-                    </ActionIcon>
-                </div>
-                <div>
                     {navigationLinks}
                 </div>
             </Drawer >
 
-            <div style={styles.navContainer} className={classes.header}>
+            <div style={styles.navContainer} className={classes.navContainer}>
                 <div style={{ ...styles.navSection, ...styles.startSection }}>
                     <div className={showInDesktopView}>
                     </div>
@@ -103,6 +95,10 @@ const createStyles = () => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
+            height: "7vh",
+            position: 'fixed',
+            top: 0,
+            zIndex: 11,
         },
         navSection: {
             flex: 1,
@@ -111,12 +107,12 @@ const createStyles = () => {
             alignItems: 'center',
         },
         startSection: {
-            flex: .1,
+            flex: .05,
             justifyContent: 'flex-start',
             padding: 8
         },
         centerSection: {
-            flex: .7,
+            flex: .75,
             padding: 8
         },
         endSection: {
@@ -125,11 +121,10 @@ const createStyles = () => {
             padding: 8
         },
         sidebarHeader: {
-            justifyContent: 'space-between',
             flex: 1,
-            flexDirection: 'row',
+            flexDirection: 'column',
             display: 'flex',
-            marginBottom: 12
+            marginTop: '8vh'
         }
     });
 }

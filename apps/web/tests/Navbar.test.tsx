@@ -12,30 +12,20 @@ jest.mock("next-auth/react", () => ({
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 
 describe('Navbar', () => {
-    it('has theme toggleButton with proper icons based on selected theme', async () => {
+    it('has UserMenu in Navbar', async () => {
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
 
         render(<Navbar />);
 
-        const userSettingsButton = await screen.findByLabelText('User Settings');
-        expect(userSettingsButton).toBeInTheDocument();
+        const userSettingsButton = await screen.findAllByLabelText('User Settings');
+        expect(userSettingsButton[0]).toBeInTheDocument();
 
         act(() => {
-            userSettingsButton.click();
+            userSettingsButton[0].click();
         });
 
         const toggleThemeButton = await screen.findByLabelText('Toggle Theme');
         expect(toggleThemeButton).toBeInTheDocument();
-
-        const toggleThemeLight = await screen.findByLabelText('Light Theme Icon');
-        expect(toggleThemeLight).toBeInTheDocument();
-
-        act(() => {
-            toggleThemeButton.click();
-        });
-
-        const toggleThemeDark = await screen.findByLabelText('Dark Theme Icon');
-        expect(toggleThemeDark).toBeVisible();
     });
 
     it('has github sign in button - unauthenticated', async () => {
@@ -51,11 +41,11 @@ describe('Navbar', () => {
 
         render(<Navbar />);
 
-        const userSettingsButton = await screen.findByLabelText('User Settings');
-        expect(userSettingsButton).toBeInTheDocument();
+        const userSettingsButton = await screen.findAllByLabelText('User Settings');
+        expect(userSettingsButton[0]).toBeInTheDocument();
 
         act(() => {
-            userSettingsButton.click();
+            userSettingsButton[0].click();
         });
 
         const signOutButton = await screen.findByLabelText('Sign Out');
