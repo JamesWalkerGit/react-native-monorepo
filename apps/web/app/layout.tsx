@@ -10,7 +10,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Jprojects',
-  description: 'Jprojects site collection'
+  description: 'Jprojects site collection',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -18,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <>
       <html lang="en" style={styles.html}>
         <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
           <ColorSchemeScript />
         </head>
         <body style={styles.body}>
@@ -36,10 +37,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 const styles = StyleSheet.create({
   html: {
-    backgroundColor: 'red'
   },
   body: {
-    height: '100vh'
   },
   contentContainer: {
     paddingTop: '7vh'
