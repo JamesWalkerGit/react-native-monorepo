@@ -10,7 +10,7 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Jprojects',
-  description: 'Jprojects site collection'
+  description: 'Jprojects site collection',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
   body: {
   },
   contentContainer: {
-    paddingTop: '7vh'
+    paddingTop: 56
   }
 });

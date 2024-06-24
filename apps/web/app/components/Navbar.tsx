@@ -19,9 +19,9 @@ const links = [
 export default function Navbar() {
     const theme = useMantineTheme();
     const pathName = usePathname();
-    const styles = createStyles();
     const session = useSession();
     const showDesktopNavbar = useMediaQuery('(min-width: ' + theme.breakpoints.xs);
+    const styles = createStyles();
     const [sideMenuOpen, { toggle: toggleSideMenu }] = useDisclosure(false);
     const [activeLink, setActiveLink] = useState(pathName);
 
@@ -95,7 +95,7 @@ const createStyles = () => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
-            height: "7vh",
+            height: 56,
             position: 'fixed',
             top: 0,
             zIndex: 11,
