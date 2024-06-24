@@ -8,7 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import GithubButton from "./auth/GithubButton";
 import { useSession } from "next-auth/react";
-import UserMenu from "./Navbar/UserMenu";
+import UserMenu from "./UserMenu/UserMenu";
 import { showInDesktopView, showInMobileView } from "@/styles/consts";
 
 const links = [
@@ -61,7 +61,7 @@ export default function Navbar() {
                     </div>
 
                     <div className={showInMobileView}>
-                        <Burger color={theme.colors.dark[3]} opened={sideMenuOpen} onClick={toggleSideMenu} hiddenFrom="xs" size="sm" aria-label="Toggle navbar" />
+                        <Burger color={theme.colors.dark[3]} className={classes.burger} opened={sideMenuOpen} onClick={toggleSideMenu} hiddenFrom="xs" size="sm" aria-label="Toggle navbar" />
                     </div>
                 </div>
 

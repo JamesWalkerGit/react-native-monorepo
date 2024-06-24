@@ -81,7 +81,7 @@ const createStyles = () => {
       justifyContent: 'center',
       alignItems: 'center',
       flexDirection: 'column',
-      height: '100vh'
+      height: '90vh'
     },
     partyButton: {
       fontSize: 22,
