@@ -1,8 +1,8 @@
 "use client"
 import { StyleSheet } from "@/styles/Stylesheet";
-import { ActionIcon, Box, Menu, MenuProps, Text, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { Menu, MenuProps, Text, ThemeIcon, UnstyledButton, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
 import { IconLogout2, IconMoon, IconSunHigh, IconUserCode } from "@tabler/icons-react";
-import { useState } from "react";
+import { forwardRef, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import styleConsts from '@/styles/styleConsts.module.css';
 
@@ -15,18 +15,40 @@ export default function UserMenu(props: MenuProps) {
     const computedColorScheme = useComputedColorScheme(undefined, { getInitialValueInEffect: true });
     const session = useSession();
 
+    const UserMenuButton = forwardRef<HTMLButtonElement>(
+        ({ ...props }, ref) => (
+            <UnstyledButton
+                aria-label="User Settings"
+                ref={ref}
+                {...props}
+            >
+                <ThemeIcon
+                    variant="gradient"
+                    size="lg"
+                    radius={20}
+                    className={styleConsts.lightMode}
+                >
+                    <IconUserCode />
+                </ThemeIcon>
+                <ThemeIcon
+                    variant="filled"
+                    size="lg"
+                    radius={20}
+                    color={theme.colors.dark[4]}
+                    className={styleConsts.darkMode}
+                >
+                    <IconUserCode />
+                </ThemeIcon>
+            </UnstyledButton>
+        )
+    );
+    UserMenuButton.displayName = 'UserMenuButton';
+
     return (
         <>
             <Menu shadow="md" width={200} opened={userMenuOpen} onChange={setUserMenuOpen} {...props}>
                 <Menu.Target>
-                    <Box>
-                        <ActionIcon variant={'filled'} aria-label="User Settings" size="lg" radius={20} color={theme.colors.dark[4]} className={styleConsts.darkMode}>
-                            <IconUserCode />
-                        </ActionIcon>
-                        <ActionIcon variant={'gradient'} aria-label="User Settings" size="lg" radius={20} className={styleConsts.lightMode}>
-                            <IconUserCode />
-                        </ActionIcon>
-                    </Box>
+                    <UserMenuButton />
                 </Menu.Target>
 
                 <Menu.Dropdown>
