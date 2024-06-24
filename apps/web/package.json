@@ -9,8 +9,7 @@
     "lint": "next lint",
     "test": "jest --watch",
     "testCi": "jest",
-    "validate": "yarn lint && yarn testCi",
-    "postinstall": "yarn testCi && prisma generate"
+    "validate": "yarn lint && yarn testCi"
   },
   "dependencies": {
     "@mantine/core": "^7.10.2",

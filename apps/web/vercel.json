@@ -1,0 +1,4 @@
+{
+    "installCommand": "yarn && yarn testCi && prisma generate",
+    "buildCommand": "next build && vercel alias $VERCEL_BRANCH_URL staging.jprojects.dev"
+}
