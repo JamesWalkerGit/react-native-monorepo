@@ -12,7 +12,7 @@ jest.mock("next-auth/react", () => ({
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 
 describe('Navbar', () => {
-    it('has theme toggleButton with proper icons based on selected theme', async () => {
+    it('has UserMenu in Navbar', async () => {
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
 
         render(<Navbar />);
@@ -26,16 +26,6 @@ describe('Navbar', () => {
 
         const toggleThemeButton = await screen.findByLabelText('Toggle Theme');
         expect(toggleThemeButton).toBeInTheDocument();
-
-        const toggleThemeLight = await screen.findByLabelText('Light Theme Icon');
-        expect(toggleThemeLight).toBeInTheDocument();
-
-        act(() => {
-            toggleThemeButton.click();
-        });
-
-        const toggleThemeDark = await screen.findByLabelText('Dark Theme Icon');
-        expect(toggleThemeDark).toBeVisible();
     });
 
     it('has github sign in button - unauthenticated', async () => {

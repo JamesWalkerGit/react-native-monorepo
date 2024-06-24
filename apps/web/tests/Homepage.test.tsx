@@ -29,10 +29,8 @@ describe('Page', () => {
 
         const partyButton = await screen.findByRole('button', { name: 'Party Button 🎉' });
         const spinner = screen.queryByLabelText('loading-spinner');
-        const loggedInUser = await screen.findByText('Logged in as testEmail@test.com');
 
         expect(partyButton).toBeInTheDocument();
-        expect(loggedInUser).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
     })
 

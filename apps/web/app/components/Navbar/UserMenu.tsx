@@ -34,7 +34,7 @@ export default function UserMenu(props: MenuProps) {
                         <>
                             <div style={styles.signedInContainer} aria-label="Signed in as"
                             >
-                                <Text size='xs' style={styles.userText}>
+                                <Text size='xs' style={styles.userText} aria-label='User Email'>
                                     {session?.data?.user?.email}
                                 </Text>
                                 <Text size='xs' style={styles.userText}>

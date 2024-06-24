@@ -53,12 +53,6 @@ export default function Homepage() {
                 </>
                 : session.status === 'authenticated' ?
                   <>
-                    {session.data.user?.email ?
-                      <>
-                        <div style={styles.loggedInContainer}>Logged in as {session.data.user.email}</div>
-                      </>
-                      : null
-                    }
                   </>
                   : null
               }
@@ -91,9 +85,6 @@ const createStyles = () => {
     },
     partyButton: {
       fontSize: 22,
-    },
-    loggedInContainer: {
-      padding: 20
     },
     modalButton: {
       margin: 20
