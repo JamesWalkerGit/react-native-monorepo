@@ -36,8 +36,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 const styles = StyleSheet.create({
   html: {
+    backgroundColor: 'red'
   },
   body: {
+    height: '100vh'
   },
   contentContainer: {
     paddingTop: '7vh'
