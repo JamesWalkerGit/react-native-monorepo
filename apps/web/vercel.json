@@ -1,4 +1,4 @@
 {
     "installCommand": "yarn global add vercel@latest && yarn && yarn testCi && yarn prisma generate",
-    "buildCommand": "cd ../.. && npx turbo run build --filter=web... && env && vercel alias --token=process.env.VERCEL_CLI_TOKEN process.env.VERCEL_BRANCH_URL staging.jprojects.dev --scope=james-walkers-projects-ad1e6386"
+    "buildCommand": "cd ../.. && npx turbo run build --filter=web... && env && vercel alias --token=$VERCEL_CLI_TOKEN $VERCEL_URL staging.jprojects.dev --scope=james-walkers-projects-ad1e6386"
 }
