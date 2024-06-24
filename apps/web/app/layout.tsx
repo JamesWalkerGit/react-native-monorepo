@@ -18,7 +18,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <>
       <html lang="en" style={styles.html}>
         <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
           <ColorSchemeScript />
         </head>
         <body style={styles.body}>
