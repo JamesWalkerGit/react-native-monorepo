@@ -5,8 +5,6 @@ env:
 on:
   pull_request:
     types: [opened, reopened]
-    branches-ignore:
-      - main
 jobs:
   Deploy-Preview:
     runs-on: ubuntu-latest
