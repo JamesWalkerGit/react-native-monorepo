@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
   body: {
   },
   contentContainer: {
-    paddingTop: '7vh'
+    paddingTop: 56
   }
 });
