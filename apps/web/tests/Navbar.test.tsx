@@ -17,11 +17,11 @@ describe('Navbar', () => {
 
         render(<Navbar />);
 
-        const userSettingsButton = await screen.findByLabelText('User Settings');
-        expect(userSettingsButton).toBeInTheDocument();
+        const userSettingsButton = await screen.findAllByLabelText('User Settings');
+        expect(userSettingsButton[0]).toBeInTheDocument();
 
         act(() => {
-            userSettingsButton.click();
+            userSettingsButton[0].click();
         });
 
         const toggleThemeButton = await screen.findByLabelText('Toggle Theme');
@@ -51,11 +51,11 @@ describe('Navbar', () => {
 
         render(<Navbar />);
 
-        const userSettingsButton = await screen.findByLabelText('User Settings');
-        expect(userSettingsButton).toBeInTheDocument();
+        const userSettingsButton = await screen.findAllByLabelText('User Settings');
+        expect(userSettingsButton[0]).toBeInTheDocument();
 
         act(() => {
-            userSettingsButton.click();
+            userSettingsButton[0].click();
         });
 
         const signOutButton = await screen.findByLabelText('Sign Out');

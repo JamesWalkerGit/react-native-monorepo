@@ -1,48 +1,77 @@
 "use client"
 import { StyleSheet } from "@/styles/Stylesheet";
-import { ActionIcon, Menu, MenuProps, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
-import { IconMoon, IconSunHigh, IconUserCode } from "@tabler/icons-react";
+import { ActionIcon, Box, Menu, MenuProps, Text, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { IconLogout2, IconMoon, IconSunHigh, IconUserCode } from "@tabler/icons-react";
 import { useState } from "react";
-import classes from '../Navbar.module.css';
 import { signOut, useSession } from "next-auth/react";
+import styleConsts from '@/styles/styleConsts.module.css';
+
 
 export default function UserMenu(props: MenuProps) {
     const styles = createStyles();
     const theme = useMantineTheme();
     const [userMenuOpen, setUserMenuOpen] = useState(false);
     const { setColorScheme } = useMantineColorScheme();
-    const computedColorScheme = useComputedColorScheme('light', { getInitialValueInEffect: true });
+    const computedColorScheme = useComputedColorScheme(undefined, { getInitialValueInEffect: true });
     const session = useSession();
 
     return (
         <>
             <Menu shadow="md" width={200} opened={userMenuOpen} onChange={setUserMenuOpen} {...props}>
                 <Menu.Target>
-                    <ActionIcon color={theme.colors.dark[5]} variant="filled" aria-label="User Settings" size="lg" radius={20}>
-                        <IconUserCode />
-                    </ActionIcon>
+                    <Box>
+                        <ActionIcon variant={'filled'} aria-label="User Settings" size="lg" radius={20} color={theme.colors.dark[4]} className={styleConsts.darkMode}>
+                            <IconUserCode />
+                        </ActionIcon>
+                        <ActionIcon variant={'gradient'} aria-label="User Settings" size="lg" radius={20} className={styleConsts.lightMode}>
+                            <IconUserCode />
+                        </ActionIcon>
+                    </Box>
                 </Menu.Target>
 
                 <Menu.Dropdown>
+                    {session?.data?.user?.email ?
+                        <>
+                            <div style={styles.signedInContainer} aria-label="Signed in as"
+                            >
+                                <Text size='xs' style={styles.userText}>
+                                    {session?.data?.user?.email}
+                                </Text>
+                                <Text size='xs' style={styles.userText}>
+                                    Points: 0
+                                </Text>
+                            </div>
+                            <Menu.Divider />
+                        </>
+                        : null
+                    }
                     <Menu.Item onClick={() => setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light')} closeMenuOnClick={false} aria-label="Toggle Theme"
                         leftSection={<>
-                            <IconSunHigh className={classes.light} aria-label="Light Theme Icon" />
-                            <IconMoon className={classes.dark} aria-label="Dark Theme Icon" />
+                            <IconSunHigh className={styleConsts.darkMode} aria-label="Light Theme Icon" />
+                            <IconMoon className={styleConsts.lightMode} aria-label="Dark Theme Icon" />
                         </>}
                     >
-                        <div className={classes.light}>
-                            Set Light Theme
+                        <div className={styleConsts.darkMode}>
+                            <Text>
+                                Set Light Theme
+                            </Text>
                         </div>
-                        <div className={classes.dark}>
-                            Set Dark Theme
+                        <div className={styleConsts.lightMode}>
+                            <Text>
+                                Set Dark Theme
+                            </Text>
                         </div>
                     </Menu.Item>
 
                     {session.status === 'authenticated' ?
                         <>
                             <Menu.Divider />
-                            <Menu.Item closeMenuOnClick={true} style={styles.logoutButtonContainer} color={theme.colors.gray[6]} variant='subtle' onClick={() => signOut()} aria-label="Sign Out">
-                                Sign Out
+                            <Menu.Item closeMenuOnClick={true} onClick={() => signOut()} aria-label="Sign Out"
+                                leftSection={<IconLogout2 />}
+                            >
+                                <Text>
+                                    Sign Out
+                                </Text>
                             </Menu.Item>
                         </>
                         : null}
@@ -54,9 +83,19 @@ export default function UserMenu(props: MenuProps) {
 
 const createStyles = () => {
     return StyleSheet.create({
-        logoutButtonContainer: {
+        signedInContainer: {
             display: 'flex',
-            flexDirection: 'column'
+            flex: 1,
+            justifyContent: 'center',
+            flexDirection: 'column',
+            paddingTop: 2,
+            paddingBottom: 2
         },
+        userText:
+        {
+            justifyContent: 'center',
+            display: 'flex',
+            padding: 1
+        }
     });
 }
