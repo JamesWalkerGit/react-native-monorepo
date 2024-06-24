@@ -23,7 +23,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <body style={styles.body}>
           <Providers>
             <Navbar />
-            {children}
+            <div style={styles.contentContainer}>
+              {children}
+            </div>
           </Providers>
         </body>
       </html>
@@ -37,4 +39,7 @@ const styles = StyleSheet.create({
   },
   body: {
   },
+  contentContainer: {
+    paddingTop: '7vh'
+  }
 });
