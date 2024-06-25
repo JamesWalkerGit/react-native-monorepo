@@ -38,7 +38,7 @@ export default function Homepage() {
           }
           <>
             <div style={styles.partyContainer}>
-              <Image priority={true} src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={{ padding: 10 }}></Image>
+              <Image priority={true} src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={styles.partyParrot}></Image>
               <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
                 Party Button 🎉
               </Button>
@@ -85,6 +85,9 @@ const createStyles = () => {
     },
     partyButton: {
       fontSize: 22,
+    },
+    partyParrot: {
+      padding: 10
     },
     modalButton: {
       margin: 20
