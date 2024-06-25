@@ -5,7 +5,7 @@ import { useState } from "react";
 import Image from 'next/image';
 import { StyleSheet } from "@/styles/Stylesheet"
 import { useSession } from "next-auth/react"
-import { Button, Loader, Modal, } from "@mantine/core";
+import { Button, Modal, } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 
 export default function Homepage() {

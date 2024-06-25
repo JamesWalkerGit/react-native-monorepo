@@ -17,3 +17,8 @@
         display: flex;
     }
 }
+
+/* theme fade transition */
+.transitionThemeColors {
+    transition: color .25s, background-color .25s;
+}

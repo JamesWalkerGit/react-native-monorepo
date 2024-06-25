@@ -10,6 +10,8 @@ import GithubButton from "./auth/GithubButton";
 import { useSession } from "next-auth/react";
 import UserMenu from "./UserMenu/UserMenu";
 import { showInDesktopView, showInMobileView } from "@/styles/consts";
+import styleConsts from '@/styles/styleConsts.module.css'
+import ThemeButton from "./theming/ThemeButton";
 
 const links = [
     { link: '/', label: 'Home' },
@@ -29,7 +31,7 @@ export default function Navbar() {
         <Link
             key={link.label}
             href={link.link}
-            className={classes.link}
+            className={classes.link + ' ' + styleConsts.transitionThemeColors}
             data-active={activeLink === link.link || undefined}
             onClick={() => {
                 setActiveLink(link.link);
@@ -53,9 +55,9 @@ export default function Navbar() {
                 <div style={styles.sidebarHeader}>
                     {navigationLinks}
                 </div>
-            </Drawer >
+            </Drawer>
 
-            <div style={styles.navContainer} className={classes.navContainer}>
+            <div style={styles.navContainer} className={classes.navContainer + ' ' + styleConsts.transitionThemeColors}>
                 <div style={{ ...styles.navSection, ...styles.startSection }}>
                     <div className={showInDesktopView}>
                     </div>
@@ -77,8 +79,11 @@ export default function Navbar() {
 
                 <div style={{ ...styles.navSection, ...styles.endSection }}>
                     <div style={styles.userMenuContainer}>
-                        {session.status === 'unauthenticated' ? <GithubButton /> : null}
+                        {session.status === 'unauthenticated' ?
+                            <GithubButton /> : null
+                        }
                         <UserMenu />
+                        <ThemeButton />
                     </div>
                 </div>
             </div>
@@ -112,11 +117,11 @@ const createStyles = () => {
             padding: 8
         },
         centerSection: {
-            flex: .75,
+            flex: .55,
             padding: 8
         },
         endSection: {
-            flex: .2,
+            flex: .4,
             justifyContent: 'flex-end',
             padding: 8
         },
@@ -127,7 +132,7 @@ const createStyles = () => {
             marginTop: '8vh'
         },
         userMenuContainer: {
-            gap: 16,
+            gap: 8,
             display: 'flex',
             flexDirection: 'row'
         }
