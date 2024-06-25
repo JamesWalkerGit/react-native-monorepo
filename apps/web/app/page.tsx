@@ -43,7 +43,7 @@ export default function Homepage() {
                 Party Button 🎉
               </Button>
               <Modal opened={opened} onClose={close} title="Congratulations!">
-                You did it! 🥳  -- testing pull request name
+                You did it! 🥳  -- testing preview only
               </Modal>
               <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
             </div>
