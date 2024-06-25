@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <>
       <html lang="en" style={styles.html}>
         <head>
-          <ColorSchemeScript />
+          <ColorSchemeScript defaultColorScheme='dark' />
         </head>
         <body style={styles.body}>
           <Providers>
