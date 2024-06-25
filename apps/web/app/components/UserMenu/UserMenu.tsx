@@ -1,6 +1,6 @@
 "use client"
 import { StyleSheet } from "@/styles/Stylesheet";
-import { Menu, MenuProps, Text, ThemeIcon, UnstyledButton, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { Menu, MenuProps, Text, ThemeIcon, Transition, UnstyledButton, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
 import { IconLogout2, IconMoon, IconSunHigh, IconUser, IconUserCode } from "@tabler/icons-react";
 import { forwardRef, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
@@ -12,38 +12,51 @@ export default function UserMenu(props: MenuProps) {
     const styles = createStyles();
     const theme = useMantineTheme();
     const [userMenuOpen, setUserMenuOpen] = useState(false);
-    const { setColorScheme } = useMantineColorScheme();
+    const { setColorScheme } = useMantineColorScheme({ keepTransitions: true });
     const computedColorScheme = useComputedColorScheme(undefined, { getInitialValueInEffect: true });
     const session = useSession();
+    const [mounted] = useState(true);
+
 
     const UserMenuButton = forwardRef<HTMLButtonElement>(
         ({ ...props }, ref) => (
-            <UnstyledButton
-                aria-label="User Settings"
-                ref={ref}
-                {...props}
+            <Transition
+                mounted={mounted}
+                transition="fade"
+                duration={350}
+                timingFunction="ease"
             >
-                <ThemeIcon
-                    variant="gradient"
-                    size="lg"
-                    radius={20}
-                    className={userMenuClasses.userMenuIcon}
-                    darkHidden={true}
-                >
-                    {session.status === 'authenticated' ? <IconUserCode /> : <IconUser />}
+                {(fadeStyle) => {
+                    return <UnstyledButton
+                        aria-label="User Settings"
+                        ref={ref}
+                        {...props}
+                        style={fadeStyle}
+                    >
+                        <ThemeIcon
+                            variant="gradient"
+                            size={38}
+                            radius={20}
+                            className={userMenuClasses.userMenuIcon}
+                            darkHidden={true}
+                        >
+                            {session.status === 'authenticated' ? <IconUserCode /> : <IconUser />}
 
-                </ThemeIcon>
-                <ThemeIcon
-                    variant="filled"
-                    size="lg"
-                    radius={20}
-                    color={theme.colors.dark[4]}
-                    className={userMenuClasses.userMenuIcon}
-                    lightHidden={true}
-                >
-                    {session.status === 'authenticated' ? <IconUserCode /> : <IconUser />}
-                </ThemeIcon>
-            </UnstyledButton>
+                        </ThemeIcon>
+                        <ThemeIcon
+                            variant="filled"
+                            size={38}
+                            radius={20}
+                            color={theme.colors.dark[4]}
+                            className={userMenuClasses.userMenuIcon}
+                            lightHidden={true}
+                        >
+                            {session.status === 'authenticated' ? <IconUserCode /> : <IconUser />}
+                        </ThemeIcon>
+                    </UnstyledButton>
+                }
+                }
+            </Transition>
         )
     );
     UserMenuButton.displayName = 'UserMenuButton';

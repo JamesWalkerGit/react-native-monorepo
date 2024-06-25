@@ -3,16 +3,19 @@
 import { StyleSheet } from "@/styles/Stylesheet"
 import { signIn, signOut, useSession } from "next-auth/react"
 import { IconBrandGithub } from "@tabler/icons-react";
-import { Button, Loader, useMantineTheme, } from "@mantine/core";
-import { useState } from "react";
-
+import { Button, Loader, Transition, useMantineTheme, } from "@mantine/core";
+import { useEffect, useState } from "react";
 
 export default function GithubButton() {
     const theme = useMantineTheme();
     const session = useSession();
     const styles = createStyles();
-
     const [loadingGithubButton, setLoadingGithubButton] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true)
+    }, []);
 
     return (
         <>
@@ -24,13 +27,29 @@ export default function GithubButton() {
                 </> :
 
                 session.status === 'unauthenticated' ?
-                    <Button onClick={() => {
-                        signIn('github');
-                        setLoadingGithubButton(true);
-                    }
-                    } style={styles.githubButton} leftSection={<IconBrandGithub color="white" />}>
-                        Sign In With GitHub
-                    </Button>
+                    <>
+                        <Transition
+                            mounted={mounted}
+                            transition="fade"
+                            duration={350}
+                            timingFunction="ease"
+                        >
+                            {(fadeStyle) => {
+                                return <Button
+                                    style={{ ...fadeStyle, ...styles.githubButton }}
+                                    leftSection={<IconBrandGithub color="white" />}
+                                    onClick={() => {
+                                        signIn('github');
+                                        setLoadingGithubButton(true);
+                                    }
+                                    }
+                                >
+                                    Sign In With GitHub
+                                </Button>
+                            }
+                            }
+                        </Transition>
+                    </>
                     : session.status === 'authenticated' ?
                         <Button color="secondary" onClick={() => signOut()} style={styles.githubButton}>
                             Sign Out
