@@ -1,4 +1,4 @@
-name: Playwright Tests
+name: Set Staging Domain
 
 on:
   deployment_status:
