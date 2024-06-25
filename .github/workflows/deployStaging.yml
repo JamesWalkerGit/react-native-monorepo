@@ -11,6 +11,6 @@ jobs:
       - name: Install dependencies
         run: yarn global add vercel@latest
       - name: Run alias
-        run: env && vercel alias --token=${{ secrets.VERCEL_TOKEN }} set $BASE_URL staging.jprojects.dev --scope=${{ secrets.VERCEL_SCOPE }}
+        run: vercel alias --token=${{ secrets.VERCEL_TOKEN }} set $BASE_URL staging.jprojects.dev --scope=${{ secrets.VERCEL_SCOPE }}
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
