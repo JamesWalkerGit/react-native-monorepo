@@ -4,13 +4,13 @@ on:
   deployment_status:
 jobs:
   run-e2es:
-    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment_status.deployment.pull_request != null
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: yarn global add vercel@latest
       - name: Run alias
-        run: vercel alias --token=${{ secrets.VERCEL_TOKEN }} set $BASE_URL staging.jprojects.dev --scope=${{ secrets.VERCEL_SCOPE }}
+        run: echo env && echo ${{ github.event }} vercel alias --token=${{ secrets.VERCEL_TOKEN }} set $BASE_URL staging.jprojects.dev --scope=${{ secrets.VERCEL_SCOPE }}
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
