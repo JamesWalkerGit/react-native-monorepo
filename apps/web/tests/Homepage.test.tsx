@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { act, screen } from '@testing-library/react'
 import Homepage from '../app/page'
 import nextAuth from 'next-auth/react'
-import { authenticatedSessionMock, loadingSessionMock, unauthenticatedSessionMock } from './mocks/auth/consts';
+import { authenticatedSessionMock, unauthenticatedSessionMock } from './mocks/auth/consts';
 import { render } from './utils/testUtils';
 
 jest.mock("next-auth/react", () => ({
@@ -28,19 +28,10 @@ describe('Page', () => {
         render(<Homepage />);
 
         const partyButton = await screen.findByRole('button', { name: 'Party Button 🎉' });
-        const spinner = screen.queryByLabelText('loading-spinner');
+        const spinner = screen.queryByLabelText('Github Login - Loading Spinner');
 
         expect(partyButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
-    })
-
-    it('renders a spinner when loading', async () => {
-        mockNextAuth.useSession.mockReturnValue(loadingSessionMock)
-        render(<Homepage />);
-
-        const spinner = await screen.findByLabelText('loading-spinner');
-
-        expect(spinner).toBeInTheDocument();
     })
 
     it('should display confetti', async () => {

@@ -76,7 +76,7 @@ export default function Navbar() {
                 </div>
 
                 <div style={{ ...styles.navSection, ...styles.endSection }}>
-                    <div style={{ gap: 8, display: 'flex', flexDirection: 'row' }}>
+                    <div style={styles.userMenuContainer}>
                         {session.status === 'unauthenticated' ? <GithubButton /> : null}
                         <UserMenu />
                     </div>
@@ -125,6 +125,11 @@ const createStyles = () => {
             flexDirection: 'column',
             display: 'flex',
             marginTop: '8vh'
+        },
+        userMenuContainer: {
+            gap: 16,
+            display: 'flex',
+            flexDirection: 'row'
         }
     });
 }
