@@ -18,6 +18,9 @@ jest.mock("next/navigation", () => ({
 jest.mock("next-auth/react", () => ({
     useSession() {
         return authenticatedSessionMock;
+    },
+    signIn() {
+        return jest.fn();
     }
 }));
 

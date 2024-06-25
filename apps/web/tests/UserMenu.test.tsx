@@ -6,7 +6,8 @@ import { authenticatedSessionMock, unauthenticatedSessionMock } from './mocks/au
 import UserMenu from '@/app/components/UserMenu/UserMenu';
 
 jest.mock("next-auth/react", () => ({
-    useSession: jest.fn()
+    useSession: jest.fn(),
+    signIn: jest.fn()
 }));
 
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;

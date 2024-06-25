@@ -22,44 +22,37 @@ export default function Homepage() {
   }
 
   return (
-    session.status === 'loading' ?
-      <>
-        <div style={styles.loadingContainer}>
-          <Loader color="blue" size={60} aria-label="loading-spinner" />
-        </div>
-      </>
-      :
-      <>
-        <div style={styles.container}>
-          {
-            confettiStatus ?
-              <Confetti height={height} width={width} aria-label="confetti-party" />
-              : null
-          }
-          <>
-            <div style={styles.partyContainer}>
-              <Image priority={true} src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={styles.partyParrot}></Image>
-              <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
-                Party Button 🎉
-              </Button>
-              <Modal opened={opened} onClose={close} title="Congratulations!">
-                You did it! 🥳
-              </Modal>
-              <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
-            </div>
-            <div style={styles.partyContainer}>
-              {session.status === 'unauthenticated' ?
+    <>
+      <div style={styles.container}>
+        {
+          confettiStatus ?
+            <Confetti height={height} width={width} aria-label="confetti-party" />
+            : null
+        }
+        <>
+          <div style={styles.partyContainer}>
+            <Image priority={true} src={"/static/images/parrot.gif"} alt={"partyParrot"} width={200} height={200} style={styles.partyParrot}></Image>
+            <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
+              Party Button 🎉
+            </Button>
+            <Modal opened={opened} onClose={close} title="Congratulations!">
+              You did it! 🥳
+            </Modal>
+            <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
+          </div>
+          <div style={styles.partyContainer}>
+            {session.status === 'unauthenticated' ?
+              <>
+              </>
+              : session.status === 'authenticated' ?
                 <>
                 </>
-                : session.status === 'authenticated' ?
-                  <>
-                  </>
-                  : null
-              }
-            </div>
-          </>
-        </div >
-      </>
+                : null
+            }
+          </div>
+        </>
+      </div >
+    </>
   );
 }
 
