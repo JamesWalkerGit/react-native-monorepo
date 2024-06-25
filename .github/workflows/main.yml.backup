@@ -18,5 +18,5 @@
 #         run: url="$(vercel deploy --token=${{ secrets.VERCEL_TOKEN }})"
 #       - name: Deploy Project to Staging
 #         run: |
-#           vercel alias --token=${{ secrets.VERCEL_TOKEN }} $url staging.jprojects.dev --scope=james-walkers-projects-ad1e6386
+#           vercel alias --token=${{ secrets.VERCEL_TOKEN }} $url staging.jprojects.dev --scope={{ secrets.VERCEL_SCOPE }}
 
