@@ -4,8 +4,8 @@ import Confetti from 'react-confetti'
 import { useEffect, useState } from "react";
 import { StyleSheet } from "@/styles/Stylesheet"
 import { useSession } from "next-auth/react"
-import { Box, Button, Modal, Transition, } from "@mantine/core";
-import { useDisclosure, useViewportSize } from "@mantine/hooks";
+import { Button, Modal, Transition, } from "@mantine/core";
+import { useDisclosure, useIsFirstRender, useViewportSize } from "@mantine/hooks";
 import PartyParrot from './components/animations/PartyParrot';
 
 export default function Homepage() {
@@ -29,6 +29,7 @@ export default function Homepage() {
     }, 200)
   }, [loadButtons]);
 
+  const isFirstRender = useIsFirstRender();
 
   return (
     <>
@@ -48,20 +49,15 @@ export default function Homepage() {
         </Transition>
         <>
           <div style={styles.partyContainer}>
-            <PartyParrot />
+            {!isFirstRender ? <PartyParrot /> : <><div style={{ height: 300 }}></div></>}
 
-            <Box style={{ ...{ flexDirection: 'column', display: 'flex' } }}>
-              <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
-                Party Button 🎉
-              </Button>
-              <Modal opened={opened} onClose={close} title="Congratulations!">
-                You did it! 🥳
-              </Modal>
-              <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
-            </Box>
-
-
-
+            <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
+              Party Button 🎉
+            </Button>
+            <Modal opened={opened} onClose={close} title="Congratulations!">
+              You did it! 🥳
+            </Modal>
+            <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
           </div>
           <div style={styles.partyContainer}>
             {session.status === 'unauthenticated' ?
