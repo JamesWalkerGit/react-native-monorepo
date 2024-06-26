@@ -9,15 +9,27 @@ import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import PartyParrot from './components/animations/PartyParrot';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
-const loadingBirdPath = '../../../animations/lottie/loadingBird.lottie'
+const owlPath = '../../../animations/lottie/owl.lottie'
+const owlColor = '#7375f0'
 
 export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const [loadButtons, setLoadButtons] = useState(false);
+  const [dotLottie, setDotLottie] = useState<any>(null);
   const session = useSession();
   const { height, width } = useViewportSize();
   const styles = createStyles();
+
+  const dotLottieRefCallback = (dotLottie: any) => {
+    setDotLottie(dotLottie);
+  };
+
+  const play = () => {
+    if (dotLottie) {
+      dotLottie.play();
+    }
+  }
 
   const toggleConfetti = () => {
     setConfettiStatus(!confettiStatus)
@@ -61,16 +73,18 @@ export default function Homepage() {
                   Congratulations! You did it! 🥳
                 </Text>
                 <Text>
-                  {session.status === 'unauthenticated' ? 'Sign in and earn points to save this bird! ' : 'Earn more points to save this bird!'}
+                  {session.status === 'unauthenticated' ? 'Sign in and press the button to make the owl happy 😃' : 'Press the button to make the owl happy 😃'}
                 </Text>
-                <div style={styles.birdContainer}>
+                <div style={styles.owlContainer}>
                   <DotLottieReact
-                    src={loadingBirdPath}
-                    loop
-                    autoplay
+                    src={owlPath}
+                    autoplay={false}
+                    loop={false}
                     autoResizeCanvas={true}
+                    dotLottieRefCallback={dotLottieRefCallback}
                   />
                 </div>
+                <Button color={owlColor} onClick={() => play()} disabled={session?.status !== 'authenticated'} style={styles.owlButton} variant='outline' >Press</Button>
               </div>
             </Modal>
             <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
@@ -112,13 +126,13 @@ const createStyles = () => {
       margin: 20
     },
     partyParrotContainer: {
-      height: 300,
+      height: '33vh',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
     },
-    birdContainer: {
-      height: 80
+    owlContainer: {
+      height: 160
     },
     modalContainer: {
       display: 'flex',
@@ -127,6 +141,9 @@ const createStyles = () => {
       flexDirection: 'column',
       textAlign: 'center',
       paddingTop: 16
+    },
+    owlButton: {
+      marginTop: 16
     }
   });
 }

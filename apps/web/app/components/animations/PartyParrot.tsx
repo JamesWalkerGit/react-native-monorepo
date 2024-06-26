@@ -14,7 +14,7 @@ export default function PartyParrot() {
     useEffect(() => {
         setInterval(() => {
             loadLottie === false ? setLoadLottie(true) : null
-        }, 200)
+        }, 5)
     }, [loadLottie]);
 
     return (
@@ -24,8 +24,8 @@ export default function PartyParrot() {
             }
             <Transition
                 mounted={loadLottie}
-                transition='skew-up'
-                duration={500}
+                transition='rotate-right'
+                duration={400}
                 timingFunction="ease"
             >
                 {(fadeStyle) => {
@@ -50,7 +50,7 @@ const createStyles = () => {
             height: 50
         },
         partyParrot: {
-            height: 300
+            height: '33vh'
         }
     });
 }

@@ -11,7 +11,9 @@ export default function NotFound() {
     return (
         <div style={styles.container}>
             <div style={styles.header}>
-                <PartyParrot />
+                <div style={styles.partyParrotContainer}>
+                    <PartyParrot />
+                </div>
                 <h2>404 - Not Found</h2>
                 <h3>Are you lost? </h3>
 
@@ -44,6 +46,9 @@ const createStyles = () => {
         },
         buttonContainer: {
             marginTop: '5vh'
+        },
+        partyParrotContainer: {
+            height: '33vh'
         }
     });
 }
