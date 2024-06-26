@@ -50,7 +50,7 @@ const createStyles = () => {
             height: 50
         },
         partyParrot: {
-            height: 300
+            height: '33vh'
         }
     });
 }
