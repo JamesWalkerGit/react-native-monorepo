@@ -12,6 +12,7 @@
     "validate": "yarn lint && yarn testCi"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.6.5",
     "@mantine/core": "^7.10.2",
     "@mantine/hooks": "^7.10.2",
     "@prisma/client": "^5.15.0",

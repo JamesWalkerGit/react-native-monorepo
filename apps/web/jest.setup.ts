@@ -24,6 +24,8 @@ jest.mock("next-auth/react", () => ({
     }
 }));
 
+jest.mock("@lottiefiles/dotlottie-react", () => { })
+
 Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: jest.fn().mockImplementation(query => ({
