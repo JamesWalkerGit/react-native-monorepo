@@ -20,5 +20,5 @@
 
 /* theme fade transition */
 .transitionThemeColors {
-    transition: color .25s, background-color .25s;
+    transition: color .3s, background-color .3s;
 }

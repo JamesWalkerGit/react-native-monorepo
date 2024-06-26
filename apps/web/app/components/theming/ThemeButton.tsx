@@ -4,6 +4,8 @@ import { ActionIcon, Tooltip, Transition, useComputedColorScheme, useMantineColo
 import { IconSunHigh, IconMoon } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
+const tooltipDelay = 400;
+const tooltipTransition = 'fade';
 
 export default function ThemeButton() {
     const theme = useMantineTheme();
@@ -29,7 +31,9 @@ export default function ThemeButton() {
                 timingFunction="ease"
             >
                 {(fadeStyle) => {
-                    return <Tooltip label="Set Light Theme" color={theme.colors.dark[3]} lightHidden={true}>
+                    return <Tooltip label="Set Light Theme" color={theme.colors.dark[3]} lightHidden={true}
+                        transitionProps={{ transition: tooltipTransition, duration: tooltipDelay }}
+                    >
                         <ActionIcon style={fadeStyle} variant='subtle' color={theme.colors.dark[3]} lightHidden={true} radius={20} size={38} aria-label="Set Light Theme Icon"
                             onClick={toggleColorScheme}
                         >
@@ -48,7 +52,9 @@ export default function ThemeButton() {
                 timingFunction="ease"
             >
                 {(fadeStyle) => {
-                    return <Tooltip label="Set Dark Theme" color={theme.colors.dark[3]} darkHidden={true}>
+                    return <Tooltip label="Set Dark Theme" color={theme.colors.dark[3]} darkHidden={true}
+                        transitionProps={{ transition: tooltipTransition, duration: tooltipDelay }}
+                    >
                         <ActionIcon style={fadeStyle} variant='subtle' color={theme.colors.dark[3]} darkHidden={true} radius={20} size={38} aria-label="Set Dark Theme Icon"
                             onClick={toggleColorScheme}
                         >

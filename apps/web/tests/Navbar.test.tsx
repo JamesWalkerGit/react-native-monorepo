@@ -12,20 +12,13 @@ jest.mock("next-auth/react", () => ({
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 
 describe('Navbar', () => {
-    it('has UserMenu in Navbar', async () => {
+    it('has GithubButton in Navbar - unauthenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
 
         render(<Navbar />);
 
-        const userSettingsButton = await screen.findAllByLabelText('User Settings');
-        expect(userSettingsButton[0]).toBeInTheDocument();
-
-        act(() => {
-            userSettingsButton[0].click();
-        });
-
-        const toggleThemeButton = await screen.findByLabelText('Toggle Theme');
-        expect(toggleThemeButton).toBeInTheDocument();
+        const githubButton = await screen.findByRole('button', { name: 'Sign In With GitHub' });
+        expect(githubButton).toBeInTheDocument();
     });
 
     it('has github sign in button - unauthenticated', async () => {
