@@ -10,12 +10,13 @@ import PartyParrot from './components/animations/PartyParrot';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 const owlPath = '../../../animations/lottie/owl.lottie'
+const owlColor = '#7375f0'
 
 export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
   const [loadButtons, setLoadButtons] = useState(false);
-  const [dotLottie, setDotLottie] = useState(null);
+  const [dotLottie, setDotLottie] = useState<any>(null);
   const session = useSession();
   const { height, width } = useViewportSize();
   const styles = createStyles();
@@ -83,7 +84,7 @@ export default function Homepage() {
                     dotLottieRefCallback={dotLottieRefCallback}
                   />
                 </div>
-                <Button color={'#7375f0'} onClick={() => play()} disabled={session?.status !== 'authenticated'} style={styles.owlButton} variant='outline' >Press</Button>
+                <Button color={owlColor} onClick={() => play()} disabled={session?.status !== 'authenticated'} style={styles.owlButton} variant='outline' >Press</Button>
               </div>
             </Modal>
             <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>

@@ -14,7 +14,7 @@ export default function PartyParrot() {
     useEffect(() => {
         setInterval(() => {
             loadLottie === false ? setLoadLottie(true) : null
-        }, 200)
+        }, 5)
     }, [loadLottie]);
 
     return (
@@ -25,7 +25,7 @@ export default function PartyParrot() {
             <Transition
                 mounted={loadLottie}
                 transition='skew-up'
-                duration={500}
+                duration={300}
                 timingFunction="ease"
             >
                 {(fadeStyle) => {
