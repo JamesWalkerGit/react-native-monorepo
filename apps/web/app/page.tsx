@@ -4,24 +4,24 @@ import Confetti from 'react-confetti'
 import { useEffect, useState } from "react";
 import { StyleSheet } from "@/styles/Stylesheet"
 import { useSession } from "next-auth/react"
-import { Box, Button, Modal, Transition, } from "@mantine/core";
+import { Button, Modal, Transition, Text } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import PartyParrot from './components/animations/PartyParrot';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
+const loadingBirdPath = '../../../animations/lottie/loadingBird.lottie'
 
 export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
-
+  const [loadButtons, setLoadButtons] = useState(false);
   const session = useSession();
   const { height, width } = useViewportSize();
-
   const styles = createStyles();
 
   const toggleConfetti = () => {
     setConfettiStatus(!confettiStatus)
   }
-
-  const [loadButtons, setLoadButtons] = useState(false);
 
   useEffect(() => {
     setInterval(() => {
@@ -48,20 +48,32 @@ export default function Homepage() {
         </Transition>
         <>
           <div style={styles.partyContainer}>
-            <PartyParrot />
+            <div style={styles.partyParrotContainer}>
+              <PartyParrot />
+            </div>
 
-            <Box style={{ ...{ flexDirection: 'column', display: 'flex' } }}>
-              <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
-                Party Button 🎉
-              </Button>
-              <Modal opened={opened} onClose={close} title="Congratulations!">
-                You did it! 🥳
-              </Modal>
-              <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
-            </Box>
-
-
-
+            <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
+              Party Button 🎉
+            </Button>
+            <Modal opened={opened} onClose={close} title="Success!">
+              <div style={styles.modalContainer}>
+                <Text style={{ marginBottom: 24 }}>
+                  Congratulations! You did it! 🥳
+                </Text>
+                <Text>
+                  {session.status === 'unauthenticated' ? 'Sign in and earn points to save this bird! ' : 'Earn more points to save this bird!'}
+                </Text>
+                <div style={styles.birdContainer}>
+                  <DotLottieReact
+                    src={loadingBirdPath}
+                    loop
+                    autoplay
+                    autoResizeCanvas={true}
+                  />
+                </div>
+              </div>
+            </Modal>
+            <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
           </div>
           <div style={styles.partyContainer}>
             {session.status === 'unauthenticated' ?
@@ -99,5 +111,22 @@ const createStyles = () => {
     modalButton: {
       margin: 20
     },
+    partyParrotContainer: {
+      height: 300,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    birdContainer: {
+      height: 80
+    },
+    modalContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignContent: 'center',
+      flexDirection: 'column',
+      textAlign: 'center',
+      paddingTop: 16
+    }
   });
 }

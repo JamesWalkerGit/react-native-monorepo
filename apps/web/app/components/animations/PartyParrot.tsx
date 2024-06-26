@@ -3,9 +3,12 @@
 import { useEffect, useState } from "react";
 import { Transition, } from "@mantine/core";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { StyleSheet } from "@/styles/Stylesheet"
 
 const partyParrotPath = '../../../animations/lottie/partyParrot.lottie'
+
 export default function PartyParrot() {
+    const styles = createStyles();
     const [loadLottie, setLoadLottie] = useState(false);
 
     useEffect(() => {
@@ -16,15 +19,17 @@ export default function PartyParrot() {
 
     return (
         <>
-            {loadLottie ? null : <div style={{ height: '300px' }}></div>}
+            {loadLottie ? null :
+                <div style={styles.loadingContainer}></div>
+            }
             <Transition
                 mounted={loadLottie}
                 transition='skew-up'
-                duration={400}
+                duration={500}
                 timingFunction="ease"
             >
                 {(fadeStyle) => {
-                    return <div style={{ ...fadeStyle, ...{ height: 300 } }}>
+                    return <div style={{ ...fadeStyle, ...styles.partyParrot }}>
                         <DotLottieReact
                             src={partyParrotPath}
                             loop
@@ -37,4 +42,15 @@ export default function PartyParrot() {
             </Transition>
         </>
     );
+}
+
+const createStyles = () => {
+    return StyleSheet.create({
+        loadingContainer: {
+            height: 50
+        },
+        partyParrot: {
+            height: 300
+        }
+    });
 }
