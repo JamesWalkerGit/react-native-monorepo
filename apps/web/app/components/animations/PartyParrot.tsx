@@ -24,8 +24,8 @@ export default function PartyParrot() {
             }
             <Transition
                 mounted={loadLottie}
-                transition='skew-up'
-                duration={300}
+                transition='rotate-right'
+                duration={400}
                 timingFunction="ease"
             >
                 {(fadeStyle) => {
