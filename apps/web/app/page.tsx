@@ -61,7 +61,7 @@ export default function Homepage() {
                   Congratulations! You did it! 🥳
                 </Text>
                 <Text>
-                  Earn more points to save this bird!
+                  {session.status === 'unauthenticated' ? 'Sign in and earn points to save this bird! ' : 'Earn more points to save this bird!'}
                 </Text>
                 <div style={styles.birdContainer}>
                   <DotLottieReact
