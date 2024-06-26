@@ -1,6 +1,6 @@
 "use client"
 import { StyleSheet } from "@/styles/Stylesheet";
-import { Menu, MenuProps, Text, ThemeIcon, Transition, UnstyledButton, useComputedColorScheme, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { Menu, MenuProps, Text, ThemeIcon, Transition, UnstyledButton, useMantineTheme } from "@mantine/core";
 import { IconLogout2, IconUser, IconUserCode } from "@tabler/icons-react";
 import { forwardRef, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
