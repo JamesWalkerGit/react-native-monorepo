@@ -4,9 +4,12 @@ import Confetti from 'react-confetti'
 import { useEffect, useState } from "react";
 import { StyleSheet } from "@/styles/Stylesheet"
 import { useSession } from "next-auth/react"
-import { Button, Modal, Transition, } from "@mantine/core";
+import { Button, Modal, Transition, Text } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import PartyParrot from './components/animations/PartyParrot';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
+const loadingBirdPath = '../../../animations/lottie/loadingBird.lottie'
 
 export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
@@ -52,8 +55,23 @@ export default function Homepage() {
             <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
               Party Button 🎉
             </Button>
-            <Modal opened={opened} onClose={close} title="Congratulations!">
-              You did it! 🥳
+            <Modal opened={opened} onClose={close} title="Success!">
+              <div style={styles.modalContainer}>
+                <Text style={{ marginBottom: 24 }}>
+                  Congratulations! You did it! 🥳
+                </Text>
+                <Text>
+                  Earn more points to save this bird!
+                </Text>
+                <div style={styles.birdContainer}>
+                  <DotLottieReact
+                    src={loadingBirdPath}
+                    loop
+                    autoplay
+                    autoResizeCanvas={true}
+                  />
+                </div>
+              </div>
             </Modal>
             <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
           </div>
@@ -98,6 +116,17 @@ const createStyles = () => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
+    },
+    birdContainer: {
+      height: 80
+    },
+    modalContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignContent: 'center',
+      flexDirection: 'column',
+      textAlign: 'center',
+      paddingTop: 16
     }
   });
 }

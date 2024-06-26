@@ -6,7 +6,6 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { StyleSheet } from "@/styles/Stylesheet"
 
 const partyParrotPath = '../../../animations/lottie/partyParrot.lottie'
-const loadingBirdPath = '../../../animations/lottie/loadingBird.lottie'
 
 export default function PartyParrot() {
     const styles = createStyles();
@@ -21,14 +20,7 @@ export default function PartyParrot() {
     return (
         <>
             {loadLottie ? null :
-                <div style={styles.loadingContainer}>
-                    <DotLottieReact
-                        src={loadingBirdPath}
-                        loop
-                        autoplay
-                        autoResizeCanvas={true}
-                    />
-                </div>
+                <div style={styles.loadingContainer}></div>
             }
             <Transition
                 mounted={loadLottie}
