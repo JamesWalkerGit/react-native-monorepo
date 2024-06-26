@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 import classes from './Navbar.module.css';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import GithubButton from "./auth/GithubButton";
-import { useSession } from "next-auth/react";
 import UserMenu from "./UserMenu/UserMenu";
 import { showInDesktopView, showInMobileView } from "@/styles/consts";
 import styleConsts from '@/styles/styleConsts.module.css'
@@ -21,7 +19,6 @@ const links = [
 export default function Navbar() {
     const theme = useMantineTheme();
     const pathName = usePathname();
-    const session = useSession();
     const showDesktopNavbar = useMediaQuery('(min-width: ' + theme.breakpoints.xs);
     const styles = createStyles();
     const [sideMenuOpen, { toggle: toggleSideMenu }] = useDisclosure(false);
@@ -79,11 +76,8 @@ export default function Navbar() {
 
                 <div style={{ ...styles.navSection, ...styles.endSection }}>
                     <div style={styles.userMenuContainer}>
-                        {session.status === 'unauthenticated' ?
-                            <GithubButton /> : null
-                        }
-                        <UserMenu />
                         <ThemeButton />
+                        <UserMenu />
                     </div>
                 </div>
             </div>

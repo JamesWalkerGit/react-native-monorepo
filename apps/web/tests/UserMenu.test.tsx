@@ -13,30 +13,7 @@ jest.mock("next-auth/react", () => ({
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 
 describe('UserMenu', () => {
-    it('has toggle theme buttons - unauthenticated', async () => {
-        mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
-        render(<UserMenu />);
-
-        const userMenuButtons = await screen.findAllByLabelText('User Settings');
-
-        act(() => {
-            userMenuButtons[0].click();
-        });
-
-        const toggleThemeButton = await screen.findByLabelText('Toggle Theme');
-        expect(toggleThemeButton).toBeInTheDocument();
-        const toggleThemeLight = await screen.findByLabelText('Light Theme Icon');
-        expect(toggleThemeLight).toBeInTheDocument();
-
-        act(() => {
-            toggleThemeButton.click();
-        });
-
-        const toggleThemeDark = await screen.findByLabelText('Dark Theme Icon');
-        expect(toggleThemeDark).toBeVisible();
-    });
-
-    it('has user labels and toggle theme - authenticated', async () => {
+    it('has user labels and sign out- authenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(authenticatedSessionMock)
 
         render(<UserMenu />);
@@ -57,18 +34,5 @@ describe('UserMenu', () => {
         expect(emailLabel).toBeInTheDocument();
         expect(userEmail).toBeInTheDocument();
         expect(pointsLabel).toBeInTheDocument();
-
-
-        const toggleThemeButton = await screen.findByLabelText('Toggle Theme');
-        expect(toggleThemeButton).toBeInTheDocument();
-        const toggleThemeLight = await screen.findByLabelText('Light Theme Icon');
-        expect(toggleThemeLight).toBeInTheDocument();
-
-        act(() => {
-            toggleThemeButton.click();
-        });
-
-        const toggleThemeDark = await screen.findByLabelText('Dark Theme Icon');
-        expect(toggleThemeDark).toBeVisible();
     })
 })

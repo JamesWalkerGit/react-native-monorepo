@@ -26,7 +26,7 @@ export default function Homepage() {
       <div style={styles.container}>
         {
           confettiStatus ?
-            <Confetti height={height} width={width} aria-label="confetti-party" />
+            <Confetti height={height} width={width} tweenDuration={2500} numberOfPieces={500} aria-label="confetti-party" />
             : null
         }
         <>
