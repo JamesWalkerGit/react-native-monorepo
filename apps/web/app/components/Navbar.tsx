@@ -1,5 +1,5 @@
 "use client";
-import { Burger, Drawer, Group, useMantineTheme } from "@mantine/core";
+import { Burger, Drawer, Group, Transition, useMantineTheme } from "@mantine/core";
 import { StyleSheet } from "@/styles/Stylesheet";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
@@ -46,6 +46,14 @@ export default function Navbar() {
     },
         [showDesktopNavbar]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    const [loadButtons, setLoadButtons] = useState(false);
+
+    useEffect(() => {
+        setInterval(() => {
+            loadButtons === false ? setLoadButtons(true) : null
+        }, 200)
+    }, [loadButtons]);
+
     return (
         <>
             <Drawer opened={sideMenuOpen} onClose={toggleSideMenu} size={'70vw'} radius={'md'} withCloseButton={false} lockScroll={false} zIndex={10}>
@@ -75,10 +83,20 @@ export default function Navbar() {
                 </div>
 
                 <div style={{ ...styles.navSection, ...styles.endSection }}>
-                    <div style={styles.userMenuContainer}>
-                        <ThemeButton />
-                        <UserMenu />
-                    </div>
+                    <Transition
+                        mounted={loadButtons}
+                        transition="fade"
+                        duration={300}
+                        timingFunction="ease"
+                    >
+                        {(fadeStyle) => {
+                            return <div style={{ ...styles.userMenuContainer, ...fadeStyle }}>
+                                <ThemeButton />
+                                <UserMenu />
+                            </div>
+                        }
+                        }
+                    </Transition>
                 </div>
             </div>
         </>
