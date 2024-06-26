@@ -24,7 +24,13 @@ jest.mock("next-auth/react", () => ({
     }
 }));
 
-jest.mock("@lottiefiles/dotlottie-react", () => { })
+jest.mock("@lottiefiles/dotlottie-react", () => {
+    return {
+        DotLottieReact: () => {
+            return 'mockDotLottieReact'
+        }
+    }
+})
 
 Object.defineProperty(window, 'matchMedia', {
     writable: true,

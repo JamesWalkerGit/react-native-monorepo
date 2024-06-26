@@ -5,23 +5,20 @@ import { useEffect, useState } from "react";
 import { StyleSheet } from "@/styles/Stylesheet"
 import { useSession } from "next-auth/react"
 import { Button, Modal, Transition, } from "@mantine/core";
-import { useDisclosure, useIsFirstRender, useViewportSize } from "@mantine/hooks";
+import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import PartyParrot from './components/animations/PartyParrot';
 
 export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
   const [opened, { open, close }] = useDisclosure(false);
-
+  const [loadButtons, setLoadButtons] = useState(false);
   const session = useSession();
   const { height, width } = useViewportSize();
-
   const styles = createStyles();
 
   const toggleConfetti = () => {
     setConfettiStatus(!confettiStatus)
   }
-
-  const [loadButtons, setLoadButtons] = useState(false);
 
   useEffect(() => {
     setInterval(() => {
@@ -29,7 +26,6 @@ export default function Homepage() {
     }, 200)
   }, [loadButtons]);
 
-  const isFirstRender = useIsFirstRender();
 
   return (
     <>
@@ -49,7 +45,9 @@ export default function Homepage() {
         </Transition>
         <>
           <div style={styles.partyContainer}>
-            {!isFirstRender ? <PartyParrot /> : <><div style={{ height: 300 }}></div></>}
+            <div style={styles.partyParrotContainer}>
+              <PartyParrot />
+            </div>
 
             <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
               Party Button 🎉
@@ -95,5 +93,11 @@ const createStyles = () => {
     modalButton: {
       margin: 20
     },
+    partyParrotContainer: {
+      height: 300,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
   });
 }
