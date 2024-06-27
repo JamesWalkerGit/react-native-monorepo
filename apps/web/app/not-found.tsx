@@ -17,7 +17,7 @@ export default function NotFound() {
                 <Text style={{ fontFamily: 'Tahoma', fontSize: 48 }} >
                     Are you lost?
                 </Text>
-                <Text style={{ fontFamily: 'Futura', fontSize: 16 }} >
+                <Text>
                     404 - Page Not Found
                 </Text>
 
