@@ -25,7 +25,8 @@ export default function HappySquare() {
 const createStyles = () => {
     return StyleSheet.create({
         happySquare: {
-            height: 300
+            height: 300,
+            width: 300
         }
     });
 }

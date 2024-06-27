@@ -52,7 +52,8 @@ const createStyles = () => {
             marginTop: 64
         },
         happySquareContainer: {
-            height: 300
+            height: 300,
+            width: 300
         }
     });
 }
