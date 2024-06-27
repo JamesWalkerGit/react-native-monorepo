@@ -1,8 +1,8 @@
 "use client";
 import Link from 'next/link';
 import { StyleSheet } from "@/styles/Stylesheet";
-import { Button } from '@mantine/core';
-import PartyParrot from './components/animations/PartyParrot';
+import { Button, Text } from '@mantine/core';
+import HappySquare from './components/animations/HappySquare';
 
 
 export default function NotFound() {
@@ -11,15 +11,19 @@ export default function NotFound() {
     return (
         <div style={styles.container}>
             <div style={styles.header}>
-                <div style={styles.partyParrotContainer}>
-                    <PartyParrot />
+                <div style={styles.happySquareContainer}>
+                    <HappySquare />
                 </div>
-                <h2>404 - Not Found</h2>
-                <h3>Are you lost? </h3>
+                <Text style={{ fontFamily: 'Tahoma', fontSize: 48 }} >
+                    Are you lost?
+                </Text>
+                <Text>
+                    404 - Page Not Found
+                </Text>
 
                 <div style={styles.buttonContainer}>
                     <Link href="/">
-                        <Button variant='gradient'>Return Home</Button>
+                        <Button variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>Return Home</Button>
                     </Link>
                 </div>
             </div>
@@ -45,10 +49,11 @@ const createStyles = () => {
             flexDirection: 'column',
         },
         buttonContainer: {
-            marginTop: '5vh'
+            marginTop: 64
         },
-        partyParrotContainer: {
-            height: '33vh'
+        happySquareContainer: {
+            height: 300,
+            width: 300
         }
     });
 }
