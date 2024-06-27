@@ -69,11 +69,11 @@ export default function Homepage() {
             </Button>
             <Modal opened={opened} onClose={close} title="Success!">
               <div style={styles.modalContainer}>
-                <Text style={{ marginBottom: 24 }}>
+                <Text style={{ marginBottom: 24, fontSize: 24 }}>
                   Congratulations! You did it! 🥳
                 </Text>
                 <Text>
-                  {session.status === 'unauthenticated' ? 'Sign in and press the button to make the owl happy 😃' : 'Press the button to make the owl happy 😃'}
+                  {session.status === 'unauthenticated' ? 'Sign in and press the button to make the owl happy 😃' : 'Press the button to make the owl happy!'}
                 </Text>
                 <div style={styles.owlContainer}>
                   <DotLottieReact
@@ -87,7 +87,7 @@ export default function Homepage() {
                 <Button color={owlColor} onClick={() => play()} disabled={session?.status !== 'authenticated'} style={styles.owlButton} variant='outline' >Press</Button>
               </div>
             </Modal>
-            <Button variant='gradient' style={styles.modalButton} onClick={open}>Click it? 👀</Button>
+            <Button variant='gradient' style={styles.modalButton} onClick={open}>Click Here? 👀</Button>
           </div>
           <div style={styles.partyContainer}>
             {session.status === 'unauthenticated' ?
