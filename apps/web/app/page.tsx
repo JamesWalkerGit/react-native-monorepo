@@ -132,7 +132,7 @@ const createStyles = () => {
       alignItems: 'center'
     },
     owlContainer: {
-      height: 160
+      height: 170
     },
     modalContainer: {
       display: 'flex',

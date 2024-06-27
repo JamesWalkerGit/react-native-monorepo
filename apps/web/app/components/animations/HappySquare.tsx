@@ -3,16 +3,16 @@
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { StyleSheet } from "@/styles/Stylesheet"
 
-const partyParrotPath = '../../../animations/lottie/partyParrot.lottie'
+const happySquarePath = '../../../animations/lottie/happySquare.lottie'
 
-export default function PartyParrot() {
+export default function HappySquare() {
     const styles = createStyles();
 
     return (
         <>
-            <div style={{ ...styles.partyParrot }}>
+            <div style={{ ...styles.happySquare }}>
                 <DotLottieReact
-                    src={partyParrotPath}
+                    src={happySquarePath}
                     loop
                     autoplay
                     autoResizeCanvas={true}
@@ -24,8 +24,8 @@ export default function PartyParrot() {
 
 const createStyles = () => {
     return StyleSheet.create({
-        partyParrot: {
-            height: 400
+        happySquare: {
+            height: 300
         }
     });
 }
