@@ -25,7 +25,7 @@ export default function PartyParrot() {
 const createStyles = () => {
     return StyleSheet.create({
         partyParrot: {
-            height: 400
+            height: 300
         }
     });
 }
