@@ -26,7 +26,7 @@ export default function PartyParrot() {
                 mounted={loadLottie}
                 transition='rotate-right'
                 duration={400}
-                timingFunction="ease"
+                timingFunction={'ease'}
             >
                 {(fadeStyle) => {
                     return <div style={{ ...fadeStyle, ...styles.partyParrot }}>
@@ -47,7 +47,7 @@ export default function PartyParrot() {
 const createStyles = () => {
     return StyleSheet.create({
         loadingContainer: {
-            height: 50
+            height: 400
         },
         partyParrot: {
             height: 400
