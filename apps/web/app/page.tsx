@@ -126,7 +126,7 @@ const createStyles = () => {
       margin: 20
     },
     partyParrotContainer: {
-      height: '33vh',
+      height: 400,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
