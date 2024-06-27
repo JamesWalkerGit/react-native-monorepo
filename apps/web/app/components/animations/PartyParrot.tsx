@@ -24,7 +24,7 @@ export default function PartyParrot() {
             }
             <Transition
                 mounted={loadLottie}
-                transition='rotate-right'
+                transition='fade'
                 duration={400}
                 timingFunction={'ease'}
             >
