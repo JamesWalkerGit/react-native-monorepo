@@ -8,14 +8,13 @@ applications:
             - yarn
         build:
           commands:
-            - echo env
-            - ls
+            - yarn validate
             - npx turbo run build --filter=web
       artifacts:
-        baseDirectory: apps/web
+        baseDirectory: apps/web/.next
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*
-      buildPath: /
+      buildPath: apps/web
