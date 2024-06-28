@@ -9,8 +9,8 @@ applications:
         build:
           commands:
             - yarn validate
-            - export NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env
-            - export NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
+            - export NEXTAUTH_SECRET="$NEXTAUTH_SECRET" >> .env
+            - export NEXTAUTH_URL="$NEXTAUTH_URL" >> .env
             - yarn build
       artifacts:
         baseDirectory: .next
