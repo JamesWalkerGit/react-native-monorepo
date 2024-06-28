@@ -7,14 +7,11 @@ import { ColorSchemeScript } from "@mantine/core";
 import '@mantine/core/styles.css';
 import Navbar from "./components/Navbar";
 import { Metadata } from 'next'
-import { initialize } from 'react-native-clarity';
-
 
 export const metadata: Metadata = {
   title: 'Jprojects',
   description: 'Jprojects site collection',
 }
-initialize("mysc6s9qv1");
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
