@@ -41,11 +41,6 @@ export default function Homepage() {
     }, 200)
   }, [loadButtons]);
 
-  const authUrl = process.env.AUTH_URL;
-  console.log("authURl: ", authUrl)
-  const secret = process.env.AUTH_SECRET;
-  console.log("secret: ", secret)
-
   return (
     <>
       <div style={styles.container}>
