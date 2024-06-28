@@ -3,12 +3,6 @@
   "globalDependencies": [
     "**/.env.*local"
   ],
-  "globalEnv": [
-    "NEXT_AUTH_URL",
-    "NEXT_AUTH_SECRET",
-    "AUTH_URL",
-    "AUTH_SECRET"
-  ],
   "tasks": {
     "build": {
       "outputs": [
