@@ -9,11 +9,12 @@ applications:
         build:
           commands:
             - yarn validate
-            - npx turbo run build --filter=web
+            - yarn build
       artifacts:
         baseDirectory: .next
         files:
           - '**/*'
       cache:
         paths:
+          - .next/cache/**/*
           - node_modules/**/*
