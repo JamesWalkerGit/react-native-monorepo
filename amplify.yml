@@ -8,8 +8,8 @@ applications:
             - yarn
         build:
           commands:
-            - env | grep -e NEXTAUTH_ >> apps/web/.env.production
-            - env | grep -e AUTH_ >> apps/web/.env.production
+            - env | grep -e NEXT_AUTH_ >> .env
+            - env | grep -e AUTH_ >> .env
             - yarn validate
             - yarn build
       artifacts:
