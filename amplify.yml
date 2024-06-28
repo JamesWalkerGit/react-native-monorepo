@@ -8,10 +8,8 @@ applications:
             - yarn
         build:
           commands:
-            - echo "NEXTAUTH_URL=$NEXTAUTH_URL" >> .env
-            - echo "AUTH_URL=$AUTH_URL" >> .env
-            - echo "NEXTAUTH_SECRET=$NEXTAUTH_SECRET" >> .env
-            - echo "AUTH_SECRET=$AUTH_SECRET" >> .env
+            - env | grep -e NEXTAUTH_ >> apps/web/.env.production
+            - env | grep -e AUTH_ >> apps/web/.env.production
             - yarn validate
             - yarn build
       artifacts:
