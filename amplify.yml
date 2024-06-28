@@ -8,6 +8,7 @@ applications:
             - yarn
         build:
           commands:
+            - yarn validate
             - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
             - NEXTAUTH_URL=${NEXTAUTH_URL}
             - yarn build
