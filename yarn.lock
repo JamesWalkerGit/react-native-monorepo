@@ -10484,6 +10484,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-clarity@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-clarity/-/react-native-clarity-2.3.0.tgz#b11ec4fd3a0036a72b03e5b654330f3daefc7ba7"
+  integrity sha512-bGO4oU4cSPqmW0ZPSr1onscHip/Cxkna6JAiWjoXffyj7j95/p0SKsiNfTC4B2XJdwXLy8TuF+cjUBaDPpXgyA==
+
 react-native-web@^0.19.10:
   version "0.19.12"
   resolved "https://registry.yarnpkg.com/react-native-web/-/react-native-web-0.19.12.tgz#30d1fd70bdff7886f43c0c2698629d830fade6bc"
