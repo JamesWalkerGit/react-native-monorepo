@@ -7,14 +7,18 @@ import { ColorSchemeScript } from "@mantine/core";
 import '@mantine/core/styles.css';
 import Navbar from "./components/Navbar";
 import { Metadata } from 'next'
-import { initialize } from 'react-native-clarity';
-
+const LogRocket = require('logrocket');
+const setupLogRocketReact = require('logrocket-react');
 
 export const metadata: Metadata = {
   title: 'Jprojects',
   description: 'Jprojects site collection',
 }
-initialize("mysc6s9qv1");
+
+if (typeof window !== 'undefined') {
+  LogRocket.init('wymeno/jprojects');
+  setupLogRocketReact(LogRocket);
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
