@@ -41,7 +41,6 @@ export default function Homepage() {
     }, 200)
   }, [loadButtons]);
 
-
   return (
     <>
       <div style={styles.container}>
