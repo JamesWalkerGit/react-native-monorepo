@@ -10,7 +10,7 @@ export default function PartyParrot() {
 
     return (
         <>
-            <div style={{ ...styles.partyParrot }} aria-label='Party Parrot 🦜'>
+            <div style={{ ...styles.partyParrot }}>
                 <DotLottieReact
                     src={partyParrotPath}
                     loop

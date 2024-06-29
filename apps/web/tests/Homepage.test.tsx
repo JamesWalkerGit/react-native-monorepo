@@ -16,10 +16,8 @@ describe('Page', () => {
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
         render(<Homepage />);
 
-        const partyParrot = await screen.findByLabelText('Party Parrot 🦜');
         const partyButton = await screen.findByRole('button', { name: 'Party Button 🎉' });
         const spinner = screen.queryByLabelText('loading-spinner');
-        expect(partyParrot).toBeInTheDocument();
         expect(partyButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
 
