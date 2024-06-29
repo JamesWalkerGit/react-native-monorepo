@@ -14,4 +14,4 @@ jobs:
       - name: Install Lighthouse CI
         run: yarn global add @lhci/cli@0.14.0
       - name: Run lighthouse - Prod
-        run: lhci autorun --config=./lighthouserc.prod.js
+        run: lhci autorun --config=./lighthouserc.js
