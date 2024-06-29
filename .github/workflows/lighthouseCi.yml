@@ -2,6 +2,9 @@ name: Lighthouse CI
 
 on:
   deployment_status:
+defaults:
+  run:
+    working-directory: apps/web
 jobs:
   lighthouse-local:
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Preview'
