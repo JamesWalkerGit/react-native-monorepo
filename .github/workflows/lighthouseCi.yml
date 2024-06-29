@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Install Lighthouse CI
         run: yarn global add @lhci/cli@0.14.0
       - name: Run lighthouse - Prod
         run: lhci autorun --config=./lighthouserc.prod.js
