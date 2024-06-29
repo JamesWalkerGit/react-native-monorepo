@@ -26,4 +26,4 @@ jobs:
       - name: Install Lighthouse CI
         run: yarn global add @lhci/cli@0.14.0
       - name: Run Lighthouse - Staging
-        run: yarn run lighthouseStaging
+        run: lhci autorun --config=./lighthouserc.staging.js
