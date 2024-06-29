@@ -23,6 +23,7 @@ export default function Navbar() {
     const styles = createStyles();
     const [sideMenuOpen, { toggle: toggleSideMenu }] = useDisclosure(false);
     const [activeLink, setActiveLink] = useState(pathName);
+    const [loadButtons, setLoadButtons] = useState(false);
 
     const navigationLinks = links.map((link) => (
         <Link
@@ -46,7 +47,6 @@ export default function Navbar() {
     },
         [showDesktopNavbar]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const [loadButtons, setLoadButtons] = useState(false);
 
     useEffect(() => {
         setInterval(() => {
@@ -68,7 +68,7 @@ export default function Navbar() {
                     </div>
 
                     <div className={showInMobileView}>
-                        <Burger color={theme.colors.dark[3]} className={classes.burger} opened={sideMenuOpen} onClick={toggleSideMenu} hiddenFrom="xs" size="sm" aria-label="Toggle navbar" />
+                        <Burger color={theme.colors.dark[3]} className={classes.burger} opened={sideMenuOpen} onClick={toggleSideMenu} hiddenFrom="xs" size="sm" aria-label="Toggle sidebar" />
                     </div>
                 </div>
 
