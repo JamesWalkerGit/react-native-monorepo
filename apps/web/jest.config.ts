@@ -12,7 +12,9 @@ const customJestConfig = {
   moduleNameMapper: {
     'next-auth': '<rootDir>/tests/mocks/auth/next-auth.ts',
   },
-
+  coveragePathIgnorePatterns: [
+    "tests",
+  ],
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

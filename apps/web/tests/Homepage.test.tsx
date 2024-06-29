@@ -12,18 +12,38 @@ jest.mock("next-auth/react", () => ({
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 
 describe('Page', () => {
-    it('renders properly when loading complete - unauthenticated', async () => {
+    it('renders properly when loading complete with owlButton and modal - unauthenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
         render(<Homepage />);
 
+        const partyParrot = await screen.findByLabelText('Party Parrot 🦜');
         const partyButton = await screen.findByRole('button', { name: 'Party Button 🎉' });
         const spinner = screen.queryByLabelText('loading-spinner');
-
+        expect(partyParrot).toBeInTheDocument();
         expect(partyButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
+
+        const owlButton = await screen.findByRole('button', { name: 'Click Here? 👀' });
+
+        act(() => {
+            owlButton.click();
+        })
+
+        const modalText = await screen.findByText('Congratulations! You did it! 🥳');
+        const owlTextUnauthenticated = await screen.findByText('Sign in and press the button to make the owl happy 😃');
+
+        const owlHappyButton = await screen.findByRole('button', { name: 'Press' });
+
+        act(() => {
+            owlHappyButton.click();
+        })
+
+        expect(modalText).toBeInTheDocument();
+        expect(owlTextUnauthenticated).toBeInTheDocument();
+        expect(owlHappyButton).toBeDisabled();
     })
 
-    it('renders properly when loading complete - authenticated', async () => {
+    it('renders properly when loading complete with owlButton and modal - authenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(authenticatedSessionMock);
         render(<Homepage />);
 
@@ -32,6 +52,21 @@ describe('Page', () => {
 
         expect(partyButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
+
+        const owlButton = await screen.findByRole('button', { name: 'Click Here? 👀' });
+
+        act(() => {
+            owlButton.click();
+        })
+
+        const modalText = await screen.findByText('Congratulations! You did it! 🥳');
+        const owlTextAuthenticated = await screen.findByText('Press the button to make the owl happy!');
+
+        const owlHappyButton = await screen.findByRole('button', { name: 'Press' });
+
+        expect(modalText).toBeInTheDocument();
+        expect(owlTextAuthenticated).toBeInTheDocument();
+        expect(owlHappyButton).not.toBeDisabled();
     })
 
     it('should display confetti', async () => {

@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest --watch",
-    "testCi": "jest",
+    "test": "jest --watch --coverage",
+    "testCi": "jest --coverage",
     "validate": "yarn lint && yarn testCi"
   },
   "dependencies": {

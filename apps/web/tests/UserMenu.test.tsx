@@ -29,10 +29,18 @@ describe('UserMenu', () => {
         const userEmail = await screen.findByText('testEmail@test.com');
         const pointsLabel = await screen.findByText('Points: 0');
 
-
         expect(signOutButton).toBeInTheDocument();
         expect(emailLabel).toBeInTheDocument();
         expect(userEmail).toBeInTheDocument();
         expect(pointsLabel).toBeInTheDocument();
+    })
+
+    it('has github button - unauthenticated', async () => {
+        mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
+
+        render(<UserMenu />);
+
+        const githubButton = await screen.findByRole('button', { name: 'Sign In With GitHub' });
+        expect(githubButton).toBeInTheDocument();
     })
 })

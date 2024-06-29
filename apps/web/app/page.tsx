@@ -14,7 +14,7 @@ const owlColor = '#7375f0'
 
 export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
-  const [opened, { open, close }] = useDisclosure(false);
+  const [openedModal, { open: openModal, close }] = useDisclosure(false);
   const [loadButtons, setLoadButtons] = useState(false);
   const [dotLottie, setDotLottie] = useState<any>(null);
   const session = useSession();
@@ -66,9 +66,11 @@ export default function Homepage() {
             <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
               Party Button 🎉
             </Button>
-            <Modal opened={opened} onClose={close} title="Success!">
+            <Button variant='gradient' style={styles.modalButton} onClick={openModal}>Click Here? 👀</Button>
+
+            <Modal opened={openedModal} onClose={close} title="Success!">
               <div style={styles.modalContainer}>
-                <Text style={{ marginBottom: 24, fontSize: 24 }}>
+                <Text style={styles.modalTitle}>
                   Congratulations! You did it! 🥳
                 </Text>
                 <Text>
@@ -86,7 +88,6 @@ export default function Homepage() {
                 <Button color={owlColor} onClick={() => play()} disabled={session?.status !== 'authenticated'} style={styles.owlButton} variant='outline' >Press</Button>
               </div>
             </Modal>
-            <Button variant='gradient' style={styles.modalButton} onClick={open}>Click Here? 👀</Button>
           </div>
           <div style={styles.partyContainer}>
             {session.status === 'unauthenticated' ?
@@ -144,6 +145,10 @@ const createStyles = () => {
     },
     owlButton: {
       marginTop: 16
+    },
+    modalTitle: {
+      marginBottom: 24,
+      fontSize: 24
     }
   });
 }
