@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Install Vercel
         run: yarn global add vercel@latest
       - name: Run alias
         run: vercel alias --token=${{ secrets.VERCEL_TOKEN }} set $BASE_URL staging.jprojects.dev --scope=${{ secrets.VERCEL_SCOPE }}

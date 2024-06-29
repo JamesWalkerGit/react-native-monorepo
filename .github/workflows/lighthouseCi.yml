@@ -1,0 +1,17 @@
+name: Lighthouse CI
+
+on:
+  deployment_status:
+defaults:
+  run:
+    working-directory: apps/web
+jobs:
+  lighthouse-prod:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Production'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Lighthouse CI
+        run: yarn global add @lhci/cli@0.14.0
+      - name: Run lighthouse - Prod
+        run: lhci autorun --config=./lighthouserc.prod.js

@@ -51,7 +51,7 @@ export default function Homepage() {
           timingFunction="ease"
         >
           {(fadeStyle) => {
-            return <Confetti height={height} width={width} tweenDuration={2500} numberOfPieces={500}
+            return <Confetti height={height} width={width} numberOfPieces={400}
               aria-label="confetti-party" style={fadeStyle}
             />
           }
