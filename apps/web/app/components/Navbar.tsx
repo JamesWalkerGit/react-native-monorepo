@@ -1,5 +1,5 @@
 "use client";
-import { Burger, Drawer, Group, Transition, useMantineTheme } from "@mantine/core";
+import { Burger, Button, Drawer, Group, Text, Transition, useMantineTheme } from "@mantine/core";
 import { StyleSheet } from "@/styles/Stylesheet";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { useEffect, useState } from "react";
@@ -10,6 +10,10 @@ import UserMenu from "./UserMenu/UserMenu";
 import { showInDesktopView, showInMobileView } from "@/styles/consts";
 import styleConsts from '@/styles/styleConsts.module.css'
 import ThemeButton from "./theming/ThemeButton";
+import HappySquare from "./animations/HappySquare";
+import GithubButton from "./auth/GithubButton";
+import { useSession } from "next-auth/react";
+import BurgerFlip from "./animations/BurgerFlip";
 
 const links = [
     { link: '/', label: 'Home' },
@@ -21,7 +25,9 @@ export default function Navbar() {
     const pathName = usePathname();
     const showDesktopNavbar = useMediaQuery('(min-width: ' + theme.breakpoints.xs);
     const styles = createStyles();
+    const session = useSession();
     const [sideMenuOpen, { toggle: toggleSideMenu }] = useDisclosure(false);
+    const [bottomDrawerOpen, { toggle: toggleBottomDrawer }] = useDisclosure(false);
     const [activeLink, setActiveLink] = useState(pathName);
     const [loadButtons, setLoadButtons] = useState(false);
 
@@ -62,6 +68,37 @@ export default function Navbar() {
                 </div>
             </Drawer>
 
+            <Drawer.Root
+                opened={bottomDrawerOpen}
+                onClose={toggleBottomDrawer}
+                position='bottom'
+                size={'md'}
+            >
+                <Drawer.Overlay
+                    backgroundOpacity={0.5} blur={1}
+                />
+                <Drawer.Content style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+                    <Drawer.Body>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                            <div style={styles.happySquareContainer}>
+                                <HappySquare
+                                    height={160}
+                                    width={160}
+                                />
+                                <Text style={{ fontSize: 30, marginTop: -30 }} >
+                                    Sign In
+                                </Text>
+                            </div>
+                            <div>
+                                {session.status === 'loading' ? <BurgerFlip height={120} width={120} speed={2} /> : null}
+                                {session.status === 'unauthenticated' ? <GithubButton /> : null}
+                            </div>
+                        </div>
+                    </Drawer.Body>
+                </Drawer.Content>
+            </Drawer.Root >
+
+
             <div style={styles.navContainer} className={classes.navContainer + ' ' + styleConsts.transitionThemeColors}>
                 <div style={{ ...styles.navSection, ...styles.startSection }}>
                     <div className={showInDesktopView}>
@@ -92,6 +129,20 @@ export default function Navbar() {
                         {(fadeStyle) => {
                             return <div style={{ ...styles.userMenuContainer, ...fadeStyle }}>
                                 <ThemeButton />
+                                {session?.status === 'unauthenticated' ?
+                                    <>
+                                        <Button
+                                            onClick={() => {
+                                                toggleBottomDrawer();
+                                            }}
+                                            variant='filled'
+                                            color={theme.colors.blue[9]}
+                                        >
+                                            Sign In
+                                        </Button>
+                                    </>
+                                    : null
+                                }
                                 <UserMenu />
                             </div>
                         }
@@ -147,6 +198,13 @@ const createStyles = () => {
             gap: 8,
             display: 'flex',
             flexDirection: 'row'
+        },
+        happySquareContainer: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            marginBottom: 24
         }
     });
 }
