@@ -24,6 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install Lighthouse CI
-        run: yarn global add @lhci/cli@0.14.0
+        run: yarn add @lhci/cli@0.14.0
       - name: Run Lighthouse - Staging
-        run: lhci autorun --config=./lighthouserc.staging.js
+        run: yarn lighthouseStaging
