@@ -10,9 +10,7 @@
     "test": "jest --watch --coverage",
     "testCi": "jest --coverage",
     "validate": "yarn lint && yarn testCi",
-    "lighthouseLocal": "yarn lhci autorun --config=./lighthouserc.local.js",
-    "lighthouseStaging": "yarn lhci autorun --config=./lighthouserc.staging.js",
-    "lighthouseProd": "yarn lhci autorun --config=./lighthouserc.js"
+    "lighthouseLocal": "yarn lhci autorun --config=./lighthouserc.local.js"
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.6.5",
