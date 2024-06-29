@@ -14,3 +14,18 @@ jobs:
         run: vercel alias --token=${{ secrets.VERCEL_TOKEN }} set $BASE_URL staging.jprojects.dev --scope=${{ secrets.VERCEL_SCOPE }}
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
+
+  lighthouse-staging:
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Preview'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: yarn 
+      - name: Run Lighthouse - Staging
+        run: yarn run lighthouseStaging
+        env:
+          BASE_URL: ${{ github.event.deployment_status.environment_url }}

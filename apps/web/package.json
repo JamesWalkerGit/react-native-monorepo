@@ -11,6 +11,7 @@
     "testCi": "jest --coverage",
     "validate": "yarn lint && yarn testCi",
     "lighthouseLocal": "yarn lhci autorun --config=./lighthouserc.local.js",
+    "lighthouseStaging": "yarn lhci autorun --config=./lighthouserc.staging.js",
     "lighthouseProd": "yarn lhci autorun --config=./lighthouserc.js"
   },
   "dependencies": {
