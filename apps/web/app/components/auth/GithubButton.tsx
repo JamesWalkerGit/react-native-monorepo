@@ -3,11 +3,11 @@
 import { StyleSheet } from "@/styles/Stylesheet"
 import { signIn, signOut, useSession } from "next-auth/react"
 import { IconBrandGithub } from "@tabler/icons-react";
-import { Button, Loader, Transition, useMantineTheme, } from "@mantine/core";
+import { Button, Transition } from "@mantine/core";
 import { useEffect, useState } from "react";
+import BurgerFlip from "../animations/BurgerFlip";
 
 export default function GithubButton() {
-    const theme = useMantineTheme();
     const session = useSession();
     const styles = createStyles();
     const [loadingGithubButton, setLoadingGithubButton] = useState(false);
@@ -22,10 +22,9 @@ export default function GithubButton() {
             {loadingGithubButton ?
                 <>
                     <div style={styles.loadingSpinner}>
-                        <Loader color={theme.colors.blue[9]} size={'sm'} aria-label="Github Login Loading Spinner" />
+                        <BurgerFlip height={160} width={160} speed={2.25} aria-label="Github Login Loading Spinner" />
                     </div>
                 </> :
-
                 session.status === 'unauthenticated' ?
                     <>
                         <Transition
@@ -43,6 +42,7 @@ export default function GithubButton() {
                                         setLoadingGithubButton(true);
                                     }
                                     }
+                                    size="lg"
                                 >
                                     Sign In With GitHub
                                 </Button>
@@ -68,7 +68,9 @@ const createStyles = () => {
         loadingSpinner: {
             justifyContent: 'center',
             alignItems: 'center',
-            display: 'flex'
+            display: 'flex',
+            height: 160,
+            width: 160
         }
     });
 }

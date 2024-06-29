@@ -5,7 +5,6 @@ import { IconLogout2, IconUserCode } from "@tabler/icons-react";
 import { forwardRef, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import userMenuClasses from './UserMenu.module.css';
-import GithubButton from "../auth/GithubButton";
 
 
 export default function UserMenu(props: MenuProps) {
@@ -48,9 +47,7 @@ export default function UserMenu(props: MenuProps) {
     return (
         <>
             {session?.status === 'unauthenticated' ?
-                <>
-                    <GithubButton />
-                </> :
+                null :
                 <>
                     <Menu shadow="md" width={200} opened={userMenuOpen} onChange={setUserMenuOpen} {...props}>
                         <Menu.Target>
@@ -101,8 +98,7 @@ const createStyles = () => {
             paddingTop: 2,
             paddingBottom: 2
         },
-        userText:
-        {
+        userText: {
             justifyContent: 'center',
             display: 'flex',
             padding: 1
