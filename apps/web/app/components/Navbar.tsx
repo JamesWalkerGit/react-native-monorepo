@@ -13,7 +13,6 @@ import ThemeButton from "./theming/ThemeButton";
 import HappySquare from "./animations/HappySquare";
 import GithubButton from "./auth/GithubButton";
 import { useSession } from "next-auth/react";
-import BurgerFlip from "./animations/BurgerFlip";
 
 const links = [
     { link: '/', label: 'Home' },
@@ -77,23 +76,21 @@ export default function Navbar() {
                 <Drawer.Overlay
                     backgroundOpacity={0.5} blur={1}
                 />
-                <Drawer.Content style={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+                <Drawer.Content style={styles.bottomDrawerContent}>
                     <Drawer.Body>
-                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                            <div style={styles.happySquareContainer}>
-                                <HappySquare
-                                    height={160}
-                                    width={160}
-                                />
-                                <Text style={{ fontSize: 30, marginTop: -30 }} >
-                                    Sign In
-                                </Text>
-                            </div>
-                            <div>
-                                {session.status === 'loading' ? <BurgerFlip height={120} width={120} speed={2} /> : null}
-                                {session.status === 'unauthenticated' ? <GithubButton /> : null}
-                            </div>
-                        </div>
+                        {session.status === 'unauthenticated' ?
+                            <div style={styles.bottomDrawerSignInContainer}>
+                                <div style={styles.happySquareContainer}>
+                                    <HappySquare height={160} width={160} />
+                                    <Text style={styles.bottomDrawerSignInLabel} >
+                                        Sign In
+                                    </Text>
+                                </div>
+                                <div>
+                                    <GithubButton />
+                                </div>
+                            </div> : null
+                        }
                     </Drawer.Body>
                 </Drawer.Content>
             </Drawer.Root >
@@ -205,6 +202,20 @@ const createStyles = () => {
             alignItems: 'center',
             flexDirection: 'column',
             marginBottom: 24
+        },
+        bottomDrawerContent: {
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20
+        },
+        bottomDrawerSignInLabel: {
+            fontSize: 30,
+            marginTop: -30
+        },
+        bottomDrawerSignInContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
         }
     });
 }
