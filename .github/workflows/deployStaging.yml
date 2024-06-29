@@ -23,9 +23,7 @@ jobs:
         working-directory: apps/web
     steps:
       - uses: actions/checkout@v2
-      - name: Install Dependencies
-        run: yarn 
+      - name: Install Lighthouse CI
+        run: yarn global add @lhci/cli@0.14.0
       - name: Run Lighthouse - Staging
         run: yarn run lighthouseStaging
-        env:
-          BASE_URL: ${{ github.event.deployment_status.environment_url }}

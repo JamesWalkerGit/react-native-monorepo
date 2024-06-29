@@ -12,6 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: yarn
+        run: yarn global add @lhci/cli@0.14.0
       - name: Run lighthouse - Prod
         run: yarn run lighthouseProd
