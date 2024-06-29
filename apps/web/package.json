@@ -9,7 +9,9 @@
     "lint": "next lint",
     "test": "jest --watch --coverage",
     "testCi": "jest --coverage",
-    "validate": "yarn lint && yarn testCi"
+    "validate": "yarn lint && yarn testCi",
+    "lighthouseLocal": "yarn lhci autorun --config=./lighthouserc.local.js",
+    "lighthouseProd": "yarn lhci autorun --config=./lighthouserc.js"
   },
   "dependencies": {
     "@lottiefiles/dotlottie-react": "^0.6.5",
@@ -27,6 +29,7 @@
     "react-native-web": "^0.19.10"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.14.0",
     "@repo/typescript-config": "*",
     "@testing-library/dom": "^10.1.0",
     "@testing-library/jest-dom": "^6.4.6",
