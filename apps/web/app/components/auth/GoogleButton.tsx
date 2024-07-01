@@ -5,6 +5,7 @@ import { signIn, signOut, useSession } from "next-auth/react"
 import { Button, Transition } from "@mantine/core";
 import { useEffect, useState } from "react";
 import BurgerFlip from "../animations/BurgerFlip";
+import GoogleIcon from "@/app/icons/GoogleIcon";
 
 export default function GoogleButton() {
     const session = useSession();
@@ -40,7 +41,12 @@ export default function GoogleButton() {
                                             setLoadingGoogleButton(true);
                                         }
                                         }
-                                        size="lg">
+                                        leftSection={
+                                            <GoogleIcon />
+                                        }
+
+                                        size="lg"
+                                    >
                                         Sign In With Google
                                     </Button>
                                 }

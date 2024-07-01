@@ -6,6 +6,7 @@ import { IconBrandGithub } from "@tabler/icons-react";
 import { Button, Transition } from "@mantine/core";
 import { useEffect, useState } from "react";
 import BurgerFlip from "../animations/BurgerFlip";
+import GithubIcon from "@/app/icons/GithubIcon";
 
 export default function GithubButton() {
     const session = useSession();
@@ -36,7 +37,7 @@ export default function GithubButton() {
                                 {(fadeStyle) => {
                                     return <Button
                                         style={{ ...fadeStyle, ...styles.githubButton }}
-                                        leftSection={<IconBrandGithub color="white" />}
+                                        leftSection={<GithubIcon fill="white" />}
                                         onClick={() => {
                                             signIn('github');
                                             setLoadingGithubButton(true);
