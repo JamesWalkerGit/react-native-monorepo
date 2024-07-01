@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import BurgerFlip from "../animations/BurgerFlip";
 import GoogleIcon from "@/app/icons/GoogleIcon";
 
-export default function GoogleButton() {
+export default function GoogleButton({ onClick }: any) {
     const session = useSession();
     const styles = createStyles();
     const [loadingGoogleButton, setLoadingGoogleButton] = useState(false);
@@ -36,10 +36,12 @@ export default function GoogleButton() {
                                 {(fadeStyle) => {
                                     return <Button
                                         style={{ ...fadeStyle, ...styles.googleButton }}
-                                        onClick={() => {
-                                            signIn('google');
-                                            setLoadingGoogleButton(true);
-                                        }
+                                        onClick={
+                                            onClick ? onClick :
+                                                () => {
+                                                    signIn('google');
+                                                    setLoadingGoogleButton(true);
+                                                }
                                         }
                                         leftSection={
                                             <GoogleIcon />

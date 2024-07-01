@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import BurgerFlip from "../animations/BurgerFlip";
 import AppleIcon from "@/app/icons/AppleIcon";
 
-export default function AppleButton() {
+export default function AppleButton({ onClick }: any) {
     const session = useSession();
     const styles = createStyles();
     const [loadingAppleButton, setLoadingAppleButton] = useState(false);
@@ -36,10 +36,13 @@ export default function AppleButton() {
                                 {(fadeStyle) => {
                                     return <Button
                                         style={{ ...fadeStyle, ...styles.appleButton }}
-                                        onClick={() => {
-                                            signIn('apple');
-                                            setLoadingAppleButton(true);
-                                        }
+                                        onClick={
+
+                                            onClick ? onClick :
+                                                () => {
+                                                    signIn('apple');
+                                                    setLoadingAppleButton(true);
+                                                }
                                         }
                                         size="lg"
                                         leftSection={

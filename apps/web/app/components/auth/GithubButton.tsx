@@ -2,13 +2,12 @@
 
 import { StyleSheet } from "@/styles/Stylesheet"
 import { signIn, signOut, useSession } from "next-auth/react"
-import { IconBrandGithub } from "@tabler/icons-react";
 import { Button, Transition } from "@mantine/core";
 import { useEffect, useState } from "react";
 import BurgerFlip from "../animations/BurgerFlip";
 import GithubIcon from "@/app/icons/GithubIcon";
 
-export default function GithubButton() {
+export default function GithubButton({ onClick }: any) {
     const session = useSession();
     const styles = createStyles();
     const [loadingGithubButton, setLoadingGithubButton] = useState(false);
@@ -38,10 +37,12 @@ export default function GithubButton() {
                                     return <Button
                                         style={{ ...fadeStyle, ...styles.githubButton }}
                                         leftSection={<GithubIcon fill="white" />}
-                                        onClick={() => {
-                                            signIn('github');
-                                            setLoadingGithubButton(true);
-                                        }
+                                        onClick={
+                                            onClick ? onClick :
+                                                () => {
+                                                    signIn('github');
+                                                    setLoadingGithubButton(true);
+                                                }
                                         }
                                         size="lg"
                                     >

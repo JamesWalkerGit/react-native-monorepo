@@ -12,9 +12,11 @@ import styleConsts from '@/styles/styleConsts.module.css'
 import ThemeButton from "./theming/ThemeButton";
 import HappySquare from "./animations/HappySquare";
 import GithubButton from "./auth/GithubButton";
-import { useSession } from "next-auth/react";
 import GoogleButton from "./auth/GoogleButton";
 import AppleButton from "./auth/AppleButton";
+import { signIn, useSession } from "next-auth/react"
+import BurgerFlip from "./animations/BurgerFlip";
+
 
 const links = [
     { link: '/', label: 'Home' },
@@ -31,6 +33,8 @@ export default function Navbar() {
     const [bottomDrawerOpen, { toggle: toggleBottomDrawer }] = useDisclosure(false);
     const [activeLink, setActiveLink] = useState(pathName);
     const [loadButtons, setLoadButtons] = useState(false);
+
+    const [loggingIn, setLoggingIn] = useState(false);
 
     const navigationLinks = links.map((link) => (
         <Link
@@ -61,6 +65,8 @@ export default function Navbar() {
         }, 200)
     }, [loadButtons]);
 
+    console.log('logging in: ', loggingIn);
+
     return (
         <>
             <Drawer opened={sideMenuOpen} onClose={toggleSideMenu} size={'70vw'} radius={'md'} withCloseButton={false} lockScroll={false} zIndex={10}>
@@ -89,9 +95,31 @@ export default function Navbar() {
                                     </Text>
                                 </div>
                                 <div style={styles.signInButtonContainer}>
-                                    <AppleButton />
-                                    <GithubButton />
-                                    <GoogleButton />
+                                    {loggingIn ?
+                                        <>
+                                            <BurgerFlip height={160} width={160} speed={2.25} aria-label="Login Loading Spinner" />
+                                        </> :
+                                        <>
+                                            <AppleButton
+                                                onClick={() => {
+                                                    setLoggingIn(true);
+                                                    signIn('apple');
+                                                }}
+                                            />
+                                            <GithubButton
+                                                onClick={() => {
+                                                    setLoggingIn(true);
+                                                    signIn('github');
+                                                }}
+                                            />
+                                            <GoogleButton
+                                                onClick={() => {
+                                                    setLoggingIn(true);
+                                                    signIn('google');
+                                                }}
+                                            />
+                                        </>
+                                    }
                                 </div>
                             </div> : null
                         }
