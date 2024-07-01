@@ -13,6 +13,8 @@ import ThemeButton from "./theming/ThemeButton";
 import HappySquare from "./animations/HappySquare";
 import GithubButton from "./auth/GithubButton";
 import { useSession } from "next-auth/react";
+import GoogleButton from "./auth/GoogleButton";
+import AppleButton from "./auth/AppleButton";
 
 const links = [
     { link: '/', label: 'Home' },
@@ -86,8 +88,10 @@ export default function Navbar() {
                                         Sign In
                                     </Text>
                                 </div>
-                                <div>
+                                <div style={styles.signInButtonContainer}>
+                                    <AppleButton />
                                     <GithubButton />
+                                    <GoogleButton />
                                 </div>
                             </div> : null
                         }
@@ -216,6 +220,11 @@ const createStyles = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center'
+        },
+        signInButtonContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 8
         }
     });
 }

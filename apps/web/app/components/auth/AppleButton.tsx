@@ -2,15 +2,14 @@
 
 import { StyleSheet } from "@/styles/Stylesheet"
 import { signIn, signOut, useSession } from "next-auth/react"
-import { IconBrandGithub } from "@tabler/icons-react";
 import { Button, Transition } from "@mantine/core";
 import { useEffect, useState } from "react";
 import BurgerFlip from "../animations/BurgerFlip";
 
-export default function GithubButton() {
+export default function AppleButton() {
     const session = useSession();
     const styles = createStyles();
-    const [loadingGithubButton, setLoadingGithubButton] = useState(false);
+    const [loadingAppleButton, setLoadingAppleButton] = useState(false);
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
@@ -19,10 +18,10 @@ export default function GithubButton() {
 
     return (
         <>
-            {loadingGithubButton ?
+            {loadingAppleButton ?
                 <>
                     <div style={styles.loadingSpinner}>
-                        <BurgerFlip height={160} width={160} speed={2.25} aria-label="Github Login Loading Spinner" />
+                        <BurgerFlip height={160} width={160} speed={2.25} aria-label="Apple Login Loading Spinner" />
                     </div>
                 </> : session.status === 'loading' ? <></> :
                     session.status === 'unauthenticated' ?
@@ -35,23 +34,22 @@ export default function GithubButton() {
                             >
                                 {(fadeStyle) => {
                                     return <Button
-                                        style={{ ...fadeStyle, ...styles.githubButton }}
-                                        leftSection={<IconBrandGithub color="white" />}
+                                        style={{ ...fadeStyle, ...styles.appleButton }}
                                         onClick={() => {
-                                            signIn('github');
-                                            setLoadingGithubButton(true);
+                                            signIn('apple');
+                                            setLoadingAppleButton(true);
                                         }
                                         }
                                         size="lg"
                                     >
-                                        Sign In With GitHub
+                                        Sign In With Apple
                                     </Button>
                                 }
                                 }
                             </Transition>
                         </>
                         : session.status === 'authenticated' ?
-                            <Button color="secondary" onClick={() => signOut()} style={styles.githubButton}>
+                            <Button color="secondary" onClick={() => signOut()} style={styles.appleButton}>
                                 Sign Out
                             </Button>
                             : null
@@ -62,7 +60,7 @@ export default function GithubButton() {
 
 const createStyles = () => {
     return StyleSheet.create({
-        githubButton: {
+        appleButton: {
             backgroundColor: '#161b22'
         },
         loadingSpinner: {
