@@ -14,6 +14,10 @@ applications:
             - echo "AUTH_SECRET=$AUTH_SECRET" >> .env
             - echo "AUTH_GITHUB_ID=$AUTH_GITHUB_ID" >> .env
             - echo "AUTH_GITHUB_SECRET=$AUTH_GITHUB_SECRET" >> .env
+            - echo "AUTH_GOOGLE_ID=$AUTH_GOOGLE_ID" >> .env
+            - echo "AUTH_GOOGLE_SECRET=$AUTH_GOOGLE_SECRET" >> .env
+            - echo "AUTH_APPLE_ID=$AUTH_APPLE_ID" >> .env
+            - echo "AUTH_APPLE_SECRET=$AUTH_APPLE_SECRET" >> .env
             - yarn validate
             - yarn build
       artifacts:
