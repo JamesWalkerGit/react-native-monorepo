@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import classes from './Navbar.module.css';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import UserMenu from "./UserMenu/UserMenu";
 import { showInDesktopView, showInMobileView } from "@/styles/consts";
 import styleConsts from '@/styles/styleConsts.module.css'
 import ThemeButton from "./theming/ThemeButton";
@@ -14,8 +13,9 @@ import HappySquare from "./animations/HappySquare";
 import GithubButton from "./auth/GithubButton";
 import GoogleButton from "./auth/GoogleButton";
 import AppleButton from "./auth/AppleButton";
-import { signIn, useSession } from "next-auth/react"
+import { signIn, signOut, useSession } from "next-auth/react"
 import BurgerFlip from "./animations/BurgerFlip";
+import UserMenuButton from "./UserMenu/components/UserMenuButton";
 
 
 const links = [
@@ -65,8 +65,6 @@ export default function Navbar() {
         }, 200)
     }, [loadButtons]);
 
-    console.log('logging in: ', loggingIn);
-
     return (
         <>
             <Drawer opened={sideMenuOpen} onClose={toggleSideMenu} size={'70vw'} radius={'md'} withCloseButton={false} lockScroll={false} zIndex={10}>
@@ -85,10 +83,10 @@ export default function Navbar() {
                     backgroundOpacity={0.5} blur={1}
                 />
                 <Drawer.Content style={styles.bottomDrawerContent}>
-                    <Drawer.Body>
+                    <Drawer.Body style={styles.drawerBody}>
                         {session.status === 'unauthenticated' ?
                             <div style={styles.bottomDrawerSignInContainer}>
-                                <div style={styles.happySquareContainer}>
+                                <div style={styles.signInhappySquareContainer}>
                                     <HappySquare height={160} width={160} />
                                     <Text style={styles.bottomDrawerSignInLabel} >
                                         Sign In
@@ -122,6 +120,34 @@ export default function Navbar() {
                                     }
                                 </div>
                             </div> : null
+                        }
+
+                        {session.status === 'authenticated' ?
+                            <>
+                                <div style={styles.bottomDrawerUserContainer}>
+
+                                    <div style={styles.userMenuHappySquareContainer}>
+                                        <HappySquare height={160} width={160} />
+                                        <Text style={styles.userMenuLabel} >
+                                            User Menu
+                                        </Text>
+                                    </div>
+                                    <div style={{ alignContent: 'center' }} >
+                                        <Text size="sm" style={styles.bottomDrawerUserLabel} >
+                                            {session?.data?.user?.email}
+                                        </Text>
+
+                                        <Text size='xs' style={styles.pointsText}>
+                                            Points: 0
+                                        </Text>
+                                    </div>
+                                    <div style={styles.signOutButtonContainer}>
+                                        <Button variant='filled' color={theme.colors.red[9]} onClick={() => { toggleBottomDrawer(); signOut(); }} >
+                                            Sign Out
+                                        </Button>
+                                    </div>
+                                </div>
+                            </> : null
                         }
                     </Drawer.Body>
                 </Drawer.Content>
@@ -172,7 +198,10 @@ export default function Navbar() {
                                     </>
                                     : null
                                 }
-                                <UserMenu />
+
+                                {session.status === 'authenticated' ?
+                                    <UserMenuButton onClick={toggleBottomDrawer} /> : null
+                                }
                             </div>
                         }
                         }
@@ -228,12 +257,20 @@ const createStyles = () => {
             display: 'flex',
             flexDirection: 'row'
         },
-        happySquareContainer: {
+        signInhappySquareContainer: {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'column',
             marginBottom: 24
+        },
+        userMenuHappySquareContainer: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            marginBottom: 12
+
         },
         bottomDrawerContent: {
             borderTopLeftRadius: 20,
@@ -249,10 +286,41 @@ const createStyles = () => {
             justifyContent: 'center',
             alignItems: 'center'
         },
+        bottomDrawerUserContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100%',
+            maxWidth: 800
+        },
+        bottomDrawerUserLabel: {
+            textAlign: 'center'
+        },
         signInButtonContainer: {
             display: 'flex',
             flexDirection: 'column',
             gap: 8
+        },
+        signOutButtonContainer: {
+            display: 'flex',
+            flex: 1,
+            alignItems: 'flex-end',
+        },
+        pointsText: {
+            justifyContent: 'center',
+            display: 'flex',
+            padding: 1
+        },
+        userMenuLabel: {
+            fontSize: 30,
+            marginTop: -30
+        },
+        drawerBody: {
+            height: '100%',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
         }
     });
 }

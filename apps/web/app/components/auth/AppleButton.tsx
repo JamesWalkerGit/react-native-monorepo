@@ -2,7 +2,7 @@
 
 import { StyleSheet } from "@/styles/Stylesheet"
 import { signIn, signOut, useSession } from "next-auth/react"
-import { Box, Button, Transition } from "@mantine/core";
+import { Button, Transition } from "@mantine/core";
 import { useEffect, useState } from "react";
 import BurgerFlip from "../animations/BurgerFlip";
 import AppleIcon from "@/app/icons/AppleIcon";
@@ -46,12 +46,10 @@ export default function AppleButton({ onClick }: any) {
                                         }
                                         size="lg"
                                         leftSection={
-                                            <AppleIcon fill="white" />
+                                            <AppleIcon fill="white" style={styles.appleIcon} />
                                         }
                                     >
-                                        <Box style={{ marginLeft: 12 }}>
-                                            Sign In With Apple
-                                        </Box>
+                                        Sign In With Apple
                                     </Button>
                                 }
                                 }
@@ -78,6 +76,9 @@ const createStyles = () => {
             display: 'flex',
             height: 160,
             width: 160
+        },
+        appleIcon: {
+            marginLeft: -12
         }
     });
 }

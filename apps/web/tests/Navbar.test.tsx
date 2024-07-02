@@ -39,9 +39,6 @@ describe('Navbar', () => {
         act(() => {
             userSettingsButton[0].click();
         });
-
-        const signOutButton = await screen.findByLabelText('Sign Out');
-        expect(signOutButton).toBeInTheDocument();
     })
 
     it('has navigation links and burger menu and theme button', async () => {

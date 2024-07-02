@@ -6,7 +6,7 @@ import { LottieComponentProps } from '@/types/types';
 
 const partyParrotPath = '../../../animations/lottie/partyParrot.lottie'
 
-export default function PartyParrot({ height = 300, width = 300, speed = 1, ...props }: LottieComponentProps) {
+export default function PartyParrot({ height = 250, width = 250, speed = 1, ...props }: LottieComponentProps) {
     const styles = createStyles({ height, width });
 
     return (
