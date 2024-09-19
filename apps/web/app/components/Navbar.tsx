@@ -101,6 +101,9 @@ export default function Navbar() {
                                             <AppleButton
                                                 onClick={() => {
                                                     setLoggingIn(true);
+                                                    console.log('----- id: ', process.env.AUTH_APPLE_ID)
+                                                    console.log('----- : ', process.env.AUTH_APPLE_SECRET)
+
                                                     signIn('apple');
                                                 }}
                                             />
