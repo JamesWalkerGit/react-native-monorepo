@@ -32,14 +32,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 response_type: "code",//do not set to "code id_token" as it will not work
                 scope: "name email"
             },
-        },
-        profile(profile) {
-            return {
-                id: profile.sub,
-                name: "Person Doe",//profile.name.givenName + " " + profile.name.familyName, but apple does not return name...
-                email: profile.email,
-                image: "",
-            }
         }
     }),]
 })
