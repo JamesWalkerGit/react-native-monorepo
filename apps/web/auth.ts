@@ -5,5 +5,38 @@ import GitHub from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-    providers: [GitHub, Google, Apple]
+    cookies: {
+        pkceCodeVerifier: {
+            name: `__Secure-authjs.pkce.code_verifier`,
+            options: {
+                httpOnly: true,
+                sameSite: "lax",
+                path: "/",
+                secure: true,
+            },
+        },
+    },
+    secret: process.env.AUTH_SECRET,
+    providers: [GitHub, Google, Apple({
+        clientId: process.env.AUTH_APPLE_ID,
+        // @ts-ignore
+        clientSecret: process.env.AUTH_APPLE_SECRET,
+        wellKnown: "https://appleid.apple.com/.well-known/openid-configuration",
+        checks: ["pkce"],
+        token: {
+            url: `https://appleid.apple.com/auth/token`,
+        },
+        authorization: {
+            url: 'https://appleid.apple.com/auth/authorize',
+            params: {
+                scope: '',
+                response_type: 'code',
+                response_mode: 'query',
+                state: crypto.randomUUID()
+            },
+        },
+        client: {
+            token_endpoint_auth_method: "client_secret_post",
+        },
+    }),]
 })
