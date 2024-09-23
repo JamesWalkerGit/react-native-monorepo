@@ -18,9 +18,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     secret: process.env.AUTH_SECRET,
     providers: [GitHub, Google, Apple({
-        clientId: process.env.APPLE_ID,
+        clientId: process.env.AUTH_APPLE_ID,
         // @ts-ignore
-        clientSecret: process.env.APPLE_SECRET,
+        clientSecret: process.env.AUTH_APPLE_SECRET,
         wellKnown: "https://appleid.apple.com/.well-known/openid-configuration",
         checks: ["pkce"],
         token: {
