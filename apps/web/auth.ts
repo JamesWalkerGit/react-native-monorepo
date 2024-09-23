@@ -18,8 +18,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     secret: process.env.AUTH_SECRET,
     providers: [GitHub, Google, Apple({
-        clientId: process.env.AUTH_APPLE_ID,
-        clientSecret: '' + process.env.AUTH_APPLE_SECRET,
+        clientId: 'invalid',
+        clientSecret: 'invalid',
         wellKnown: "https://appleid.apple.com/.well-known/openid-configuration",
         checks: ["pkce"],
         token: {
@@ -33,6 +33,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 response_mode: 'query',
                 state: crypto.randomUUID()
             },
-        }
+        },
+        client: {
+            token_endpoint_auth_method: "client_secret_post",
+        },
     }),]
 })
