@@ -16,22 +16,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             },
         },
     },
+    secret: process.env.AUTH_SECRET,
     providers: [GitHub, Google, Apple({
         clientId: process.env.AUTH_APPLE_ID,
-        clientSecret: "" + process.env.AUTH_APPLE_SECRET,
+        clientSecret: process.env.AUTH_APPLE_SECRET,
+        wellKnown: "https://appleid.apple.com/.well-known/openid-configuration",
         checks: ["pkce"],
         token: {
             url: `https://appleid.apple.com/auth/token`,
         },
+        authorization: {
+            url: 'https://appleid.apple.com/auth/authorize',
+            params: {
+                scope: '',
+                response_type: 'code',
+                response_mode: 'query',
+                state: crypto.randomUUID()
+            },
+        },
         client: {
             token_endpoint_auth_method: "client_secret_post",
         },
-        authorization: {
-            params: {
-                response_mode: "form_post",
-                response_type: "code",//do not set to "code id_token" as it will not work
-                scope: "name email"
-            },
-        }
     }),]
 })
