@@ -4,15 +4,13 @@ import Apple from "next-auth/providers/apple"
 import GitHub from "next-auth/providers/github"
 import Google from "next-auth/providers/google"
 
-const cookiePrefix = "__Secure-"
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
     cookies: {
         pkceCodeVerifier: {
-            name: `${cookiePrefix}authjs.pkce.code_verifier`,
+            name: `__Secure-authjs.pkce.code_verifier`,
             options: {
                 httpOnly: true,
-                sameSite: "none",
+                sameSite: "lax",
                 path: "/",
                 secure: true,
             },
