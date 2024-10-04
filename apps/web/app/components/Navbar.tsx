@@ -12,7 +12,6 @@ import ThemeButton from "./theming/ThemeButton";
 import HappySquare from "./animations/HappySquare";
 import GithubButton from "./auth/GithubButton";
 import GoogleButton from "./auth/GoogleButton";
-import AppleButton from "./auth/AppleButton";
 import { signIn, signOut, useSession } from "next-auth/react"
 import BurgerFlip from "./animations/BurgerFlip";
 import UserMenuButton from "./UserMenu/components/UserMenuButton";
@@ -98,15 +97,6 @@ export default function Navbar() {
                                             <BurgerFlip height={160} width={160} speed={2.25} aria-label="Login Loading Spinner" />
                                         </> :
                                         <>
-                                            <AppleButton
-                                                onClick={() => {
-                                                    setLoggingIn(true);
-                                                    console.log('----- id: ', process.env.AUTH_APPLE_ID)
-                                                    console.log('----- : ', process.env.AUTH_APPLE_SECRET)
-
-                                                    signIn('apple');
-                                                }}
-                                            />
                                             <GithubButton
                                                 onClick={() => {
                                                     setLoggingIn(true);
