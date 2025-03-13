@@ -52,8 +52,8 @@ export default function Homepage() {
         >
           {(fadeStyle) => {
             return <>
-              <Confetti height={height} width={width} numberOfPieces={200} initialVelocityY={-40}
-                aria-label="confetti-party" style={fadeStyle}
+              <Confetti style={fadeStyle} height={height} width={width} numberOfPieces={200} initialVelocityY={-40}
+                aria-label="confetti-party"
               />
             </>
           }
