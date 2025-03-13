@@ -41,6 +41,6 @@ const styles = StyleSheet.create({
   body: {
   },
   contentContainer: {
-    paddingTop: 56
+    marginTop: 56
   }
 });
