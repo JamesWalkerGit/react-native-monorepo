@@ -1,6 +1,6 @@
 "use client"
 import { StyleSheet } from "@/styles/Stylesheet";
-import { Button, CopyButton, MantineTheme, Text, Transition, useMantineColorScheme, useMantineTheme } from "@mantine/core";
+import { Button, CopyButton, Text, Transition, useMantineColorScheme } from "@mantine/core";
 import Image from 'next/image';
 import Link from "next/link";
 import linkedinMark from './images/LI-In-Bug.png';
@@ -12,8 +12,7 @@ import { useEffect, useState } from "react";
 
 
 export default function Contact() {
-    const theme = useMantineTheme();
-    const styles = createStyles(theme);
+    const styles = createStyles();
     const { colorScheme } = useMantineColorScheme({ keepTransitions: true });
     const [githubMarkSrc, setGithubMarkSrc] = useState(githubMark);
     const [loadIcons, setLoadIcons] = useState(false);
@@ -30,7 +29,7 @@ export default function Contact() {
 
     return (
         <>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 40 }}>
+            <div style={styles.contactTextContainer}>
                 <Text style={{ fontSize: 36 }}>
                     Contact
                 </Text>
@@ -48,27 +47,27 @@ export default function Contact() {
                                 <div style={styles.linkedinContainer}>
                                     <Link target="_blank" href={"http://linkedin.com/in/jameswalkerlinkedin"} aria-label="http://linkedin.com/in/jameswalkerlinkedin" style={styles.contactLink}>
                                         <Text style={styles.contactText}>Linkedin</Text>
-                                        <Image src={linkedinMark} alt={"linkedinLogo"} width={150}></Image>
+                                        <Image src={linkedinMark} alt={"linkedinLogo"} width={125}></Image>
                                     </Link>
                                 </div>
 
                                 <div style={styles.githubContainer}>
                                     <Link target="_blank" href={"https://github.com/JamesWalkerGit"} aria-label="https://github.com/JamesWalkerGit" style={styles.contactLink}>
                                         <Text style={styles.contactText}>GitHub</Text>
-                                        <Image src={githubMarkSrc} alt={"githubIcon"} width={150}></Image>
+                                        <Image src={githubMarkSrc} alt={"githubIcon"} width={125}></Image>
                                     </Link>
                                 </div>
 
                                 <div style={styles.emailContainer}>
                                     <Link target="_blank" href={'mailto:JProjectsMail@gmail.com'} aria-label="Mail To JProjectsmail@gmail.com" style={styles.contactLink}>
                                         <Text style={styles.contactText}>Email</Text>
-                                        <Button variant='transparent' style={{ width: 150, height: 150 }}>
+                                        <Button variant='transparent' style={{ width: 125, height: 150 }}>
                                             <div style={styles.jprojectsIconContainer}>
                                                 <Image src={jprojectsIcon} alt={"JProjects"} ></Image>
                                             </div>
                                         </Button>
                                     </Link>
-                                    <div style={{ marginTop: 20, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                    <div style={styles.copyButtonContainer}>
                                         <CopyButton value="JProjectsMail@gmail.com">
                                             {({ copied, copy }) => (
                                                 <Button variant="outline" color={copied ? 'teal' : 'blue'} onClick={copy} style={styles.copyButton} aria-label="JprojectsMail@gmail.com">
@@ -87,7 +86,7 @@ export default function Contact() {
     );
 }
 
-const createStyles = (theme?: MantineTheme) => {
+const createStyles = () => {
     return StyleSheet.create({
         contactContainer: {
             display: 'flex',
@@ -123,6 +122,11 @@ const createStyles = (theme?: MantineTheme) => {
             fontSize: 32,
             marginRight: 40
         },
+        contactTextContainer: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
         jprojectsIconContainer: {
             display: 'flex',
             flexDirection: 'column',
@@ -131,6 +135,12 @@ const createStyles = (theme?: MantineTheme) => {
         },
         copyButton: {
             marginLeft: 108
+        },
+        copyButtonContainer: {
+            marginTop: 16,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
         }
     });
 }
