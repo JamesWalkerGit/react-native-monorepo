@@ -86,7 +86,7 @@ describe('Page', () => {
             partyButton.click();
         });
 
-        const expectedFadeStyles = "z-index: 2; position: absolute; pointer-events: none; top: 0px; left: 0px; bottom: 0px; right: 0px; transition-property: opacity, transform; transition-duration: 1250ms; transition-timing-function: ease; opacity: 0; transform: translateY(calc(-1.875rem * var(--mantine-scale));"
+        const expectedFadeStyles = "z-index: 2; position: absolute; pointer-events: none; top: 0px; left: 0px; bottom: 0px; right: 0px; transition-property: opacity, transform; transition-duration: 400ms; transition-timing-function: ease; opacity: 0; transform: translateY(calc(-1.875rem * var(--mantine-scale));"
         const confettiAfter = screen.queryByLabelText('confetti-party');
         expect(confettiAfter).toHaveAttribute('style', expectedFadeStyles);
     })

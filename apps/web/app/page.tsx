@@ -46,14 +46,16 @@ export default function Homepage() {
       <div style={styles.container}>
         <Transition
           mounted={confettiStatus}
-          transition="fade-down"
-          duration={1250}
+          transition='fade-down'
+          duration={400}
           timingFunction="ease"
         >
           {(fadeStyle) => {
-            return <Confetti height={height} width={width} numberOfPieces={400}
-              aria-label="confetti-party" style={fadeStyle}
-            />
+            return <>
+              <Confetti style={fadeStyle} height={height} width={width} numberOfPieces={200} initialVelocityY={-40}
+                aria-label="confetti-party"
+              />
+            </>
           }
           }
         </Transition>
