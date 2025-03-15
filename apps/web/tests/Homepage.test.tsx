@@ -31,7 +31,7 @@ describe('Homepage', () => {
         const owlTextUnauthenticated = await screen.findByText('Sign in and press the button to make the owl happy 😃');
 
         const owlHappyButton = await screen.findByRole('button', { name: 'Press' });
-        const signInModalButton = await screen.findByRole('button', { name: 'Sign In To Make Owl Happy 🥺' });
+        const signInModalButton = await screen.findByRole('button', { name: 'Sign In For Owl 🥺' });
 
         act(() => {
             owlHappyButton.click();

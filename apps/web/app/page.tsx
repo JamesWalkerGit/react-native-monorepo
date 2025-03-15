@@ -93,7 +93,7 @@ export default function Homepage() {
 
                 {session?.status !== 'authenticated' ?
                   <Button onClick={() => { bottomSheet.toggleBottomSheet(); close(); }} style={styles.modalButtonSignIn} variant={'gradient'} gradient={{ from: 'blue', to: 'violet', deg: 167 }}>
-                    Sign In To Make Owl Happy 🥺
+                    Sign In For Owl 🥺
                   </Button> : null}
               </div>
             </Modal>
