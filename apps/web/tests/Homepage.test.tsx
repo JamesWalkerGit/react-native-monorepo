@@ -11,7 +11,7 @@ jest.mock("next-auth/react", () => ({
 
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 
-describe('Page', () => {
+describe('Homepage', () => {
     it('renders properly when loading complete with owlButton and modal - unauthenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
         render(<Homepage />);
