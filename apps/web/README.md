@@ -1,3 +1,2 @@
-## Getting Started
+## Jprojects.dev
 
-Jprojects.dev
