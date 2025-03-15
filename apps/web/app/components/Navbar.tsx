@@ -15,6 +15,7 @@ import GoogleButton from "./auth/GoogleButton";
 import { signIn, signOut, useSession } from "next-auth/react"
 import BurgerFlip from "./animations/BurgerFlip";
 import UserMenuButton from "./UserMenu/components/UserMenuButton";
+import { useBottomSheet } from "../contexts/BottomSheetContext";
 
 
 const links = [
@@ -29,11 +30,10 @@ export default function Navbar() {
     const styles = createStyles();
     const session = useSession();
     const [sideMenuOpen, { toggle: toggleSideMenu }] = useDisclosure(false);
-    const [bottomDrawerOpen, { toggle: toggleBottomDrawer }] = useDisclosure(false);
     const [activeLink, setActiveLink] = useState(pathName);
     const [loadButtons, setLoadButtons] = useState(false);
-
     const [loggingIn, setLoggingIn] = useState(false);
+    const bottomSheet = useBottomSheet();
 
     const navigationLinks = links.map((link) => (
         <Link
@@ -73,8 +73,8 @@ export default function Navbar() {
             </Drawer>
 
             <Drawer.Root
-                opened={bottomDrawerOpen}
-                onClose={toggleBottomDrawer}
+                opened={bottomSheet.isBottomSheetShowing}
+                onClose={bottomSheet.toggleBottomSheet}
                 position='bottom'
                 size={'md'}
             >
@@ -135,7 +135,7 @@ export default function Navbar() {
                                         </Text>
                                     </div>
                                     <div style={styles.signOutButtonContainer}>
-                                        <Button variant='filled' color={theme.colors.red[9]} onClick={() => { toggleBottomDrawer(); signOut(); }} >
+                                        <Button variant='filled' color={theme.colors.red[9]} onClick={() => { bottomSheet.toggleBottomSheet(); signOut(); }} >
                                             Sign Out
                                         </Button>
                                     </div>
@@ -181,7 +181,7 @@ export default function Navbar() {
                                     <>
                                         <Button
                                             onClick={() => {
-                                                toggleBottomDrawer();
+                                                bottomSheet.toggleBottomSheet();
                                             }}
                                             variant='filled'
                                             color={theme.colors.blue[9]}
@@ -193,7 +193,7 @@ export default function Navbar() {
                                 }
 
                                 {session.status === 'authenticated' ?
-                                    <UserMenuButton onClick={toggleBottomDrawer} /> : null
+                                    <UserMenuButton onClick={bottomSheet.toggleBottomSheet} /> : null
                                 }
                             </div>
                         }

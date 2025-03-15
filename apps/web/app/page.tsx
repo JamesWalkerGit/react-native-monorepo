@@ -8,6 +8,7 @@ import { Button, Modal, Transition, Text } from "@mantine/core";
 import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import PartyParrot from './components/animations/PartyParrot';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { useBottomSheet } from './contexts/BottomSheetContext';
 
 const owlPath = '../../../animations/lottie/owl.lottie'
 const owlColor = '#7375f0'
@@ -20,6 +21,7 @@ export default function Homepage() {
   const session = useSession();
   const { height, width } = useViewportSize();
   const styles = createStyles();
+  const bottomSheet = useBottomSheet();
 
   const dotLottieRefCallback = (dotLottie: any) => {
     setDotLottie(dotLottie);
@@ -64,16 +66,15 @@ export default function Homepage() {
             <div style={styles.partyParrotContainer}>
               <PartyParrot />
             </div>
-
             <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
               Party Button 🎉
             </Button>
-            <Button variant='gradient' style={styles.modalButton} onClick={openModal}>Click Here? 👀</Button>
+            <Button variant='gradient' style={styles.modalButtonOwl} onClick={openModal}>Click Here? 👀</Button>
 
             <Modal opened={openedModal} onClose={close} title="Success!">
               <div style={styles.modalContainer}>
                 <Text style={styles.modalTitle}>
-                  Congratulations! You did it! 🥳
+                  {session?.status !== 'authenticated' ? 'You\'re almost there! 🙌' : 'Congratulations! You did it! 🥳'}
                 </Text>
                 <Text>
                   {session.status === 'unauthenticated' ? 'Sign in and press the button to make the owl happy 😃' : 'Press the button to make the owl happy!'}
@@ -88,6 +89,12 @@ export default function Homepage() {
                   />
                 </div>
                 <Button color={owlColor} onClick={() => play()} disabled={session?.status !== 'authenticated'} style={styles.owlButton} variant='outline' >Press</Button>
+
+
+                {session?.status !== 'authenticated' ?
+                  <Button onClick={() => { bottomSheet.toggleBottomSheet(); close(); }} style={styles.modalButtonSignIn} variant={'gradient'} gradient={{ from: 'blue', to: 'violet', deg: 167 }}>
+                    Sign In To Make Owl Happy 🥺
+                  </Button> : null}
               </div>
             </Modal>
           </div>
@@ -124,7 +131,11 @@ const createStyles = () => {
       marginTop: 8,
       fontSize: 22,
     },
-    modalButton: {
+    modalButtonSignIn: {
+      marginTop: 32,
+      fontSize: 22,
+    },
+    modalButtonOwl: {
       margin: 20
     },
     partyParrotContainer: {

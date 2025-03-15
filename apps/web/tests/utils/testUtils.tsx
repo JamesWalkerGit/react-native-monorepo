@@ -1,11 +1,14 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import { MantineProvider } from '@mantine/core'
+import { BottomSheetProvider } from '@/app/contexts/BottomSheetContext'
 
 const AllTheProviders = ({ children }: any) => {
     return (
         <MantineProvider >
-            {children}
+            <BottomSheetProvider>
+                {children}
+            </BottomSheetProvider>
         </MantineProvider>
     )
 }

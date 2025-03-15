@@ -27,18 +27,20 @@ describe('Page', () => {
             owlButton.click();
         })
 
-        const modalText = await screen.findByText('Congratulations! You did it! 🥳');
+        const modalText = await screen.findByText('You\'re almost there! 🙌');
         const owlTextUnauthenticated = await screen.findByText('Sign in and press the button to make the owl happy 😃');
 
         const owlHappyButton = await screen.findByRole('button', { name: 'Press' });
+        const signInModalButton = await screen.findByRole('button', { name: 'Sign In To Make Owl Happy 🥺' });
 
         act(() => {
             owlHappyButton.click();
-        })
+        });
 
         expect(modalText).toBeInTheDocument();
         expect(owlTextUnauthenticated).toBeInTheDocument();
         expect(owlHappyButton).toBeDisabled();
+        expect(signInModalButton).toBeInTheDocument();
     })
 
     it('renders properly when loading complete with owlButton and modal - authenticated', async () => {
