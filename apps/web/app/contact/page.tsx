@@ -41,7 +41,7 @@ export default function Contact() {
                             <Text style={styles.contactText}>{text}</Text>
                         </div>
                         <div style={styles.contactIconContainer}>
-                            <Image src={image} alt={imageAlt} ></Image>
+                            <Image src={image} alt={imageAlt} priority={true}></Image>
                         </div>
                     </div>
                 </Link>
