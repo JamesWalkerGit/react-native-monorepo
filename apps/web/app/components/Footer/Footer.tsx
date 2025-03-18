@@ -40,7 +40,6 @@ export default function Footer() {
     return (
         <>
             <div style={styles.footerContainer} className={classes.footerContainer + ' ' + styleConsts.transitionThemeColors}>
-
                 <Transition
                     mounted={loadFooter}
                     transition='fade'
@@ -54,11 +53,8 @@ export default function Footer() {
                             <div style={{ ...styles.footerSection, flex: .8 }}>
                                 <a target="#blank"
                                     href="https://github.com/JamesWalkerGit/react-native-monorepo/tree/main/apps/web"
-                                    style={{ display: 'flex', flexDirection: 'row' }}
                                     className={classes.footerGithubLink}>
-                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                        <GithubIcon width={25} />
-                                    </div>
+                                    <GithubIcon width={25} />
                                 </a>
                             </div>
 
@@ -67,7 +63,7 @@ export default function Footer() {
                                 >
                                     <Button variant='outline' style={styles.footerButton}>
                                         {pathname === '/contact' ?
-                                            <>
+                                            <>  
                                                 ←
                                                 <div style={styles.footerParrotContainer}>
                                                     <ButtonPartyParrot />

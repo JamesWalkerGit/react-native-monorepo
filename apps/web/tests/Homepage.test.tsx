@@ -21,6 +21,10 @@ describe('Homepage', () => {
         expect(partyButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
 
+        const websiteBlurb = await screen.findByText('A Playground for Creative Web App Experiments - Enjoy!');
+        expect(websiteBlurb).toBeInTheDocument();
+
+
         const owlButton = await screen.findByRole('button', { name: 'Click Here? 👀' });
 
         act(() => {
