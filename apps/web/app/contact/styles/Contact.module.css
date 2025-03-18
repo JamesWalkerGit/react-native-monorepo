@@ -1,0 +1,9 @@
+.contactContainer {
+    background-color: 'unset';
+    padding: 20px;
+
+    @mixin hover {
+        background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
+        border-radius: var(--mantine-radius-md);
+    }
+}

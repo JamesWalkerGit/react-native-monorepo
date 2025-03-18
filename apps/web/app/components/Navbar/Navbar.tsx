@@ -8,47 +8,31 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { showInDesktopView, showInMobileView } from "@/styles/consts";
 import styleConsts from '@/styles/styleConsts.module.css'
-import ThemeButton from "./theming/ThemeButton";
-import HappySquare from "./animations/HappySquare";
-import GithubButton from "./auth/GithubButton";
-import GoogleButton from "./auth/GoogleButton";
+import ThemeButton from "../theming/ThemeButton";
+import HappySquare from "../animations/HappySquare";
+import GithubButton from "../auth/GithubButton";
+import GoogleButton from "../auth/GoogleButton";
 import { signIn, signOut, useSession } from "next-auth/react"
-import BurgerFlip from "./animations/BurgerFlip";
-import UserMenuButton from "./UserMenu/components/UserMenuButton";
-import { useBottomSheet } from "../contexts/BottomSheetContext";
+import BurgerFlip from "../animations/BurgerFlip";
+import UserMenuButton from "../UserMenu/components/UserMenuButton";
+import { useBottomSheet } from "../../contexts/BottomSheetContext";
+import { ButtonPartyParrot } from "../Footer/Footer";
 
 
 const links = [
-    { link: '/', label: 'Home' },
     { link: '/contact', label: 'Contact' },
 ];
 
 export default function Navbar() {
     const theme = useMantineTheme();
-    const pathName = usePathname();
+    const pathname = usePathname();
     const showDesktopNavbar = useMediaQuery('(min-width: ' + theme.breakpoints.xs);
     const styles = createStyles();
     const session = useSession();
     const [sideMenuOpen, { toggle: toggleSideMenu }] = useDisclosure(false);
-    const [activeLink, setActiveLink] = useState(pathName);
     const [loadButtons, setLoadButtons] = useState(false);
     const [loggingIn, setLoggingIn] = useState(false);
     const bottomSheet = useBottomSheet();
-
-    const navigationLinks = links.map((link) => (
-        <Link
-            key={link.label}
-            href={link.link}
-            className={classes.link + ' ' + styleConsts.transitionThemeColors}
-            data-active={activeLink === link.link || undefined}
-            onClick={() => {
-                setActiveLink(link.link);
-                sideMenuOpen ? toggleSideMenu() : null
-            }}
-        >
-            {link.label}
-        </Link>
-    ));
 
     useEffect(() => {
         sideMenuOpen ? toggleSideMenu() : null
@@ -64,10 +48,53 @@ export default function Navbar() {
         }, 200)
     }, [loadButtons]);
 
+    const navigationLinks = links.map((link) => (
+        <Link
+            key={link.label}
+            href={link.link}
+            className={classes.link + ' ' + styleConsts.transitionThemeColors}
+            data-active={pathname === link.link || undefined}
+            onClick={() => {
+                sideMenuOpen ? toggleSideMenu() : null
+            }}
+        >
+            {link.label}
+        </Link>
+    ));
+
+    const NavPartyParrot = () => {
+        return (
+            <Link
+                href={"/"}
+                className={classes.link + ' ' + styleConsts.transitionThemeColors}
+                data-active={pathname === '/' || undefined}
+                onClick={() => {
+                    sideMenuOpen ? toggleSideMenu() : null
+                }}
+                aria-label="Home"
+            >
+                {pathname !== '/' ?
+                    <>
+                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                            <div style={{ marginTop: 12 }}>
+                                ←
+                            </div>
+                            <div style={styles.navPartyParrotContainer}>
+                                <ButtonPartyParrot />
+                            </div>
+                        </div>
+
+                    </>
+                    : 'Home'}
+            </Link>
+        )
+    }
+
     return (
         <>
             <Drawer opened={sideMenuOpen} onClose={toggleSideMenu} size={'70vw'} radius={'md'} withCloseButton={false} lockScroll={false} zIndex={10}>
                 <div style={styles.sidebarHeader}>
+                    <NavPartyParrot />
                     {navigationLinks}
                 </div>
             </Drawer>
@@ -160,6 +187,7 @@ export default function Navbar() {
                 <div style={{ ...styles.navSection, ...styles.centerSection }}>
                     <div className={showInDesktopView}>
                         <Group visibleFrom="xs">
+                            <NavPartyParrot />
                             {navigationLinks}
                         </Group>
                     </div>
@@ -314,6 +342,14 @@ const createStyles = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
-        }
+        },
+        navPartyParrotContainer: {
+            height: 35,
+            width: 35,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginLeft: 8
+        },
     });
 }

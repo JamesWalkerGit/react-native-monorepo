@@ -1,0 +1,12 @@
+.footerContainer {
+    background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
+}
+
+.footerGithubLink {
+    border-radius: var(--mantine-radius-sm);
+    padding: 8px;
+
+    @mixin hover {
+        background-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-4));
+    }
+}

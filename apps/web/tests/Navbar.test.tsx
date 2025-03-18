@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { act, screen } from '@testing-library/react'
 import { render } from './utils/testUtils';
 import nextAuth from 'next-auth/react'
-import Navbar from '@/app/components/Navbar';
+import Navbar from '@/app/components/Navbar/Navbar';
 import { authenticatedSessionMock, unauthenticatedSessionMock } from './mocks/auth/consts';
 
 jest.mock("next-auth/react", () => ({
