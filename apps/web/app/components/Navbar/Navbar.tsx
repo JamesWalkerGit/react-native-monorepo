@@ -8,14 +8,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { showInDesktopView, showInMobileView } from "@/styles/consts";
 import styleConsts from '@/styles/styleConsts.module.css'
-import ThemeButton from "./theming/ThemeButton";
-import HappySquare from "./animations/HappySquare";
-import GithubButton from "./auth/GithubButton";
-import GoogleButton from "./auth/GoogleButton";
+import ThemeButton from "../theming/ThemeButton";
+import HappySquare from "../animations/HappySquare";
+import GithubButton from "../auth/GithubButton";
+import GoogleButton from "../auth/GoogleButton";
 import { signIn, signOut, useSession } from "next-auth/react"
-import BurgerFlip from "./animations/BurgerFlip";
-import UserMenuButton from "./UserMenu/components/UserMenuButton";
-import { useBottomSheet } from "../contexts/BottomSheetContext";
+import BurgerFlip from "../animations/BurgerFlip";
+import UserMenuButton from "../UserMenu/components/UserMenuButton";
+import { useBottomSheet } from "../../contexts/BottomSheetContext";
 
 
 const links = [
@@ -30,7 +30,6 @@ export default function Navbar() {
     const styles = createStyles();
     const session = useSession();
     const [sideMenuOpen, { toggle: toggleSideMenu }] = useDisclosure(false);
-    const [activeLink, setActiveLink] = useState(pathName);
     const [loadButtons, setLoadButtons] = useState(false);
     const [loggingIn, setLoggingIn] = useState(false);
     const bottomSheet = useBottomSheet();
@@ -40,9 +39,8 @@ export default function Navbar() {
             key={link.label}
             href={link.link}
             className={classes.link + ' ' + styleConsts.transitionThemeColors}
-            data-active={activeLink === link.link || undefined}
+            data-active={pathName === link.link || undefined}
             onClick={() => {
-                setActiveLink(link.link);
                 sideMenuOpen ? toggleSideMenu() : null
             }}
         >

@@ -5,8 +5,9 @@ import { StyleSheet } from "../styles/Stylesheet";
 import '../styles/global.css';
 import { ColorSchemeScript } from "@mantine/core";
 import '@mantine/core/styles.css';
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar/Navbar";
 import { Metadata } from 'next'
+import Footer from "./components/Footer/Footer";
 
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div style={styles.contentContainer}>
               {children}
             </div>
+            <Footer />
           </Providers>
         </body>
       </html>
@@ -41,6 +43,7 @@ const styles = StyleSheet.create({
   body: {
   },
   contentContainer: {
-    marginTop: 56
+    marginTop: 56,
+    marginBottom: 56
   }
 });

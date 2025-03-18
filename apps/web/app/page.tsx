@@ -71,6 +71,10 @@ export default function Homepage() {
             </Button>
             <Button variant='gradient' style={styles.modalButtonOwl} onClick={openModal}>Click Here? 👀</Button>
 
+            <div style={{ display: 'flex', flex: .5, justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={styles.blurbText} variant='gradient' gradient={{ from: 'blue', to: 'red', deg: 45 }} >
+                A Playground for Creative Web App Experiments - Enjoy!</Text>
+            </div>
             <Modal opened={openedModal} onClose={close} title="Success!">
               <div style={styles.modalContainer}>
                 <Text style={styles.modalTitle}>
@@ -162,6 +166,12 @@ const createStyles = () => {
     modalTitle: {
       marginBottom: 24,
       fontSize: 24
+    },
+    blurbText: {
+      margin: 50,
+      textAlign: 'center',
+      fontSize: 20,
+      fontWeight: 700
     }
   });
 }

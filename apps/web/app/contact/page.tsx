@@ -3,11 +3,14 @@ import { StyleSheet } from "@/styles/Stylesheet";
 import { Button, CopyButton, Text, Transition, useMantineColorScheme } from "@mantine/core";
 import Image from 'next/image';
 import Link from "next/link";
-import linkedinMark from './images/LI-In-Bug.png';
-import githubMark from './images/github-mark.svg';
-import githubMarkWhite from './images/github-mark-white.svg';
-import jprojectsIcon from './images/Jprojects-Icon.png';
+import linkedinMark from '../images/LI-In-Bug.png';
+import githubMark from '../images/github-mark.svg';
+import githubMarkWhite from '../images/github-mark-white.svg';
+import jprojectsIcon from '../images/Jprojects-Icon.png';
 import { useEffect, useState } from "react";
+import classes from './styles/Contact.module.css';
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
+
 
 
 
@@ -27,14 +30,33 @@ export default function Contact() {
         }, 50)
     }, [loadIcons]);
 
+
+
+    const ContactContainer = ({ link, text, ariaLabel, image, imageAlt }: { link: string, text: string, ariaLabel: string, image: string | StaticImport, imageAlt: string }) => {
+        return (
+            <>
+                <Link target="_blank" href={link} aria-label={ariaLabel} style={styles.contactLink}>
+                    <div style={styles.contactContainer} className={classes.contactContainer}>
+                        <div style={styles.contactTextContainer}>
+                            <Text style={styles.contactText}>{text}</Text>
+                        </div>
+                        <div style={styles.contactIconContainer}>
+                            <Image src={image} alt={imageAlt} priority={true} loading='eager'></Image>
+                        </div>
+                    </div>
+                </Link>
+            </>
+        )
+    }
+
     return (
         <>
-            <div style={styles.contactTextContainer}>
+            <div style={styles.contactTitleContainer}>
                 <Text style={{ fontSize: 36 }}>
                     Contact
                 </Text>
             </div>
-            <div style={styles.contactContainer}>
+            <div>
                 <Transition
                     mounted={loadIcons}
                     transition='slide-down'
@@ -44,40 +66,23 @@ export default function Contact() {
                     {
                         (fadeStyle) => {
                             return <div style={{ ...fadeStyle }}>
-                                <div style={styles.linkedinContainer}>
-                                    <Link target="_blank" href={"http://linkedin.com/in/jameswalkerlinkedin"} aria-label="http://linkedin.com/in/jameswalkerlinkedin" style={styles.contactLink}>
-                                        <Text style={styles.contactText}>Linkedin</Text>
-                                        <Image src={linkedinMark} alt={"linkedinLogo"} width={125}></Image>
-                                    </Link>
-                                </div>
+                                <ContactContainer link={"http://linkedin.com/in/jameswalkerlinkedin"} text={"Linkedin"} ariaLabel={"http://linkedin.com/in/jameswalkerlinkedin"} image={linkedinMark} imageAlt={"linkedinLogo"} />
 
-                                <div style={styles.githubContainer}>
-                                    <Link target="_blank" href={"https://github.com/JamesWalkerGit"} aria-label="https://github.com/JamesWalkerGit" style={styles.contactLink}>
-                                        <Text style={styles.contactText}>GitHub</Text>
-                                        <Image src={githubMarkSrc} alt={"githubIcon"} width={125}></Image>
-                                    </Link>
-                                </div>
+                                <ContactContainer link={"https://github.com/JamesWalkerGit"} text={"GitHub"} ariaLabel={"https://github.com/JamesWalkerGit"} image={githubMarkSrc} imageAlt={"githubIcon"} />
 
-                                <div style={styles.emailContainer}>
-                                    <Link target="_blank" href={'mailto:JProjectsMail@gmail.com'} aria-label="Mail To JProjectsmail@gmail.com" style={styles.contactLink}>
-                                        <Text style={styles.contactText}>Email</Text>
-                                        <Button variant='transparent' style={{ width: 125, height: 150 }}>
-                                            <div style={styles.jprojectsIconContainer}>
-                                                <Image src={jprojectsIcon} alt={"JProjects"} ></Image>
-                                            </div>
-                                        </Button>
-                                    </Link>
-                                    <div style={styles.copyButtonContainer}>
-                                        <CopyButton value="JProjectsMail@gmail.com">
-                                            {({ copied, copy }) => (
-                                                <Button variant="outline" color={copied ? 'teal' : 'blue'} onClick={copy} style={styles.copyButton} aria-label="JprojectsMail@gmail.com">
-                                                    {copied ? 'Copied' : 'JProjectsMail@gmail.com'}
-                                                </Button>
-                                            )}
-                                        </CopyButton>
-                                    </div>
+                                <ContactContainer link={"mailto:JProjectsMail@gmail.com"} text={"Email"} ariaLabel={"Mail To JProjectsmail@gmail.com"} image={jprojectsIcon} imageAlt={"JProjects"} />
+
+                                <div style={styles.copyButtonContainer}>
+                                    <CopyButton value="JProjectsMail@gmail.com">
+                                        {({ copied, copy }) => (
+                                            <Button variant="outline" color={copied ? 'teal' : 'blue'} onClick={copy} style={styles.copyButton} aria-label="JprojectsMail@gmail.com">
+                                                {copied ? 'Copied' : 'JProjectsMail@gmail.com'}
+                                            </Button>
+                                        )}
+                                    </CopyButton>
                                 </div>
                             </div>
+
                         }
                     }
                 </Transition >
@@ -93,54 +98,43 @@ const createStyles = () => {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'center',
-        },
-        linkedinContainer: {
-            display: 'flex',
-            flexDirection: 'row',
-            margin: 40
-        },
-        githubContainer: {
-            margin: 40,
-            flexDirection: 'row'
-        },
-        emailContainer: {
-            margin: 16,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column'
-        },
-        emailLink: {
-            fontSize: 24,
+            width: 300
         },
         contactLink: {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
         },
+        contactTitleContainer: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
         contactText: {
             fontSize: 32,
-            marginRight: 40
         },
         contactTextContainer: {
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            marginRight: 40,
+            width: 100,
         },
-        jprojectsIconContainer: {
+        contactIconContainer: {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            width: 100,
+            height: 100
         },
         copyButton: {
-            marginLeft: 108
         },
         copyButtonContainer: {
-            marginTop: 16,
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            marginTop: 24
         }
     });
 }
