@@ -16,16 +16,16 @@ import { signIn, signOut, useSession } from "next-auth/react"
 import BurgerFlip from "../animations/BurgerFlip";
 import UserMenuButton from "../UserMenu/components/UserMenuButton";
 import { useBottomSheet } from "../../contexts/BottomSheetContext";
-import { ButtonPartyParrot } from "../Footer/Footer";
 
 
 const links = [
+    { link: '/', label: 'Home' },
     { link: '/contact', label: 'Contact' },
 ];
 
 export default function Navbar() {
     const theme = useMantineTheme();
-    const pathname = usePathname();
+    const pathName = usePathname();
     const showDesktopNavbar = useMediaQuery('(min-width: ' + theme.breakpoints.xs);
     const styles = createStyles();
     const session = useSession();
@@ -33,6 +33,20 @@ export default function Navbar() {
     const [loadButtons, setLoadButtons] = useState(false);
     const [loggingIn, setLoggingIn] = useState(false);
     const bottomSheet = useBottomSheet();
+
+    const navigationLinks = links.map((link) => (
+        <Link
+            key={link.label}
+            href={link.link}
+            className={classes.link + ' ' + styleConsts.transitionThemeColors}
+            data-active={pathName === link.link || undefined}
+            onClick={() => {
+                sideMenuOpen ? toggleSideMenu() : null
+            }}
+        >
+            {link.label}
+        </Link>
+    ));
 
     useEffect(() => {
         sideMenuOpen ? toggleSideMenu() : null
@@ -48,53 +62,10 @@ export default function Navbar() {
         }, 200)
     }, [loadButtons]);
 
-    const navigationLinks = links.map((link) => (
-        <Link
-            key={link.label}
-            href={link.link}
-            className={classes.link + ' ' + styleConsts.transitionThemeColors}
-            data-active={pathname === link.link || undefined}
-            onClick={() => {
-                sideMenuOpen ? toggleSideMenu() : null
-            }}
-        >
-            {link.label}
-        </Link>
-    ));
-
-    const NavPartyParrot = () => {
-        return (
-            <Link
-                href={"/"}
-                className={classes.link + ' ' + styleConsts.transitionThemeColors}
-                data-active={pathname === '/' || undefined}
-                onClick={() => {
-                    sideMenuOpen ? toggleSideMenu() : null
-                }}
-                aria-label="Home"
-            >
-                {pathname !== '/' ?
-                    <>
-                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                            <div style={{ marginTop: 12 }}>
-                                ←
-                            </div>
-                            <div style={styles.navPartyParrotContainer}>
-                                <ButtonPartyParrot />
-                            </div>
-                        </div>
-
-                    </>
-                    : 'Home'}
-            </Link>
-        )
-    }
-
     return (
         <>
             <Drawer opened={sideMenuOpen} onClose={toggleSideMenu} size={'70vw'} radius={'md'} withCloseButton={false} lockScroll={false} zIndex={10}>
                 <div style={styles.sidebarHeader}>
-                    <NavPartyParrot />
                     {navigationLinks}
                 </div>
             </Drawer>
@@ -187,7 +158,6 @@ export default function Navbar() {
                 <div style={{ ...styles.navSection, ...styles.centerSection }}>
                     <div className={showInDesktopView}>
                         <Group visibleFrom="xs">
-                            <NavPartyParrot />
                             {navigationLinks}
                         </Group>
                     </div>
@@ -342,14 +312,6 @@ const createStyles = () => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
-        },
-        navPartyParrotContainer: {
-            height: 35,
-            width: 35,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginLeft: 8
-        },
+        }
     });
 }

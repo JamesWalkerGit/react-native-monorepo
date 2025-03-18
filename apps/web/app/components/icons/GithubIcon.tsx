@@ -14,7 +14,7 @@ export const GithubIcon = ({ height, width, style }: { height?: number, width?: 
 
     return (
         <>
-            <Image src={githubMarkSrc} alt={'Github Mark'} height={height} width={width} style={style} priority={true}></Image>
+            <Image src={githubMarkSrc} alt={'Github Mark'} aria-label="Github Icon" height={height} width={width} style={style} priority={true}></Image>
         </>
     )
 }

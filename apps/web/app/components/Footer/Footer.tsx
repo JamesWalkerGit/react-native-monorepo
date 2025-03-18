@@ -1,9 +1,8 @@
 "use client";
 import { StyleSheet } from "@/styles/Stylesheet";
 import classes from './Footer.module.css';
-import { showInMobileView } from "@/styles/consts";
 import styleConsts from '@/styles/styleConsts.module.css'
-import { Button, Transition } from '@mantine/core';
+import { Button, Transition, Text } from '@mantine/core';
 import { GithubIcon } from "../icons/GithubIcon";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -26,15 +25,12 @@ export const ButtonPartyParrot = () => {
 export default function Footer() {
     const styles = createStyles();
     const [loadFooter, setLoadFooter] = useState(false);
-
     const pathname = usePathname();
-
-    console.log('-----pathname: ', pathname);
 
     useEffect(() => {
         setInterval(() => {
             loadFooter === false ? setLoadFooter(true) : null
-        }, 50)
+        }, 200)
     }, [loadFooter]);
 
     const isInMobileView = useMediaQuery('(max-width: 36em)', true);
@@ -43,66 +39,54 @@ export default function Footer() {
 
     return (
         <>
+            <div style={styles.footerContainer} className={classes.footerContainer + ' ' + styleConsts.transitionThemeColors}>
 
-            <Transition
-                mounted={loadFooter}
-                transition='slide-up'
-                duration={200}
-                timingFunction="ease"
-                enterDelay={1250}
-            >
-                {
-                    (fadeStyle) => {
-                        return <div style={{
-                            ...fadeStyle, ...styles.footerTransition
+                <Transition
+                    mounted={loadFooter}
+                    transition='fade'
+                    duration={300}
+                    timingFunction="ease"
+                >
+                    {
+                        (fadeStyle) => <div style={{
+                            ...fadeStyle, ...styles.footerContainer
                         }}>
-                            <div style={styles.footerContainer} className={classes.footerContainer + ' ' + styleConsts.transitionThemeColors}>
-                                <div style={{ ...styles.footerSection, flex: .8 }}>
+                            <div style={{ ...styles.footerSection, flex: .8 }}>
+                                <a target="#blank"
+                                    href="https://github.com/JamesWalkerGit/react-native-monorepo/tree/main/apps/web"
+                                    style={{ display: 'flex', flexDirection: 'row' }}
+                                    className={classes.footerGithubLink}>
+                                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                                        <GithubIcon width={25} />
+                                    </div>
+                                </a>
+                            </div>
 
-                                    <a target="#blank"
-                                        href="https://github.com/JamesWalkerGit/react-native-monorepo/tree/main/apps/web"
-                                        style={{ display: 'flex', flexDirection: 'row' }}
-                                        className={classes.footerGithubLink}>
-                                        <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                            <GithubIcon height={25} width={25} style={{ marginRight: 8 }} /> Github
-                                        </div>
-                                    </a>
-                                </div>
-
-                                {isInMobileView ? <div style={{ ...styles.footerSection, flex: .2, justifyContent: 'flex-end' }}>
-                                    <Link href={pathname === '/contact' ? '/' : '/contact'}
-                                    >
-                                        <Button variant='outline'>
-                                            {pathname === '/contact' ?
-                                                <>
-                                                    ←
-                                                    <div style={styles.footerParrotContainer}>
-                                                        <ButtonPartyParrot />
-                                                    </div>
-                                                </>
-                                                : 'Contact'}
-                                        </Button>
-                                    </Link>
-                                </div> : null}
-
+                            <div style={{ ...styles.footerSection, flex: .2, justifyContent: 'flex-end' }}>
+                                <Link href={pathname === '/contact' ? '/' : '/contact'}
+                                >
+                                    <Button variant='outline' style={styles.footerButton}>
+                                        {pathname === '/contact' ?
+                                            <>
+                                                ←
+                                                <div style={styles.footerParrotContainer}>
+                                                    <ButtonPartyParrot />
+                                                </div>
+                                            </>
+                                            : 'Contact'}
+                                    </Button>
+                                </Link>
                             </div>
                         </div>
-
                     }
-                }
-            </Transition >
-
+                </Transition>
+            </div>
         </>
     );
 }
 
 const createStyles = () => {
     return StyleSheet.create({
-        footerTransition: {
-            position: 'fixed',
-            bottom: 0,
-            width: '100%',
-        },
         footerContainer: {
             flex: 1,
             display: 'flex',
@@ -111,6 +95,9 @@ const createStyles = () => {
             justifyContent: 'space-between',
             height: 56,
             zIndex: 11,
+            position: 'fixed',
+            bottom: 0,
+            width: '100%',
         },
         footerSection: {
             flex: 1,
@@ -127,5 +114,11 @@ const createStyles = () => {
             alignItems: 'center',
             marginLeft: 8
         },
+        footerButton: {
+            width: 100,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center '
+        }
     });
 }
