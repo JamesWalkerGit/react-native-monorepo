@@ -88,7 +88,6 @@ export default function Homepage() {
                     src={owlPath}
                     autoplay={false}
                     loop={false}
-                    autoResizeCanvas={true}
                     dotLottieRefCallback={dotLottieRefCallback}
                   />
                 </div>

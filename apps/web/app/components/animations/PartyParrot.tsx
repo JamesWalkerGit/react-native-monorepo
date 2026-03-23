@@ -27,7 +27,6 @@ export default function PartyParrot({ height = 250, width = 250, speed = 1, ...p
                         src={partyParrotPath}
                         loop
                         autoplay
-                        autoResizeCanvas={true}
                         speed={speed}
                     />}
             </div>

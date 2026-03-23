@@ -17,7 +17,6 @@ export default function BurgerFlip({ height = 300, width = 300, speed = 1, ...pr
                     src={burgerFlipPath}
                     loop
                     autoplay
-                    autoResizeCanvas={true}
                     speed={speed}
                 />
             </div>

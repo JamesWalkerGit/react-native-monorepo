@@ -16,7 +16,6 @@ export default function HappySquare({ height = 300, width = 300, speed = 1, ...p
                     src={happySquarePath}
                     loop
                     autoplay
-                    autoResizeCanvas={true}
                     speed={speed}
                 />
             </div>

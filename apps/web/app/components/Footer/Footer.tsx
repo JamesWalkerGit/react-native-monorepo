@@ -17,7 +17,6 @@ export const ButtonPartyParrot = () => {
             src={partyParrotPath}
             loop
             autoplay
-            autoResizeCanvas={true}
             speed={1}
         />
     )
@@ -63,7 +62,7 @@ export default function Footer() {
                                 >
                                     <Button variant='outline' style={styles.footerButton}>
                                         {pathname === '/contact' ?
-                                            <>  
+                                            <>
                                                 ←
                                                 <div style={styles.footerParrotContainer}>
                                                     <ButtonPartyParrot />
