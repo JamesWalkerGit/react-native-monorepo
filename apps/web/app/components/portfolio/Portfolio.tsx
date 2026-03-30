@@ -104,8 +104,8 @@ const appsWorkedOn: AppWorkedOn[] = [
         width: 314,
         height: 538,
         cropInsets: {
-            horizontal: 40,
-            vertical: 80,
+            horizontal: 60,
+            vertical: 60,
         },
     },
 ];
@@ -117,6 +117,7 @@ export default function Portfolio({
     const styles = createStyles();
     const [activeAppNames, setActiveAppNames] = useState<Set<string>>(new Set());
     const [hoveredAppName, setHoveredAppName] = useState<string | null>(null);
+    const [isCoarsePointerInput, setIsCoarsePointerInput] = useState(false);
 
     const toggleAppOverlay = (appName: string) => {
         setActiveAppNames((current) => {
@@ -140,7 +141,26 @@ export default function Portfolio({
     };
 
     useEffect(() => {
+        const mediaQuery = window.matchMedia("(hover: none) and (pointer: coarse)");
+
+        const updatePointerType = () => {
+            setIsCoarsePointerInput(mediaQuery.matches);
+        };
+
+        updatePointerType();
+        mediaQuery.addEventListener("change", updatePointerType);
+
+        return () => {
+            mediaQuery.removeEventListener("change", updatePointerType);
+        };
+    }, []);
+
+    useEffect(() => {
         const closeOverlayOnOutsidePress = (event: MouseEvent | TouchEvent) => {
+            if (event.type === "touchstart" && isCoarsePointerInput) {
+                return;
+            }
+
             if (!(event.target instanceof Element)) {
                 return;
             }
@@ -159,7 +179,7 @@ export default function Portfolio({
             document.removeEventListener("mousedown", closeOverlayOnOutsidePress);
             document.removeEventListener("touchstart", closeOverlayOnOutsidePress);
         };
-    }, []);
+    }, [isCoarsePointerInput]);
 
     return (
         <>
@@ -252,7 +272,7 @@ export default function Portfolio({
                         {appsWorkedOn.map((app) => {
                             const isActive = activeAppNames.has(app.name);
                             const isHovered = hoveredAppName === app.name;
-                            const isOverlayVisible = isActive || isHovered;
+                            const isOverlayVisible = isActive || (!isCoarsePointerInput && isHovered);
                             const cropScale = app.cropInsets
                                 ? Math.min(
                                     app.width / (app.width - app.cropInsets.horizontal * 2),
@@ -264,39 +284,47 @@ export default function Portfolio({
                                 : styles.appImage;
 
                             return (
-                                    <div key={app.name} style={styles.appCard} className={classes.appCardInteractive}>
-                                        <div
-                                            className={`${classes.appImageWrapper} ${isActive ? classes.appImageWrapperActive : ""}`}
-                                            role="button"
-                                            tabIndex={0}
-                                            aria-label={`${app.name} contribution details`}
-                                            aria-pressed={isActive}
-                                            data-testid={`${app.name}-overlay-trigger`}
-                                            onDragStart={(event) => event.preventDefault()}
-                                            onClick={() => toggleAppOverlay(app.name)}
-                                            onMouseEnter={() => setHoveredAppName(app.name)}
-                                            onMouseLeave={() => setHoveredAppName((current) => (current === app.name ? null : current))}
-                                            onKeyDown={(event) => handleCardKeyDown(event, app.name)}
-                                        >
-                                            <Image
-                                                src={app.imageSrc}
-                                                alt={app.alt}
-                                                width={app.width}
-                                                height={app.height}
-                                                style={appImageStyle}
-                                                className={classes.appImageAsset}
-                                                draggable={false}
-                                            />
-                                            <div className={classes.appInfoIcon} aria-hidden="true">i</div>
-                                            <div className={classes.appOverlay} data-visible={isOverlayVisible} data-testid={`${app.name}-overlay`}>
-                                                <Text className={classes.appOverlayTitle}>{app.name}</Text>
-                                                <Text className={classes.appOverlayRole}>{app.role}</Text>
-                                                <Text className={classes.appOverlayBody}>{app.contributions}</Text>
-                                            </div>
+                                <div key={app.name} style={styles.appCard} className={classes.appCardInteractive}>
+                                    <div
+                                        className={`${classes.appImageWrapper} ${isActive ? classes.appImageWrapperActive : ""}`}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label={`${app.name} contribution details`}
+                                        aria-pressed={isActive}
+                                        data-testid={`${app.name}-overlay-trigger`}
+                                        onDragStart={(event) => event.preventDefault()}
+                                        onClick={() => toggleAppOverlay(app.name)}
+                                        onMouseEnter={() => {
+                                            if (!isCoarsePointerInput) {
+                                                setHoveredAppName(app.name);
+                                            }
+                                        }}
+                                        onMouseLeave={() => {
+                                            if (!isCoarsePointerInput) {
+                                                setHoveredAppName((current) => (current === app.name ? null : current));
+                                            }
+                                        }}
+                                        onKeyDown={(event) => handleCardKeyDown(event, app.name)}
+                                    >
+                                        <Image
+                                            src={app.imageSrc}
+                                            alt={app.alt}
+                                            width={app.width}
+                                            height={app.height}
+                                            style={appImageStyle}
+                                            className={classes.appImageAsset}
+                                            draggable={false}
+                                        />
+                                        <div className={classes.appInfoIcon} aria-hidden="true">i</div>
+                                        <div className={classes.appOverlay} data-visible={isOverlayVisible} data-testid={`${app.name}-overlay`}>
+                                            <Text className={classes.appOverlayTitle}>{app.name}</Text>
+                                            <Text className={classes.appOverlayRole}>{app.role}</Text>
+                                            <Text className={classes.appOverlayBody}>{app.contributions}</Text>
                                         </div>
                                     </div>
-                                );
-                            })}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
