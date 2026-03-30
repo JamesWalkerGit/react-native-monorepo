@@ -1,7 +1,7 @@
 import { Text } from "@mantine/core";
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import { useMediaQuery } from "@mantine/hooks";
+import type { CSSProperties } from "react";
 import { StyleSheet } from "@/styles/Stylesheet";
 import phoneHorizontal from "@/app/portfolio/images/phoneHorizontal.png";
 import classes from "@/app/portfolio/styles/Portfolio.module.css";
@@ -15,6 +15,7 @@ type PortfolioTechIcon = {
     name: string;
     lightSrc: string;
     darkSrc: string;
+    iconStyle?: CSSProperties;
 };
 
 type PortfolioHighlight = {
@@ -34,8 +35,13 @@ const portfolioHighlights: PortfolioHighlight[] = [
             { name: "React Native", lightSrc: "/tech-icons/light/react-native.svg", darkSrc: "/tech-icons/dark/react-native.svg" },
             { name: "Swift", lightSrc: "/tech-icons/light/swift.svg", darkSrc: "/tech-icons/light/swift.svg" },
             { name: "Kotlin", lightSrc: "/tech-icons/light/kotlin.svg", darkSrc: "/tech-icons/dark/kotlin.svg" },
-            { name: "Android", lightSrc: "/tech-icons/light/android.svg", darkSrc: "/tech-icons/dark/android.svg" },
             { name: "iOS", lightSrc: "/tech-icons/light/ios.svg", darkSrc: "/tech-icons/dark/ios.svg" },
+            { name: "Android", lightSrc: "/tech-icons/light/android.svg", darkSrc: "/tech-icons/dark/android.svg" },
+            { name: "Next.js", lightSrc: "/tech-icons/light/nextjs.svg", darkSrc: "/tech-icons/dark/nextjs.svg" },
+            { name: "Angular", lightSrc: "/tech-icons/light/angular.svg", darkSrc: "/tech-icons/dark/angular.svg" },
+            { name: "Appium", lightSrc: "/tech-icons/light/appium.png", darkSrc: "/tech-icons/dark/appium.png" },
+            { name: "Figma", lightSrc: "/tech-icons/light/figma.svg", darkSrc: "/tech-icons/dark/figma.svg", iconStyle: { width: 34, height: 34 } },
+            { name: "Storybook", lightSrc: "/tech-icons/light/storybook.svg", darkSrc: "/tech-icons/dark/storybook.svg" },
         ],
         details: [
             "Optimized Development: Scaled web and mobile apps by blending cross-platform frameworks with targeted native code, maintaining shared codebases without compromising high-quality native feel.",
@@ -67,12 +73,11 @@ export default function Portfolio({
     showDisclaimer = true,
 }: PortfolioProps) {
     const styles = createStyles();
-    const isMobileView = useMediaQuery("(max-width: 48em)");
 
     return (
         <>
             <div style={styles.titleContainer}>
-                <Text style={isMobileView ? { ...styles.titleText, ...styles.titleTextMobile } : styles.titleText} className={inter.className}>
+                <Text style={styles.titleText} className={`${inter.className} ${classes.titleText}`}>
                     {title}
                 </Text>
             </div>
@@ -85,27 +90,33 @@ export default function Portfolio({
                             {highlight.techIcons ? (
                                 <div style={styles.iconSection}>
                                     <div style={styles.iconRow}>
-                                        {highlight.techIcons.map((icon) => (
-                                            <div key={icon.name} style={styles.iconItem}>
-                                                <Image
-                                                    src={icon.lightSrc}
-                                                    alt={`${icon.name} icon`}
-                                                    width={20}
-                                                    height={20}
-                                                    style={styles.techIconImage}
-                                                    className={classes.lightModeIcon}
-                                                />
-                                                <Image
-                                                    src={icon.darkSrc}
-                                                    alt={`${icon.name} icon`}
-                                                    width={20}
-                                                    height={20}
-                                                    style={styles.techIconImage}
-                                                    className={classes.darkModeIcon}
-                                                />
-                                                <Text style={styles.iconLabel}>{icon.name}</Text>
-                                            </div>
-                                        ))}
+                                        {highlight.techIcons.map((icon) => {
+                                            const iconWidth = Number(icon.iconStyle?.width ?? styles.techIconImage.width);
+                                            const iconHeight = Number(icon.iconStyle?.height ?? styles.techIconImage.height);
+                                            const mergedIconStyle = icon.iconStyle ? { ...styles.techIconImage, ...icon.iconStyle } : styles.techIconImage;
+
+                                            return (
+                                                <div key={icon.name} style={styles.iconItem}>
+                                                    <Image
+                                                        src={icon.lightSrc}
+                                                        alt={`${icon.name} icon`}
+                                                        width={iconWidth}
+                                                        height={iconHeight}
+                                                        style={mergedIconStyle}
+                                                        className={classes.lightModeIcon}
+                                                    />
+                                                    <Image
+                                                        src={icon.darkSrc}
+                                                        alt={`${icon.name} icon`}
+                                                        width={iconWidth}
+                                                        height={iconHeight}
+                                                        style={mergedIconStyle}
+                                                        className={classes.darkModeIcon}
+                                                    />
+                                                    <Text style={styles.iconLabel}>{icon.name}</Text>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             ) : null}
@@ -169,14 +180,9 @@ const createStyles = () => {
             marginTop: 8,
         },
         titleText: {
-            fontSize: 48,
             textAlign: "center",
             fontWeight: "light-dark(700, 600)",
             color: "light-dark(var(--mantine-color-black), var(--mantine-color-gray-3))",
-        },
-        titleTextMobile: {
-            fontSize: 34,
-            lineHeight: 1.15,
         },
         sectionContainer: {
             display: "flex",

@@ -9,6 +9,11 @@
     }
 }
 
+.titleText {
+    font-size: 48px;
+    line-height: 1.15;
+}
+
 .textColumn {
     flex: 1 1 340px;
     max-width: 460px;
@@ -63,5 +68,12 @@
 
     .textBlock {
         flex: 0 0 auto;
+    }
+}
+
+@media (max-width: 48em) {
+    .titleText {
+        font-size: 34px;
+        line-height: 1.15;
     }
 }
