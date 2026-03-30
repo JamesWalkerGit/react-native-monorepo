@@ -1,9 +1,12 @@
 import { Text } from "@mantine/core";
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import type { CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties, type KeyboardEvent } from "react";
+import type { StaticImageData } from "next/image";
 import { StyleSheet } from "@/styles/Stylesheet";
 import phoneHorizontal from "@/app/portfolio/images/phoneHorizontal.png";
+import fordApp from "@/app/portfolio/images/fordApp.webp";
+import canopyApp from "@/app/portfolio/images/canopyApp.webp";
 import classes from "@/app/portfolio/styles/Portfolio.module.css";
 
 const inter = Inter({
@@ -68,11 +71,95 @@ type PortfolioProps = {
     showDisclaimer?: boolean;
 };
 
+type AppWorkedOn = {
+    name: string;
+    imageSrc: StaticImageData;
+    alt: string;
+    role: string;
+    contributions: string;
+    width: number;
+    height: number;
+    cropInsets?: {
+        horizontal: number;
+        vertical: number;
+    };
+};
+
+const appsWorkedOn: AppWorkedOn[] = [
+    {
+        name: "The Ford App",
+        imageSrc: fordApp,
+        alt: "The Ford App showcase",
+        role: "Frontend Engineer",
+        contributions: "Vehicle Controls & Customer Experience, Swift, Kotlin, E2E Testing",
+        width: 314,
+        height: 538,
+    },
+    {
+        name: "Canopy Security",
+        imageSrc: canopyApp,
+        alt: "Canopy Security showcase",
+        role: "UX/UI Engineer",
+        contributions: "Livestreaming & Intrusion Alerts, Maps API, CI/CD Pipeline",
+        width: 314,
+        height: 538,
+        cropInsets: {
+            horizontal: 40,
+            vertical: 80,
+        },
+    },
+];
+
 export default function Portfolio({
     title = "How I Deliver Scalable Solutions",
     showDisclaimer = true,
 }: PortfolioProps) {
     const styles = createStyles();
+    const [activeAppNames, setActiveAppNames] = useState<Set<string>>(new Set());
+    const [hoveredAppName, setHoveredAppName] = useState<string | null>(null);
+
+    const toggleAppOverlay = (appName: string) => {
+        setActiveAppNames((current) => {
+            const next = new Set(current);
+
+            if (next.has(appName)) {
+                next.delete(appName);
+            } else {
+                next.add(appName);
+            }
+
+            return next;
+        });
+    };
+
+    const handleCardKeyDown = (event: KeyboardEvent<HTMLDivElement>, appName: string) => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleAppOverlay(appName);
+        }
+    };
+
+    useEffect(() => {
+        const closeOverlayOnOutsidePress = (event: MouseEvent | TouchEvent) => {
+            if (!(event.target instanceof Element)) {
+                return;
+            }
+
+            if (event.target.closest(`.${classes.appImageWrapper}`)) {
+                return;
+            }
+
+            setActiveAppNames(new Set());
+        };
+
+        document.addEventListener("mousedown", closeOverlayOnOutsidePress);
+        document.addEventListener("touchstart", closeOverlayOnOutsidePress);
+
+        return () => {
+            document.removeEventListener("mousedown", closeOverlayOnOutsidePress);
+            document.removeEventListener("touchstart", closeOverlayOnOutsidePress);
+        };
+    }, []);
 
     return (
         <>
@@ -147,13 +234,70 @@ export default function Portfolio({
                 </div>
 
                 <div style={styles.imageColumn} className={classes.imageColumn}>
-                    <Image
-                        src={phoneHorizontal}
-                        alt="Portfolio showcase image"
-                        aria-label="Portfolio showcase image"
-                        style={styles.image}
-                        priority
-                    />
+                    <div className={classes.phoneShowcase}>
+                        <Image
+                            src={phoneHorizontal}
+                            alt="Portfolio showcase image"
+                            aria-label="Portfolio showcase image"
+                            style={styles.image}
+                            priority
+                        />
+                    </div>
+                </div>
+
+                <div style={styles.appsSection} className={classes.appsSectionBlock}>
+                    <Text style={styles.appsTitle}>Apps I&apos;ve Worked On</Text>
+
+                    <div style={styles.appsGrid}>
+                        {appsWorkedOn.map((app) => {
+                            const isActive = activeAppNames.has(app.name);
+                            const isHovered = hoveredAppName === app.name;
+                            const isOverlayVisible = isActive || isHovered;
+                            const cropScale = app.cropInsets
+                                ? Math.min(
+                                    app.width / (app.width - app.cropInsets.horizontal * 2),
+                                    app.height / (app.height - app.cropInsets.vertical * 2)
+                                )
+                                : 1;
+                            const appImageStyle = app.cropInsets
+                                ? { ...styles.appImage, transform: `scale(${cropScale})`, transformOrigin: "center" as const }
+                                : styles.appImage;
+
+                            return (
+                                    <div key={app.name} style={styles.appCard} className={classes.appCardInteractive}>
+                                        <div
+                                            className={`${classes.appImageWrapper} ${isActive ? classes.appImageWrapperActive : ""}`}
+                                            role="button"
+                                            tabIndex={0}
+                                            aria-label={`${app.name} contribution details`}
+                                            aria-pressed={isActive}
+                                            data-testid={`${app.name}-overlay-trigger`}
+                                            onDragStart={(event) => event.preventDefault()}
+                                            onClick={() => toggleAppOverlay(app.name)}
+                                            onMouseEnter={() => setHoveredAppName(app.name)}
+                                            onMouseLeave={() => setHoveredAppName((current) => (current === app.name ? null : current))}
+                                            onKeyDown={(event) => handleCardKeyDown(event, app.name)}
+                                        >
+                                            <Image
+                                                src={app.imageSrc}
+                                                alt={app.alt}
+                                                width={app.width}
+                                                height={app.height}
+                                                style={appImageStyle}
+                                                className={classes.appImageAsset}
+                                                draggable={false}
+                                            />
+                                            <div className={classes.appInfoIcon} aria-hidden="true">i</div>
+                                            <div className={classes.appOverlay} data-visible={isOverlayVisible} data-testid={`${app.name}-overlay`}>
+                                                <Text className={classes.appOverlayTitle}>{app.name}</Text>
+                                                <Text className={classes.appOverlayRole}>{app.role}</Text>
+                                                <Text className={classes.appOverlayBody}>{app.contributions}</Text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                    </div>
                 </div>
             </div>
 
@@ -185,12 +329,6 @@ const createStyles = () => {
             color: "light-dark(var(--mantine-color-black), var(--mantine-color-gray-3))",
         },
         sectionContainer: {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "stretch",
-            gap: 28,
-            flexWrap: "wrap",
             padding: 16,
             maxWidth: 1240,
             marginLeft: "auto",
@@ -214,8 +352,10 @@ const createStyles = () => {
         },
         imageColumn: {
             display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-start",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "stretch",
+            gap: 18,
         },
         image: {
             width: "auto",
@@ -225,6 +365,43 @@ const createStyles = () => {
             objectFit: "contain",
             objectPosition: "center",
             borderRadius: 20,
+            alignSelf: "center",
+        },
+        appsSection: {
+            display: "flex",
+            flexDirection: "column",
+            gap: 14,
+            width: "100%",
+            padding: 18,
+            borderRadius: 14,
+            backgroundColor: "light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6))",
+        },
+        appsTitle: {
+            fontSize: 26,
+            lineHeight: 1.2,
+            fontWeight: 700,
+            textAlign: "center",
+        },
+        appsGrid: {
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: 16,
+        },
+        appCard: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            flex: "1 1 250px",
+            maxWidth: 290,
+            minWidth: 220,
+        },
+        appImage: {
+            width: "100%",
+            height: "auto",
+            borderRadius: 18,
+            objectFit: "cover",
+            boxShadow: "0 10px 24px rgba(0, 0, 0, 0.18)",
         },
         cardTitle: {
             fontSize: 28,
