@@ -266,7 +266,7 @@ export default function Portfolio({
                 </div>
 
                 <div style={styles.appsSection} className={classes.appsSectionBlock}>
-                    <Text style={styles.appsTitle}>Apps I&apos;ve Worked On</Text>
+                    <Text style={styles.appsTitle}>Featured Applications</Text>
 
                     <div style={styles.appsGrid}>
                         {appsWorkedOn.map((app) => {
