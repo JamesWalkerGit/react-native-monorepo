@@ -138,11 +138,12 @@ export default function Homepage() {
             variant='gradient'
             style={{
               ...styles.bottomPeekButton,
+              ...(isMobileLayout ? styles.bottomPeekButtonMobile : null),
               ...(showBottomPeekTrigger ? styles.bottomPeekButtonVisible : styles.bottomPeekButtonHidden),
             }}
             onClick={openModal}
           >
-            {session.status === 'authenticated' ? 'Check on the Owl? 🦉' : isTouchPrimaryInput ? 'Tap Here? 👀' : 'Click Here? 👀'}
+            {session.status === 'authenticated' ? "How's Owl? 🦉" : isTouchPrimaryInput ? 'Tap Here? 👀' : 'Click Here? 👀'}
           </Button>
         </>
       </div >
@@ -191,6 +192,13 @@ const createStyles = () => {
       zIndex: 12,
       transition: 'opacity 180ms ease, transform 220ms ease',
       boxShadow: '0 8px 24px rgba(0, 0, 0, 0.24)',
+    },
+    bottomPeekButtonMobile: {
+      bottom: 10,
+      fontSize: 12,
+      paddingLeft: 10,
+      paddingRight: 10,
+      minHeight: 32,
     },
     bottomPeekButtonHidden: {
       opacity: 0,

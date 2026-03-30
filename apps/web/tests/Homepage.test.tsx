@@ -105,7 +105,7 @@ describe('Homepage', () => {
 
         revealBottomPeekButton();
 
-        const owlButton = await screen.findByRole('button', { name: 'Check on the Owl? 🦉' });
+        const owlButton = await screen.findByRole('button', { name: "How's Owl? 🦉" });
 
         act(() => {
             owlButton.click();
