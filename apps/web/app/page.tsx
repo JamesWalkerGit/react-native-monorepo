@@ -21,6 +21,7 @@ export default function Homepage() {
   const [showBottomPeekTrigger, setShowBottomPeekTrigger] = useState(false);
   const [dotLottie, setDotLottie] = useState<any>(null);
   const session = useSession();
+  const isMobileLayout = useMediaQuery('(max-width: 48em)');
   const isTouchPrimaryInput = useMediaQuery('(hover: none) and (pointer: coarse)');
   const { height, width } = useViewportSize();
   const styles = createStyles();
@@ -129,7 +130,7 @@ export default function Homepage() {
             </Modal>
           </div>
 
-          <div style={styles.portfolioSection}>
+          <div style={isMobileLayout ? { ...styles.portfolioSection, ...styles.portfolioSectionMobile } : styles.portfolioSection}>
             <Portfolio />
           </div>
 
@@ -171,6 +172,9 @@ const createStyles = () => {
     },
     portfolioSection: {
       width: '100%'
+    },
+    portfolioSectionMobile: {
+      marginTop: 8,
     },
     partyButton: {
       marginTop: 8,
