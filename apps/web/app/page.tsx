@@ -183,7 +183,7 @@ const createStyles = () => {
     bottomPeekButton: {
       position: 'fixed',
       left: '50%',
-      bottom: -10,
+      bottom: 8,
       zIndex: 12,
       transition: 'opacity 180ms ease, transform 220ms ease',
       boxShadow: '0 8px 24px rgba(0, 0, 0, 0.24)',

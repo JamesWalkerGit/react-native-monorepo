@@ -1,6 +1,7 @@
 import { Text } from "@mantine/core";
 import Image from "next/image";
 import { Inter } from "next/font/google";
+import { useMediaQuery } from "@mantine/hooks";
 import { StyleSheet } from "@/styles/Stylesheet";
 import phoneHorizontal from "@/app/portfolio/images/phoneHorizontal.png";
 import classes from "@/app/portfolio/styles/Portfolio.module.css";
@@ -66,11 +67,12 @@ export default function Portfolio({
     showDisclaimer = true,
 }: PortfolioProps) {
     const styles = createStyles();
+    const isMobileView = useMediaQuery("(max-width: 48em)");
 
     return (
         <>
             <div style={styles.titleContainer}>
-                <Text style={styles.titleText} className={inter.className}>
+                <Text style={isMobileView ? { ...styles.titleText, ...styles.titleTextMobile } : styles.titleText} className={inter.className}>
                     {title}
                 </Text>
             </div>
@@ -171,6 +173,10 @@ const createStyles = () => {
             textAlign: "center",
             fontWeight: "light-dark(700, 600)",
             color: "light-dark(var(--mantine-color-black), var(--mantine-color-gray-3))",
+        },
+        titleTextMobile: {
+            fontSize: 34,
+            lineHeight: 1.15,
         },
         sectionContainer: {
             display: "flex",
