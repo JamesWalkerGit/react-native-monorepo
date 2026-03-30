@@ -12,5 +12,11 @@ describe("Portfolio", () => {
         expect(screen.getByText("Cross-Platform Integration")).toBeInTheDocument();
 
         expect(screen.getByLabelText("Portfolio showcase image")).toBeInTheDocument();
+
+        expect(
+            screen.getByText(
+                "All trademarks, logos, and brand names are the property of their respective owners and do not imply any official affiliation or endorsement."
+            )
+        ).toBeInTheDocument();
     });
 });

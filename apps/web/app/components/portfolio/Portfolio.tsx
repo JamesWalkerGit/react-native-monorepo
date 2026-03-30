@@ -10,7 +10,21 @@ const inter = Inter({
     weight: ["600", "700"],
 });
 
-const portfolioHighlights = [
+type PortfolioTechIcon = {
+    name: string;
+    lightSrc: string;
+    darkSrc: string;
+};
+
+type PortfolioHighlight = {
+    name: string;
+    centerTitle?: boolean;
+    techIcons?: PortfolioTechIcon[];
+    details?: string[];
+    description?: string;
+};
+
+const portfolioHighlights: PortfolioHighlight[] = [
     {
         name: "Cross-Platform Integration",
         centerTitle: true,
@@ -93,7 +107,7 @@ export default function Portfolio({
                                     </div>
                                 </div>
                             ) : null}
-                            {highlight.details ? (
+                            {highlight.details?.length ? (
                                 highlight.details.map((detail) => {
                                     const parsedDetail = formatDetailLine(detail);
 
@@ -113,7 +127,7 @@ export default function Portfolio({
                                     );
                                 })
                             ) : (
-                                <Text style={styles.cardDescription}>{highlight.description}</Text>
+                                <Text style={styles.cardDescription}>{highlight.description ?? ""}</Text>
                             )}
                         </div>
                     ))}
@@ -133,8 +147,7 @@ export default function Portfolio({
             {showDisclaimer ? (
                 <div style={styles.disclaimerContainer}>
                     <Text style={styles.disclaimerText}>
-                        App names and visuals belong to their respective owners and are shown for portfolio context only. No endorsement implied.
-                    </Text>
+                        All trademarks, logos, and brand names are the property of their respective owners and do not imply any official affiliation or endorsement.                    </Text>
                 </div>
             ) : null}
         </>
