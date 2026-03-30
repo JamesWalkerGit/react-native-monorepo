@@ -7,6 +7,7 @@ import { StyleSheet } from "@/styles/Stylesheet";
 import phoneHorizontal from "@/app/portfolio/images/phoneHorizontal.png";
 import fordApp from "@/app/portfolio/images/fordApp.webp";
 import canopyApp from "@/app/portfolio/images/canopyApp.webp";
+import { usePhoneShowcaseZoomPan } from "@/app/components/portfolio/usePhoneShowcaseZoomPan";
 import classes from "@/app/portfolio/styles/Portfolio.module.css";
 
 const inter = Inter({
@@ -118,6 +119,16 @@ export default function Portfolio({
     const [activeAppNames, setActiveAppNames] = useState<Set<string>>(new Set());
     const [hoveredAppName, setHoveredAppName] = useState<string | null>(null);
     const [isCoarsePointerInput, setIsCoarsePointerInput] = useState(false);
+    const {
+        isPhoneZoomed,
+        isPhoneDragging,
+        phoneShowcaseRef,
+        phoneShowcaseImageStyle,
+        handlePhoneShowcaseClick,
+        handlePhonePointerDown,
+        handlePhonePointerMove,
+        handlePhonePointerEnd,
+    } = usePhoneShowcaseZoomPan(isCoarsePointerInput, styles.image);
 
     const toggleAppOverlay = (appName: string) => {
         setActiveAppNames((current) => {
@@ -255,13 +266,29 @@ export default function Portfolio({
 
                 <div style={styles.imageColumn} className={classes.imageColumn}>
                     <div className={classes.phoneShowcase}>
-                        <Image
-                            src={phoneHorizontal}
-                            alt="Portfolio showcase image"
-                            aria-label="Portfolio showcase image"
-                            style={styles.image}
-                            priority
-                        />
+                        <button
+                            type="button"
+                            ref={phoneShowcaseRef}
+                            className={`${classes.phoneShowcaseButton} ${isPhoneZoomed ? classes.phoneShowcaseButtonZoomed : ""} ${isPhoneDragging ? classes.phoneShowcaseButtonDragging : ""}`}
+                            aria-label="Toggle zoom on portfolio showcase image"
+                            aria-pressed={isPhoneZoomed}
+                            onClick={handlePhoneShowcaseClick}
+                            onPointerDown={handlePhonePointerDown}
+                            onPointerMove={handlePhonePointerMove}
+                            onPointerUp={handlePhonePointerEnd}
+                            onPointerCancel={handlePhonePointerEnd}
+                            onDragStart={(event) => event.preventDefault()}
+                        >
+                            <Image
+                                src={phoneHorizontal}
+                                alt="Portfolio showcase image"
+                                aria-label="Portfolio showcase image"
+                                style={phoneShowcaseImageStyle}
+                                className={classes.phoneShowcaseImage}
+                                priority
+                                draggable={false}
+                            />
+                        </button>
                     </div>
                 </div>
 
