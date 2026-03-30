@@ -104,8 +104,8 @@ const appsWorkedOn: AppWorkedOn[] = [
         width: 314,
         height: 538,
         cropInsets: {
-            horizontal: 40,
-            vertical: 80,
+            horizontal: 60,
+            vertical: 60,
         },
     },
 ];
@@ -284,47 +284,47 @@ export default function Portfolio({
                                 : styles.appImage;
 
                             return (
-                                    <div key={app.name} style={styles.appCard} className={classes.appCardInteractive}>
-                                        <div
-                                            className={`${classes.appImageWrapper} ${isActive ? classes.appImageWrapperActive : ""}`}
-                                            role="button"
-                                            tabIndex={0}
-                                            aria-label={`${app.name} contribution details`}
-                                            aria-pressed={isActive}
-                                            data-testid={`${app.name}-overlay-trigger`}
-                                            onDragStart={(event) => event.preventDefault()}
-                                            onClick={() => toggleAppOverlay(app.name)}
-                                            onMouseEnter={() => {
-                                                if (!isCoarsePointerInput) {
-                                                    setHoveredAppName(app.name);
-                                                }
-                                            }}
-                                            onMouseLeave={() => {
-                                                if (!isCoarsePointerInput) {
-                                                    setHoveredAppName((current) => (current === app.name ? null : current));
-                                                }
-                                            }}
-                                            onKeyDown={(event) => handleCardKeyDown(event, app.name)}
-                                        >
-                                            <Image
-                                                src={app.imageSrc}
-                                                alt={app.alt}
-                                                width={app.width}
-                                                height={app.height}
-                                                style={appImageStyle}
-                                                className={classes.appImageAsset}
-                                                draggable={false}
-                                            />
-                                            <div className={classes.appInfoIcon} aria-hidden="true">i</div>
-                                            <div className={classes.appOverlay} data-visible={isOverlayVisible} data-testid={`${app.name}-overlay`}>
-                                                <Text className={classes.appOverlayTitle}>{app.name}</Text>
-                                                <Text className={classes.appOverlayRole}>{app.role}</Text>
-                                                <Text className={classes.appOverlayBody}>{app.contributions}</Text>
-                                            </div>
+                                <div key={app.name} style={styles.appCard} className={classes.appCardInteractive}>
+                                    <div
+                                        className={`${classes.appImageWrapper} ${isActive ? classes.appImageWrapperActive : ""}`}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label={`${app.name} contribution details`}
+                                        aria-pressed={isActive}
+                                        data-testid={`${app.name}-overlay-trigger`}
+                                        onDragStart={(event) => event.preventDefault()}
+                                        onClick={() => toggleAppOverlay(app.name)}
+                                        onMouseEnter={() => {
+                                            if (!isCoarsePointerInput) {
+                                                setHoveredAppName(app.name);
+                                            }
+                                        }}
+                                        onMouseLeave={() => {
+                                            if (!isCoarsePointerInput) {
+                                                setHoveredAppName((current) => (current === app.name ? null : current));
+                                            }
+                                        }}
+                                        onKeyDown={(event) => handleCardKeyDown(event, app.name)}
+                                    >
+                                        <Image
+                                            src={app.imageSrc}
+                                            alt={app.alt}
+                                            width={app.width}
+                                            height={app.height}
+                                            style={appImageStyle}
+                                            className={classes.appImageAsset}
+                                            draggable={false}
+                                        />
+                                        <div className={classes.appInfoIcon} aria-hidden="true">i</div>
+                                        <div className={classes.appOverlay} data-visible={isOverlayVisible} data-testid={`${app.name}-overlay`}>
+                                            <Text className={classes.appOverlayTitle}>{app.name}</Text>
+                                            <Text className={classes.appOverlayRole}>{app.role}</Text>
+                                            <Text className={classes.appOverlayBody}>{app.contributions}</Text>
                                         </div>
                                     </div>
-                                );
-                            })}
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
