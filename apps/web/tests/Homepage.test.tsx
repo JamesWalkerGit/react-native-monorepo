@@ -11,8 +11,55 @@ jest.mock("next-auth/react", () => ({
 
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 
+const mockViewport = (isMobile: boolean) => {
+    (window as any).matchMedia = jest.fn().mockImplementation((query: string) => ({
+        matches: query === '(hover: none) and (pointer: coarse)' ? isMobile : false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+    }));
+};
+
+const revealBottomPeekButton = () => {
+    Object.defineProperty(window, 'innerHeight', { value: 1000, writable: true });
+    Object.defineProperty(window, 'scrollY', { value: 1000, writable: true });
+    Object.defineProperty(document.documentElement, 'scrollHeight', { value: 2000, configurable: true });
+
+    act(() => {
+        window.dispatchEvent(new Event('scroll'));
+        window.dispatchEvent(new WheelEvent('wheel', { deltaY: 120 }));
+    });
+};
+
 describe('Homepage', () => {
+    it('shows tap label on mobile when unauthenticated', async () => {
+        mockViewport(true);
+        mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock);
+        render(<Homepage />);
+
+        revealBottomPeekButton();
+
+        expect(await screen.findByRole('button', { name: 'Tap Here? 👀' })).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Click Here? 👀' })).not.toBeInTheDocument();
+    });
+
+    it('shows click label on desktop when unauthenticated', async () => {
+        mockViewport(false);
+        mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock);
+        render(<Homepage />);
+
+        revealBottomPeekButton();
+
+        expect(await screen.findByRole('button', { name: 'Click Here? 👀' })).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Tap Here? 👀' })).not.toBeInTheDocument();
+    });
+
     it('renders properly when loading complete with owlButton and modal - unauthenticated', async () => {
+        mockViewport(false);
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
         render(<Homepage />);
 
@@ -21,9 +68,7 @@ describe('Homepage', () => {
         expect(partyButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
 
-        const websiteBlurb = await screen.findByText('A Playground for Creative Web App Experiments - Enjoy!');
-        expect(websiteBlurb).toBeInTheDocument();
-
+        revealBottomPeekButton();
 
         const owlButton = await screen.findByRole('button', { name: 'Click Here? 👀' });
 
@@ -48,6 +93,7 @@ describe('Homepage', () => {
     })
 
     it('renders properly when loading complete with owlButton and modal - authenticated', async () => {
+        mockViewport(false);
         mockNextAuth.useSession.mockReturnValue(authenticatedSessionMock);
         render(<Homepage />);
 
@@ -57,7 +103,9 @@ describe('Homepage', () => {
         expect(partyButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
 
-        const owlButton = await screen.findByRole('button', { name: 'Click Here? 👀' });
+        revealBottomPeekButton();
+
+        const owlButton = await screen.findByRole('button', { name: "How's Owl? 🦉" });
 
         act(() => {
             owlButton.click();
@@ -74,6 +122,7 @@ describe('Homepage', () => {
     })
 
     it('should display confetti', async () => {
+        mockViewport(false);
         mockNextAuth.useSession.mockReturnValue(authenticatedSessionMock)
 
         render(<Homepage />);
@@ -95,7 +144,7 @@ describe('Homepage', () => {
         const confettiAfter = screen.queryByLabelText('confetti-party');
         expect(confettiAfter).toHaveStyle({
             opacity: '0',
-            position: 'absolute',
+            position: 'fixed',
             pointerEvents: 'none'
         });
         expect(confettiAfter?.getAttribute('style')).toContain('transition-property: opacity, transform');

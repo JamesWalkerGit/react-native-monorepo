@@ -1,0 +1,79 @@
+.appCard {
+    background-color: transparent;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+
+    @mixin hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-6));
+    }
+}
+
+.titleText {
+    font-size: 48px;
+    line-height: 1.15;
+}
+
+.textColumn {
+    flex: 1 1 340px;
+    max-width: 460px;
+    min-height: clamp(500px, 68vh, 800px);
+}
+
+.textBlock {
+    flex: 1;
+}
+
+.imageColumn {
+    flex: 1 1 520px;
+    max-width: 60%;
+    min-width: 320px;
+    min-height: clamp(500px, 68vh, 800px);
+}
+
+.darkModeIcon {
+    display: none;
+}
+
+:global([data-mantine-color-scheme="dark"]) .lightModeIcon {
+    display: none;
+}
+
+:global([data-mantine-color-scheme="dark"]) .darkModeIcon {
+    display: inline-block;
+}
+
+@media (max-width: 960px) {
+    .portfolioSection {
+        flex-direction: column;
+    }
+
+    .imageColumn {
+        order: 1;
+        flex: 1 1 auto;
+        height: auto;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .textColumn {
+        order: 2;
+        flex: 1 1 auto;
+        height: auto;
+        min-height: 0;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .textBlock {
+        flex: 0 0 auto;
+    }
+}
+
+@media (max-width: 48em) {
+    .titleText {
+        font-size: 34px;
+        line-height: 1.15;
+    }
+}
