@@ -11,6 +11,19 @@ jest.mock("next-auth/react", () => ({
 
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 
+const mockViewport = (isMobile: boolean) => {
+    (window as any).matchMedia = jest.fn().mockImplementation((query: string) => ({
+        matches: query === '(hover: none) and (pointer: coarse)' ? isMobile : false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+    }));
+};
+
 const revealBottomPeekButton = () => {
     Object.defineProperty(window, 'innerHeight', { value: 1000, writable: true });
     Object.defineProperty(window, 'scrollY', { value: 1000, writable: true });
@@ -23,7 +36,30 @@ const revealBottomPeekButton = () => {
 };
 
 describe('Homepage', () => {
+    it('shows tap label on mobile when unauthenticated', async () => {
+        mockViewport(true);
+        mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock);
+        render(<Homepage />);
+
+        revealBottomPeekButton();
+
+        expect(await screen.findByRole('button', { name: 'Tap Here? 👀' })).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Click Here? 👀' })).not.toBeInTheDocument();
+    });
+
+    it('shows click label on desktop when unauthenticated', async () => {
+        mockViewport(false);
+        mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock);
+        render(<Homepage />);
+
+        revealBottomPeekButton();
+
+        expect(await screen.findByRole('button', { name: 'Click Here? 👀' })).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Tap Here? 👀' })).not.toBeInTheDocument();
+    });
+
     it('renders properly when loading complete with owlButton and modal - unauthenticated', async () => {
+        mockViewport(false);
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
         render(<Homepage />);
 
@@ -57,6 +93,7 @@ describe('Homepage', () => {
     })
 
     it('renders properly when loading complete with owlButton and modal - authenticated', async () => {
+        mockViewport(false);
         mockNextAuth.useSession.mockReturnValue(authenticatedSessionMock);
         render(<Homepage />);
 
@@ -85,6 +122,7 @@ describe('Homepage', () => {
     })
 
     it('should display confetti', async () => {
+        mockViewport(false);
         mockNextAuth.useSession.mockReturnValue(authenticatedSessionMock)
 
         render(<Homepage />);

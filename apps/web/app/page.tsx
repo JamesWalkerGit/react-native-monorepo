@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet } from "@/styles/Stylesheet"
 import { useSession } from "next-auth/react"
 import { Button, Modal, Transition, Text } from "@mantine/core";
-import { useDisclosure, useViewportSize } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery, useViewportSize } from "@mantine/hooks";
 import PartyParrot from './components/animations/PartyParrot';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { useBottomSheet } from './contexts/BottomSheetContext';
@@ -21,6 +21,7 @@ export default function Homepage() {
   const [showBottomPeekTrigger, setShowBottomPeekTrigger] = useState(false);
   const [dotLottie, setDotLottie] = useState<any>(null);
   const session = useSession();
+  const isTouchPrimaryInput = useMediaQuery('(hover: none) and (pointer: coarse)');
   const { height, width } = useViewportSize();
   const styles = createStyles();
   const bottomSheet = useBottomSheet();
@@ -140,7 +141,7 @@ export default function Homepage() {
             }}
             onClick={openModal}
           >
-            {session.status === 'authenticated' ? 'Check on the Owl? 🦉' : 'Click Here? 👀'}
+            {session.status === 'authenticated' ? 'Check on the Owl? 🦉' : isTouchPrimaryInput ? 'Tap Here? 👀' : 'Click Here? 👀'}
           </Button>
         </>
       </div >
