@@ -11,6 +11,17 @@ jest.mock("next-auth/react", () => ({
 
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
 
+const revealBottomPeekButton = () => {
+    Object.defineProperty(window, 'innerHeight', { value: 1000, writable: true });
+    Object.defineProperty(window, 'scrollY', { value: 1000, writable: true });
+    Object.defineProperty(document.documentElement, 'scrollHeight', { value: 2000, configurable: true });
+
+    act(() => {
+        window.dispatchEvent(new Event('scroll'));
+        window.dispatchEvent(new WheelEvent('wheel', { deltaY: 120 }));
+    });
+};
+
 describe('Homepage', () => {
     it('renders properly when loading complete with owlButton and modal - unauthenticated', async () => {
         mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
@@ -21,9 +32,7 @@ describe('Homepage', () => {
         expect(partyButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
 
-        const websiteBlurb = await screen.findByText('A Playground for Creative Web App Experiments - Enjoy!');
-        expect(websiteBlurb).toBeInTheDocument();
-
+        revealBottomPeekButton();
 
         const owlButton = await screen.findByRole('button', { name: 'Click Here? 👀' });
 
@@ -57,7 +66,9 @@ describe('Homepage', () => {
         expect(partyButton).toBeInTheDocument();
         expect(spinner).not.toBeInTheDocument();
 
-        const owlButton = await screen.findByRole('button', { name: 'Click Here? 👀' });
+        revealBottomPeekButton();
+
+        const owlButton = await screen.findByRole('button', { name: 'Check on the Owl? 🦉' });
 
         act(() => {
             owlButton.click();
@@ -95,7 +106,7 @@ describe('Homepage', () => {
         const confettiAfter = screen.queryByLabelText('confetti-party');
         expect(confettiAfter).toHaveStyle({
             opacity: '0',
-            position: 'absolute',
+            position: 'fixed',
             pointerEvents: 'none'
         });
         expect(confettiAfter?.getAttribute('style')).toContain('transition-property: opacity, transform');

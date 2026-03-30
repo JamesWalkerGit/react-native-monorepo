@@ -9,6 +9,7 @@ import { useDisclosure, useViewportSize } from "@mantine/hooks";
 import PartyParrot from './components/animations/PartyParrot';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { useBottomSheet } from './contexts/BottomSheetContext';
+import Portfolio from './components/portfolio/Portfolio';
 
 const owlPath = '../../../animations/lottie/owl.lottie'
 const owlColor = '#7375f0'
@@ -17,6 +18,7 @@ export default function Homepage() {
   const [confettiStatus, setConfettiStatus] = useState(false);
   const [openedModal, { open: openModal, close }] = useDisclosure(false);
   const [loadButtons, setLoadButtons] = useState(false);
+  const [showBottomPeekTrigger, setShowBottomPeekTrigger] = useState(false);
   const [dotLottie, setDotLottie] = useState<any>(null);
   const session = useSession();
   const { height, width } = useViewportSize();
@@ -43,6 +45,35 @@ export default function Homepage() {
     }, 200)
   }, [loadButtons]);
 
+  useEffect(() => {
+    const isAtPageBottom = () => {
+      if (typeof window === 'undefined') {
+        return false;
+      }
+
+      const pageHeight = document.documentElement.scrollHeight;
+      return window.innerHeight + window.scrollY >= pageHeight - 2;
+    };
+
+    const handleScroll = () => {
+      setShowBottomPeekTrigger(isAtPageBottom());
+    };
+
+    const handleResize = () => {
+      setShowBottomPeekTrigger(isAtPageBottom());
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    window.addEventListener('resize', handleResize);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
       <div style={styles.container}>
@@ -54,7 +85,7 @@ export default function Homepage() {
         >
           {(fadeStyle) => {
             return <>
-              <Confetti style={fadeStyle} height={height} width={width} numberOfPieces={200} initialVelocityY={-40}
+              <Confetti style={{ ...fadeStyle, ...styles.confettiOverlay }} height={height} width={width} numberOfPieces={200} initialVelocityY={-40}
                 aria-label="confetti-party"
               />
             </>
@@ -69,12 +100,7 @@ export default function Homepage() {
             <Button onClick={toggleConfetti} style={styles.partyButton} variant={'gradient'} gradient={{ from: 'pink', to: 'violet', deg: 167 }}>
               Party Button 🎉
             </Button>
-            <Button variant='gradient' style={styles.modalButtonOwl} onClick={openModal}>Click Here? 👀</Button>
 
-            <div style={{ display: 'flex', flex: .5, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={styles.blurbText} variant='gradient' gradient={{ from: 'blue', to: 'red', deg: 45 }} >
-                A Playground for Creative Web App Experiments - Enjoy!</Text>
-            </div>
             <Modal opened={openedModal} onClose={close} title="Success!">
               <div style={styles.modalContainer}>
                 <Text style={styles.modalTitle}>
@@ -101,16 +127,21 @@ export default function Homepage() {
               </div>
             </Modal>
           </div>
-          <div style={styles.partyContainer}>
-            {session.status === 'unauthenticated' ?
-              <>
-              </>
-              : session.status === 'authenticated' ?
-                <>
-                </>
-                : null
-            }
+
+          <div style={styles.portfolioSection}>
+            <Portfolio />
           </div>
+
+          <Button
+            variant='gradient'
+            style={{
+              ...styles.bottomPeekButton,
+              ...(showBottomPeekTrigger ? styles.bottomPeekButtonVisible : styles.bottomPeekButtonHidden),
+            }}
+            onClick={openModal}
+          >
+            {session.status === 'authenticated' ? 'Check on the Owl? 🦉' : 'Click Here? 👀'}
+          </Button>
         </>
       </div >
     </>
@@ -122,13 +153,23 @@ const createStyles = () => {
     container: {
       flex: 1
     },
+    confettiOverlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      zIndex: 9999,
+      pointerEvents: 'none'
+    },
     partyContainer: {
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       alignItems: 'center',
-      flex: .5,
+      flex: 1,
       display: 'flex',
       flexDirection: 'column',
-      height: '50%'
+      minHeight: '40vh',
+    },
+    portfolioSection: {
+      width: '100%'
     },
     partyButton: {
       marginTop: 8,
@@ -138,8 +179,23 @@ const createStyles = () => {
       marginTop: 32,
       fontSize: 22,
     },
-    modalButtonOwl: {
-      margin: 20
+    bottomPeekButton: {
+      position: 'fixed',
+      left: '50%',
+      bottom: -10,
+      zIndex: 12,
+      transition: 'opacity 180ms ease, transform 220ms ease',
+      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.24)',
+    },
+    bottomPeekButtonHidden: {
+      opacity: 0,
+      transform: 'translate(-50%, 62%)',
+      pointerEvents: 'none',
+    },
+    bottomPeekButtonVisible: {
+      opacity: 1,
+      transform: 'translate(-50%, 0)',
+      pointerEvents: 'auto',
     },
     partyParrotContainer: {
       height: 250,
