@@ -4,6 +4,17 @@ import { render } from "./utils/testUtils";
 import Portfolio from "@/app/components/portfolio/Portfolio";
 
 describe("Portfolio", () => {
+    const createMatchMediaResult = (query: string, matches: boolean) => ({
+        matches,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+        addEventListener: jest.fn(),
+        removeEventListener: jest.fn(),
+        dispatchEvent: jest.fn(),
+    });
+
     it("shows portfolio title, architecture highlight, and one showcase image", async () => {
         render(<Portfolio />);
 
@@ -83,5 +94,63 @@ describe("Portfolio", () => {
 
         expect(fordOverlay).toHaveAttribute("data-visible", "true");
         expect(canopyOverlay).toHaveAttribute("data-visible", "true");
+    });
+
+    it("keeps mobile overlay visible while scrolling outside after tapping", () => {
+        const matchMediaMock = window.matchMedia as jest.Mock;
+        const defaultImplementation = matchMediaMock.getMockImplementation();
+
+        matchMediaMock.mockImplementation((query: string) =>
+            createMatchMediaResult(query, query === "(hover: none) and (pointer: coarse)")
+        );
+
+        render(<Portfolio />);
+
+        const fordTrigger = screen.getByTestId("The Ford App-overlay-trigger");
+        const fordOverlay = screen.getByTestId("The Ford App-overlay");
+
+        fireEvent.click(fordTrigger);
+        expect(fordOverlay).toHaveAttribute("data-visible", "true");
+
+        fireEvent.touchStart(document.body);
+        expect(fordOverlay).toHaveAttribute("data-visible", "true");
+
+        fireEvent.click(fordTrigger);
+        expect(fordOverlay).toHaveAttribute("data-visible", "false");
+
+        if (defaultImplementation) {
+            matchMediaMock.mockImplementation(defaultImplementation);
+        }
+    });
+
+    it("closes an already open overlay on mobile when tapped again", () => {
+        const matchMediaMock = window.matchMedia as jest.Mock;
+        const defaultImplementation = matchMediaMock.getMockImplementation();
+
+        matchMediaMock.mockImplementation((query: string) =>
+            createMatchMediaResult(query, query === "(hover: none) and (pointer: coarse)")
+        );
+
+        render(<Portfolio />);
+
+        const fordTrigger = screen.getByTestId("The Ford App-overlay-trigger");
+        const fordOverlay = screen.getByTestId("The Ford App-overlay");
+        const canopyTrigger = screen.getByTestId("Canopy Security-overlay-trigger");
+        const canopyOverlay = screen.getByTestId("Canopy Security-overlay");
+
+        fireEvent.click(fordTrigger);
+        fireEvent.click(canopyTrigger);
+
+        expect(fordOverlay).toHaveAttribute("data-visible", "true");
+        expect(canopyOverlay).toHaveAttribute("data-visible", "true");
+
+        fireEvent.click(fordTrigger);
+
+        expect(fordOverlay).toHaveAttribute("data-visible", "false");
+        expect(canopyOverlay).toHaveAttribute("data-visible", "true");
+
+        if (defaultImplementation) {
+            matchMediaMock.mockImplementation(defaultImplementation);
+        }
     });
 });

@@ -117,6 +117,7 @@ export default function Portfolio({
     const styles = createStyles();
     const [activeAppNames, setActiveAppNames] = useState<Set<string>>(new Set());
     const [hoveredAppName, setHoveredAppName] = useState<string | null>(null);
+    const [isCoarsePointerInput, setIsCoarsePointerInput] = useState(false);
 
     const toggleAppOverlay = (appName: string) => {
         setActiveAppNames((current) => {
@@ -140,7 +141,26 @@ export default function Portfolio({
     };
 
     useEffect(() => {
+        const mediaQuery = window.matchMedia("(hover: none) and (pointer: coarse)");
+
+        const updatePointerType = () => {
+            setIsCoarsePointerInput(mediaQuery.matches);
+        };
+
+        updatePointerType();
+        mediaQuery.addEventListener("change", updatePointerType);
+
+        return () => {
+            mediaQuery.removeEventListener("change", updatePointerType);
+        };
+    }, []);
+
+    useEffect(() => {
         const closeOverlayOnOutsidePress = (event: MouseEvent | TouchEvent) => {
+            if (event.type === "touchstart" && isCoarsePointerInput) {
+                return;
+            }
+
             if (!(event.target instanceof Element)) {
                 return;
             }
@@ -159,7 +179,7 @@ export default function Portfolio({
             document.removeEventListener("mousedown", closeOverlayOnOutsidePress);
             document.removeEventListener("touchstart", closeOverlayOnOutsidePress);
         };
-    }, []);
+    }, [isCoarsePointerInput]);
 
     return (
         <>
@@ -252,7 +272,7 @@ export default function Portfolio({
                         {appsWorkedOn.map((app) => {
                             const isActive = activeAppNames.has(app.name);
                             const isHovered = hoveredAppName === app.name;
-                            const isOverlayVisible = isActive || isHovered;
+                            const isOverlayVisible = isActive || (!isCoarsePointerInput && isHovered);
                             const cropScale = app.cropInsets
                                 ? Math.min(
                                     app.width / (app.width - app.cropInsets.horizontal * 2),
@@ -274,8 +294,16 @@ export default function Portfolio({
                                             data-testid={`${app.name}-overlay-trigger`}
                                             onDragStart={(event) => event.preventDefault()}
                                             onClick={() => toggleAppOverlay(app.name)}
-                                            onMouseEnter={() => setHoveredAppName(app.name)}
-                                            onMouseLeave={() => setHoveredAppName((current) => (current === app.name ? null : current))}
+                                            onMouseEnter={() => {
+                                                if (!isCoarsePointerInput) {
+                                                    setHoveredAppName(app.name);
+                                                }
+                                            }}
+                                            onMouseLeave={() => {
+                                                if (!isCoarsePointerInput) {
+                                                    setHoveredAppName((current) => (current === app.name ? null : current));
+                                                }
+                                            }}
                                             onKeyDown={(event) => handleCardKeyDown(event, app.name)}
                                         >
                                             <Image
