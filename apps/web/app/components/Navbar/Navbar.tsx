@@ -23,6 +23,8 @@ const links = [
     { link: '/contact', label: 'Contact' },
 ];
 
+const LOGIN_SPINNER_TIMEOUT_MS = 10000;
+
 export default function Navbar() {
     const theme = useMantineTheme();
     const pathName = usePathname();
@@ -57,10 +59,44 @@ export default function Navbar() {
 
 
     useEffect(() => {
-        setInterval(() => {
-            loadButtons === false ? setLoadButtons(true) : null
-        }, 200)
+        if (loadButtons) {
+            return;
+        }
+
+        const timer = window.setTimeout(() => {
+            setLoadButtons(true);
+        }, 200);
+
+        return () => {
+            window.clearTimeout(timer);
+        };
     }, [loadButtons]);
+
+    useEffect(() => {
+        if (!loggingIn) {
+            return;
+        }
+
+        const timeout = window.setTimeout(() => {
+            setLoggingIn(false);
+        }, LOGIN_SPINNER_TIMEOUT_MS);
+
+        return () => {
+            window.clearTimeout(timeout);
+        };
+    }, [loggingIn]);
+
+    useEffect(() => {
+        if (!bottomSheet.isBottomSheetShowing && loggingIn) {
+            setLoggingIn(false);
+        }
+    }, [bottomSheet.isBottomSheetShowing, loggingIn]);
+
+    useEffect(() => {
+        if (session.status !== 'unauthenticated' && loggingIn) {
+            setLoggingIn(false);
+        }
+    }, [session.status, loggingIn]);
 
     return (
         <>
