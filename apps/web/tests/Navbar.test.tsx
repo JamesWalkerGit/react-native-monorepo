@@ -50,7 +50,7 @@ describe('Navbar', () => {
 
         const burgerMenu = await screen.findByLabelText('Toggle sidebar');
         const home = await screen.findByRole('link', { name: 'Home' });
-        const resume = await screen.findByRole('link', { name: 'Resume' });
+        const resume = await screen.findByRole('link', { name: 'Resumé' });
 
 
         expect(burgerMenu).toBeInTheDocument();

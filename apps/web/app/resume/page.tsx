@@ -224,7 +224,7 @@ export default function ResumePage() {
                     </div>
                 </div>
 
-                <p className={`${classes.kicker} ${ibmPlexMono.className}`}>Resume</p>
+                <p className={`${classes.kicker} ${ibmPlexMono.className}`}>Resumé</p>
                 <h1 className={classes.nameTitle}>James Walker</h1>
             </section>
 

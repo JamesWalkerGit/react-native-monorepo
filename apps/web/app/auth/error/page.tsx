@@ -34,7 +34,7 @@ export default function OAuthErrorPage() {
                 </Text>
 
                 <Text style={styles.owlMessageText}>
-                    The Owl is sad you got an error, but if you press the button you'll make him feel better
+                    The Owl is sad you got an error, but if you press the button you&apos;ll make him feel better
                 </Text>
 
                 <div style={styles.owlContainer}>

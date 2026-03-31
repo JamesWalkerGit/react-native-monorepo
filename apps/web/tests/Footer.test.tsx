@@ -9,7 +9,7 @@ describe('Footer', () => {
 
         render(<Footer />);
 
-        const resumeButton = await screen.findByRole('button', { name: 'Resume' });
+        const resumeButton = await screen.findByRole('button', { name: 'Resumé' });
         expect(resumeButton).toBeInTheDocument();
 
         const githubLink = screen.getByRole('link', { name: 'Github Icon' });
