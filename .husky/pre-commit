@@ -1,0 +1,1 @@
+yarn --cwd apps/web test --watch=false
