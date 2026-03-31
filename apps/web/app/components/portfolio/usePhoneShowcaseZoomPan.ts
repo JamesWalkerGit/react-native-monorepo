@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
 
 type PanPoint = {
     x: number;
@@ -29,7 +29,7 @@ export const usePhoneShowcaseZoomPan = (isCoarsePointerInput: boolean, baseImage
     });
     const phoneZoomScale = isCoarsePointerInput ? 1.24 : 1.42;
 
-    const getClampedPhonePan = (nextX: number, nextY: number): PanPoint => {
+    const getClampedPhonePan = useCallback((nextX: number, nextY: number): PanPoint => {
         if (!isPhoneZoomed || !phoneShowcaseRef.current) {
             return { x: 0, y: 0 };
         }
@@ -42,7 +42,7 @@ export const usePhoneShowcaseZoomPan = (isCoarsePointerInput: boolean, baseImage
             x: Math.min(maxPanX, Math.max(-maxPanX, nextX)),
             y: Math.min(maxPanY, Math.max(-maxPanY, nextY)),
         };
-    };
+    }, [isPhoneZoomed, phoneZoomScale]);
 
     const resetPhoneDragState = () => {
         phoneDragStateRef.current.pointerId = null;
@@ -134,7 +134,7 @@ export const usePhoneShowcaseZoomPan = (isCoarsePointerInput: boolean, baseImage
         return () => {
             window.removeEventListener("resize", clampPanOnResize);
         };
-    }, [isPhoneZoomed, phoneZoomScale]);
+    }, [getClampedPhonePan, isPhoneZoomed]);
 
     const phoneShowcaseImageStyle: CSSProperties = {
         ...baseImageStyle,
