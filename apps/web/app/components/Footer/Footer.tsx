@@ -63,7 +63,7 @@ export default function Footer() {
                                                     <ButtonPartyParrot />
                                                 </div>
                                             </>
-                                            : 'Resume'}
+                                            : 'Resumé'}
                                     </Button>
                                 </Link>
                             </div>

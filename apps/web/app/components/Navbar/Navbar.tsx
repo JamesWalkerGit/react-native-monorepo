@@ -20,7 +20,7 @@ import { useBottomSheet } from "../../contexts/BottomSheetContext";
 
 const links = [
     { link: '/', label: 'Home' },
-    { link: '/resume', label: 'Resume' },
+    { link: '/resume', label: 'Resumé' },
 ];
 
 const LOGIN_SPINNER_TIMEOUT_MS = 10000;

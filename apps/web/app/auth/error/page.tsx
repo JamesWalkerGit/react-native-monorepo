@@ -1,25 +1,52 @@
 "use client";
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { StyleSheet } from "@/styles/Stylesheet";
 import { Button, Text } from '@mantine/core';
-import HappySquare from '@/app/components/animations/HappySquare';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+
+const owlPath = '/animations/lottie/owl.lottie'
+const owlColor = '#7375f0'
 
 export default function OAuthErrorPage() {
+    const [dotLottie, setDotLottie] = useState<any>(null);
     const styles = createStyles();
+
+    const dotLottieRefCallback = (dotLottie: any) => {
+        setDotLottie(dotLottie);
+    };
+
+    const play = () => {
+        if (dotLottie) {
+            dotLottie.play();
+        }
+    }
 
     return (
         <div style={styles.container}>
             <div style={styles.header}>
-                <div style={styles.happySquareContainer}>
-                    <HappySquare />
-                </div>
                 <Text style={{ fontFamily: 'Tahoma', fontSize: 48 }}>
                     OAuth Login Error
                 </Text>
                 <Text>
                     Perhaps some account setting denied authorization 😢
                 </Text>
+
+                <Text style={styles.owlMessageText}>
+                    The Owl is sad you got an error, but if you press the button you&apos;ll make him feel better
+                </Text>
+
+                <div style={styles.owlContainer}>
+                    <DotLottieReact
+                        src={owlPath}
+                        autoplay={false}
+                        loop={false}
+                        dotLottieRefCallback={dotLottieRefCallback}
+                    />
+                </div>
+
+                <Button color={owlColor} onClick={() => play()} style={styles.owlButton} variant='outline'>Press Button</Button>
 
                 <div style={styles.buttonContainer}>
                     <Link href="/">
@@ -49,7 +76,7 @@ const createStyles = () => {
             flexDirection: 'column',
         },
         buttonContainer: {
-            marginTop: 64
+            marginTop: 80
         },
         errorContextContainer: {
             marginTop: 16,
@@ -61,9 +88,21 @@ const createStyles = () => {
             width: '80%',
             maxWidth: 560
         },
-        happySquareContainer: {
-            height: 300,
-            width: 300
+        owlContainer: {
+            height: 200,
+            width: 240,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 8
+        },
+        owlButton: {
+            marginTop: 8
+        },
+        owlMessageText: {
+            marginTop: 48,
+            maxWidth: 540,
+            textAlign: 'center'
         }
     });
 };
