@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 import { act, screen } from '@testing-library/react'
 import { render } from './utils/testUtils';
-import nextAuth from 'next-auth/react'
+import * as nextAuth from 'next-auth/react'
 import Navbar from '@/app/components/Navbar/Navbar';
 import { authenticatedSessionMock, unauthenticatedSessionMock } from './mocks/auth/consts';
 
@@ -50,12 +50,12 @@ describe('Navbar', () => {
 
         const burgerMenu = await screen.findByLabelText('Toggle sidebar');
         const home = await screen.findByRole('link', { name: 'Home' });
-        const contact = await screen.findByRole('link', { name: 'Contact' });
+        const resume = await screen.findByRole('link', { name: 'Resume' });
 
 
         expect(burgerMenu).toBeInTheDocument();
         expect(home).toBeInTheDocument();
-        expect(contact).toBeInTheDocument();
+        expect(resume).toBeInTheDocument();
 
         const themeButtonLight = await screen.findByLabelText('Set Light Theme Icon');
         expect(themeButtonLight).toBeInTheDocument();
