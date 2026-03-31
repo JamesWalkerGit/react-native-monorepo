@@ -44,7 +44,7 @@ const portfolioHighlights: PortfolioHighlight[] = [
             { name: "Next.js", lightSrc: "/tech-icons/light/nextjs.svg", darkSrc: "/tech-icons/dark/nextjs.svg" },
             { name: "Angular", lightSrc: "/tech-icons/light/angular.svg", darkSrc: "/tech-icons/dark/angular.svg" },
             { name: "Appium", lightSrc: "/tech-icons/light/appium.png", darkSrc: "/tech-icons/dark/appium.png" },
-            { name: "Figma", lightSrc: "/tech-icons/light/figma.svg", darkSrc: "/tech-icons/dark/figma.svg", iconStyle: { width: 34, height: 34 } },
+            { name: "Figma", lightSrc: "/tech-icons/light/figma.svg", darkSrc: "/tech-icons/dark/figma.svg" },
             { name: "Storybook", lightSrc: "/tech-icons/light/storybook.svg", darkSrc: "/tech-icons/dark/storybook.svg" },
         ],
         details: [
