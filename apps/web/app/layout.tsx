@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     marginTop: 56,
-    marginBottom: 56
+    marginBottom: 56,
+    display: 'flow-root',
   }
 });

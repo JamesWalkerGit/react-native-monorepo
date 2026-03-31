@@ -53,17 +53,17 @@ export default function Footer() {
                             </div>
 
                             <div style={{ ...styles.footerSection, flex: .2, justifyContent: 'flex-end' }}>
-                                <Link href={pathname === '/contact' ? '/' : '/contact'}
+                                <Link href={pathname === '/resume' ? '/' : '/resume'}
                                 >
                                     <Button variant='outline' style={styles.footerButton}>
-                                        {pathname === '/contact' ?
+                                        {pathname === '/resume' ?
                                             <>
                                                 ←
                                                 <div style={styles.footerParrotContainer}>
                                                     <ButtonPartyParrot />
                                                 </div>
                                             </>
-                                            : 'Contact'}
+                                            : 'Resume'}
                                     </Button>
                                 </Link>
                             </div>
