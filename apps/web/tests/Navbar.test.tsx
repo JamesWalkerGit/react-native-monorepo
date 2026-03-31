@@ -6,7 +6,9 @@ import Navbar from '@/app/components/Navbar/Navbar';
 import { authenticatedSessionMock, unauthenticatedSessionMock } from './mocks/auth/consts';
 
 jest.mock("next-auth/react", () => ({
-    useSession: jest.fn()
+    useSession: jest.fn(),
+    signIn: jest.fn(),
+    signOut: jest.fn(),
 }));
 
 const mockNextAuth = nextAuth as jest.Mocked<typeof nextAuth>;
@@ -64,5 +66,43 @@ describe('Navbar', () => {
 
         const themeButtonDark = await screen.findByLabelText('Set Dark Theme Icon');
         expect(themeButtonDark).toBeInTheDocument();
+    });
+
+    it('resets login loading indicator after timeout', async () => {
+        jest.useFakeTimers();
+        mockNextAuth.useSession.mockReturnValue(unauthenticatedSessionMock)
+
+        try {
+            render(<Navbar />);
+
+            act(() => {
+                jest.advanceTimersByTime(250);
+            });
+
+            const signInButton = await screen.findByRole('button', { name: 'Sign In' });
+
+            act(() => {
+                signInButton.click();
+            });
+
+            const githubButton = await screen.findByRole('button', { name: 'Sign In With GitHub' });
+
+            act(() => {
+                githubButton.click();
+            });
+
+            const spinner = await screen.findByLabelText('Login Loading Spinner');
+            expect(spinner).toBeInTheDocument();
+            expect(mockNextAuth.signIn).toHaveBeenCalledWith('github');
+
+            act(() => {
+                jest.advanceTimersByTime(10000);
+            });
+
+            const recoveredGithubButton = await screen.findByRole('button', { name: 'Sign In With GitHub' });
+            expect(recoveredGithubButton).toBeInTheDocument();
+        } finally {
+            jest.useRealTimers();
+        }
     });
 })
