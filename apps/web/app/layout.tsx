@@ -3,27 +3,48 @@
 import { Providers } from "./providers/Providers";
 import { StyleSheet } from "../styles/Stylesheet";
 import '../styles/global.css';
+import { ColorSchemeScript } from "@mantine/core";
+import '@mantine/core/styles.css';
+import Navbar from "./components/Navbar/Navbar";
+import { Metadata } from 'next'
+import Footer from "./components/Footer/Footer";
+
+
+export const metadata: Metadata = {
+  title: 'Jprojects',
+  description: 'Jprojects site collection',
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className='dark' style={styles.html}>
-      <body style={styles.body}>
-        <Providers>
-          {children}
-        </Providers>
-      </body>
-    </html>
+    <>
+      <html lang="en" style={styles.html}>
+        <head>
+          <ColorSchemeScript defaultColorScheme='dark' />
+        </head>
+        <body style={styles.body}>
+          <Providers>
+            <Navbar />
+            <div style={styles.contentContainer}>
+              {children}
+            </div>
+            <Footer />
+          </Providers>
+        </body>
+      </html>
+    </>
   );
 }
 
 
 const styles = StyleSheet.create({
   html: {
-    flex: 1,
-    height: '100%'
   },
   body: {
-    flex: 1,
-    height: '100%'
   },
+  contentContainer: {
+    marginTop: 56,
+    marginBottom: 56,
+    display: 'flow-root',
+  }
 });

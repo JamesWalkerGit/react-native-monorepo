@@ -1,5 +1,6 @@
 module.exports = {
   reactStrictMode: true,
+  productionBrowserSourceMaps: true,
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
@@ -17,11 +18,6 @@ module.exports = {
   },
   images: {
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'cultofthepartyparrot.com',
-        port: '',
-      },
     ],
   },
 };

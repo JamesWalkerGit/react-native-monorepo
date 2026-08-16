@@ -1,14 +1,17 @@
 // app/providers.tsx
 
-import { NextUIProvider } from '@nextui-org/react'
-import NextAuthProvider from './NextAuthProvider'
+import { MantineProvider } from '@mantine/core'
+import { SessionProvider } from 'next-auth/react'
+import { BottomSheetProvider } from '../contexts/BottomSheetContext'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <NextAuthProvider>
-      <NextUIProvider>
-        {children}
-      </NextUIProvider>
-    </NextAuthProvider>
+    <SessionProvider>
+      <MantineProvider defaultColorScheme='dark'>
+        <BottomSheetProvider>
+          {children}
+        </BottomSheetProvider>
+      </MantineProvider>
+    </SessionProvider>
   )
 }

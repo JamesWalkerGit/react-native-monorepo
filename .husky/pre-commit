@@ -1,0 +1,2 @@
+yarn --cwd apps/web lint
+yarn --cwd apps/web test --watch=false

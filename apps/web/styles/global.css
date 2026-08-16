@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-body > [data-overlay-container] {
+body>[data-overlay-container] {
   height: 100%;
+}
+
+/* theme fade transition */
+html,
+html>* {
+  transition: color .3s, background-color .3s;
+}
+
+/* Override for mantine drawer animation and theme fade transition */
+.mantine-Drawer-root>.mantine-Drawer-inner>.mantine-Drawer-content {
+  --paper-radius: var(--mantine-radius-md);
+  transition-property: transform, opacity, color, background-color !important;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+  transform-origin: right center;
+  opacity: 1;
+  transform: translateX(0px);
 }
