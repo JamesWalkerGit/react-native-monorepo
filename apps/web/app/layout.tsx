@@ -8,6 +8,7 @@ import '@mantine/core/styles.css';
 import Navbar from "./components/Navbar/Navbar";
 import { Metadata } from 'next'
 import Footer from "./components/Footer/Footer";
+import { Analytics } from "@vercel/analytics/next"
 
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
             <Footer />
           </Providers>
+          <Analytics />
         </body>
       </html>
     </>
